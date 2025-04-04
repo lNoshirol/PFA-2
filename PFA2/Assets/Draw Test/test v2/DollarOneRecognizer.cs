@@ -10,7 +10,7 @@ public class DollarOneRecognizer : MonoBehaviour
     public LineRenderer lineRenderer;
     public TextMeshProUGUI inputFieldText;
 
-    private List<Vector2> points = new List<Vector2>();
+    [SerializeField] private List<Vector2> points = new List<Vector2>();
     private Dictionary<string, List<Vector2>> templates = new Dictionary<string, List<Vector2>>();
     private bool isDrawing = false;
 
@@ -71,10 +71,37 @@ public class DollarOneRecognizer : MonoBehaviour
     List<Vector2> NormalizePoints(List<Vector2> points)
     {
         // Redimensionner et recentrer
-        Vector2 centroid = points.Aggregate(Vector2.zero, (acc, p) => acc + p) / points.Count;
-        float maxDistance = points.Max(p => Vector2.Distance(p, centroid));
+        Vector2 sum = Vector2.zero;
 
-        return points.Select(p => (p - centroid) / maxDistance).ToList();
+        foreach (Vector2 point in points)
+        {
+            sum += point;
+        }
+
+        Vector2 centroid = sum / points.Count;
+
+        float maxDistance = 0;
+
+        foreach (Vector2 point in points)
+        {
+            float distance = Vector2.Distance(point, centroid);
+            if (distance < maxDistance)
+            {
+                maxDistance = distance;
+            }
+        }
+
+        // Créer une nouvelle liste de points normalisés
+        List<Vector2> normalizedPoints = new List<Vector2>();
+
+        foreach (Vector2 point in points)
+        {
+            Vector2 shifted = point - centroid;           // On recentre autour de (0,0)
+            Vector2 scaled = shifted / maxDistance;       // On met à l’échelle pour que ça tienne dans un cercle de rayon 1
+            normalizedPoints.Add(scaled);
+        }
+
+        return normalizedPoints;
     }
 
     public void SaveTemplate()
