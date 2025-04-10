@@ -579,6 +579,9 @@ GameObject:
   - component: {fileID: 250105765}
   - component: {fileID: 250105770}
   - component: {fileID: 250105771}
+  - component: {fileID: 250105774}
+  - component: {fileID: 250105773}
+  - component: {fileID: 250105772}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -836,6 +839,44 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 15
+--- !u!114 &250105772
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 250105764}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72e877286bc03cd4db7954ff0b5d130d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &250105773
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 250105764}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17c9f2c8d997e394ba2b7811c386a21a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerBaseHealth: 100
+  playerActualHealth: 0
+--- !u!114 &250105774
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 250105764}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7d7b9c7273561e44b6994c301052c85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &350286383
 GameObject:
   m_ObjectHideFlags: 0
