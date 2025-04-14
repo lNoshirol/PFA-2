@@ -3,21 +3,22 @@ using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour
 {
-    [SerializeField] private float playerBaseHealth;
-    [SerializeField] private float playerActualHealth;
+    [SerializeField] public int playerBaseHealth;
+    [SerializeField] public int playerActualHealth;
 
     private void Start()
     {
-        playerActualHealth = playerBaseHealth;
+        PlayerMain.Instance.ui.UpdatePlayerHealthUI();
     }
 
-    private void PlayerHealthChange(int healthChangeAmount)
+    public void PlayerHealthChange(int healthChangeAmount)
     {
-        playerActualHealth =- healthChangeAmount;
+        playerActualHealth -= healthChangeAmount;
 
         PlayerMain.Instance.ui.UpdatePlayerHealthUI();
 
         if (playerActualHealth <= 0) {
+            playerActualHealth = 0;
             PlayerIsDead();
         }
     }
