@@ -21,5 +21,10 @@ public class PlayerMove : MonoBehaviour
     public void Move(InputAction.CallbackContext context)
     {
         moveInput = new Vector3(context.ReadValue<Vector2>().x, 0f, context.ReadValue<Vector2>().y);
+
+        if (moveInput != Vector3.zero)
+        {
+            transform.rotation = Quaternion.LookRotation(moveInput);
+        }
     }
 }
