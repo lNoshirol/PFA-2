@@ -11,7 +11,7 @@ public class PlayerMain : MonoBehaviour
 
     public PlayerUI ui { get; private set; }
 
-
+    public GameObject playerMesh;
 
     private void Awake()
     {
