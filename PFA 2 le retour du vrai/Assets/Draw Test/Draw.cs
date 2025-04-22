@@ -213,6 +213,11 @@ public class Draw : MonoBehaviour
         }
 
         SetUpDicBaseShape();
+        foreach ()
+        for (int i = 1; i < 4; i++)
+        {
+
+        }
     }
 
     void SetUpDicBaseShape()
@@ -280,7 +285,7 @@ public class Draw : MonoBehaviour
                 {
                     // points.Add(new Vector3(hit.point.x, 0f, hit.point.z));
                     points.Add(hit.point);
-                    points.Add(hit.point);
+                    //points.Add(hit.point);
                     UpdateLinePoints();
                     return;
                 }
@@ -334,7 +339,6 @@ public class Draw : MonoBehaviour
         float minDistance = float.MaxValue;
         string bestMatch = "Inconnu";
 
-        Debug.Log(templates.Count);
         if (templates.Count > 0)
         {
             foreach (var template in templates)
@@ -423,6 +427,25 @@ public class Draw : MonoBehaviour
         List<Vector3> normalizedPoints = NormalizePoints(points);
         templates[inputFieldText.text] = normalizedPoints;
         Debug.Log($"Template '{inputFieldText.text}' enregistré avec {normalizedPoints.Count} points.");
+    }
+
+    public void Resemple(List<Vector3> Path, int pointNumber)
+    {
+        float I = PathLenght(Path) / pointNumber-1;
+        float D = 0;
+        List<Vector3> newPath = new List<Vector3>();
+    }
+
+    public float PathLenght(List<Vector3> draw)
+    {
+        float DrawLenght = 0;
+
+        for (int i = 1; i < draw.Count; i++)
+        {
+            DrawLenght += Vector3.Distance(draw[i-1], draw[i]);
+        }
+
+        return DrawLenght;
     }
 
     public void TestEnd()
