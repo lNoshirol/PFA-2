@@ -1,13 +1,8 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using TMPro;
-using Unity.PlasticSCM.Editor.WebApi;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.InputSystem.Utilities;
 
-public class Draw : MonoBehaviour
+public class DrawLeVrai : MonoBehaviour
 {
     [SerializeField] Camera Cam;
     [SerializeField] LineRenderer trailPrefab;
@@ -206,6 +201,7 @@ public class Draw : MonoBehaviour
 
     #endregion
 
+
     void Start()
     {
         if (!Cam)
@@ -247,21 +243,14 @@ public class Draw : MonoBehaviour
         if (Input.GetMouseButtonUp(0))
         {
             isDrawing = false;
-            string rocognizedShape = Recognize(points);
-            resultText.text = "Reconnu : " + rocognizedShape;
+            /*string rocognizedShape = Recognize(points);
+            resultText.text = "Reconnu : " + rocognizedShape;*/
         }
 
         if (Input.GetKeyDown(KeyCode.R))
         {
             Resetpoint();
         }
-    }
-
-    private void CreateNewLine()
-    {
-        currentTrail = Instantiate(trailPrefab);
-        currentTrail.transform.SetParent(transform, true);
-        points.Clear();
     }
 
     private void UpdateLinePoints()
@@ -293,7 +282,7 @@ public class Draw : MonoBehaviour
                 else
                 {
                     currentDistance = Vector3.Distance(points[points.Count - 1], hit.point);
-                    
+
                     if (currentDistance >= distanceBetweenPoint)
                     {
                         // points.Add(new Vector3(hit.point.x, 0f, hit.point.z));
@@ -306,80 +295,14 @@ public class Draw : MonoBehaviour
         }
     }
 
-    public List<Vector3> Vector2ToVector3(List<Vector3> pointsList)
-    {
-        List<Vector3> vector3Points = new List<Vector3>();
-
-        foreach (Vector2 point in pointsList)
-        {
-            vector3Points.Add(new Vector3(point.x, 0, point.y));
-        }
-
-        return vector3Points;
-    }
-
-    public void DeleteLines()
-    {
-        if (transform.childCount != 0)
-        {
-            foreach (Transform R in transform)
-            {
-                Destroy(R.gameObject);
-            }
-        }
-    }
-
     public void Resetpoint()
     {
         lineRenderer.positionCount = 0;
     }
 
-    string Recognize(List<Vector3> inputPoints)
+    public Vector3 GetDrawCentroid(List<Vector3> points)
     {
-        List<Vector3> normalizedPoints = NormalizePoints(inputPoints);
-        float minDistance = float.MaxValue;
-        string bestMatch = "Inconnu";
-
-        if (templates.Count > 0)
-        {
-            foreach (var template in templates)
-            {
-                float distance = CalculatePathDistance(normalizedPoints, template.Value);
-                if (distance < minDistance)
-                {
-                    minDistance = distance;
-                    bestMatch = template.Key;
-                }
-            }
-        }
-        else if (templates.Count == 0)
-        {
-            bestMatch = "aucun templates";
-        }
-        
-
-        return bestMatch;
-    }
-
-    float CalculatePathDistance(List<Vector3> path1, List<Vector3> path2)
-    {
-        float distance = 0;
-        for (int i = 0; i < path1.Count; i++)
-        {
-            distance += Vector2.Distance(path1[i], path2[i]);
-            //Debug.Log($"Boucle {i}, distance : {distance}, Point dessin : {path1[i]}, Point template : {path2[i]}");
-        }
-        Debug.Log($"Distance: {distance/path1.Count}");
-        return distance / path1.Count;
-    }
-
-    List<Vector3> NormalizePoints(List<Vector3> points)
-    {
-        //Debug.Log("<================ NORMALIZE ================>");
-
-        // Redimensionner et recentrer
         Vector3 sum = Vector3.zero;
-        //Debug.Log($"Somme : {sum}");
 
         foreach (Vector3 point in points)
         {
@@ -387,63 +310,41 @@ public class Draw : MonoBehaviour
         }
 
         Vector3 centroid = sum / points.Count;
-        //Debug.Log($"Controid {centroid}");
 
-        float maxDistance = 0;
-
-        int debugIndex = 0;
-
-        foreach (Vector3 point in points)
-        {
-            float distance = Vector3.Distance(point, centroid);
-            if (distance > maxDistance)
-            {
-                maxDistance = distance;
-            }
-            //Debug.Log($"Boucle {debugIndex}, Point actuel : {point}, Distance : {distance}, MaxDistance : {maxDistance}");
-
-            debugIndex++;
-        }
-        debugIndex = 0;
-        // Créer une nouvelle liste de points normalisés
-        List<Vector3> normalizedPoints = new List<Vector3>();
-
-        foreach (Vector3 point in points)
-        {
-            Vector3 shifted = point - centroid;           // On recentre autour de (0,0)
-            Vector3 scaled = shifted / maxDistance;       // On met à l’échelle pour que ça tienne dans un cercle de rayon 1
-            normalizedPoints.Add(scaled);
-
-            //Debug.Log($"Boucle {debugIndex}, Point actuel : {point}, Shift : {shifted}, Scaled : {scaled}");
-
-            debugIndex++;
-        }
-
-        //Debug.Log("<============== NORMALIZE END ==============>");
-        return normalizedPoints;
+        return centroid;
     }
 
-    public void SaveTemplate()
-    {
-        List<Vector3> normalizedPoints = NormalizePoints(points);
-        templates[inputFieldText.text] = normalizedPoints;
-        Debug.Log($"Template '{inputFieldText.text}' enregistré avec {normalizedPoints.Count} points.");
-    }
+    //Step 1
+
+    //Resample a points path into n evenly spaced points.We
+    //use n=64. For gestures serving as templates, Steps 1-3 should be
+    //carried out once on the raw input points.For candidates, Steps 1-4
+    //should be used just after the candidate is articulated.
 
     public void Resemple(List<Vector3> Path, int pointNumber)
     {
-        float I = PathLenght(Path) / pointNumber-1;
+        float I = PathLenght(Path) / pointNumber - 1;
         float D = 0;
         List<Vector3> newPath = new List<Vector3>();
+        newPath.Add(Path[0]);
 
         for (int i = 1; i < PathLenght(Path); i++)
         {
-            float d = Vector3.Distance(Path[i-1], Path[i]);
+            float d = Vector3.Distance(Path[i - 1], Path[i]);
 
             if (D + d > I)
             {
-                float Qx = Path[i-1].x + ((I - D / d) * (Path[i].x - Path[i-1].x));
-                float Qy = Path[i-1].y + ((I - D / d) * (Path[i].y - Path[i-1].y));
+                float Qx = Path[i - 1].x + ((I - D / d) * (Path[i].x - Path[i - 1].x));
+                float Qy = Path[i - 1].y + ((I - D / d) * (Path[i].y - Path[i - 1].y));
+
+                Vector3 q = new Vector3(Qx, Qy, 0);
+
+                newPath.Add(q);
+                Path.Insert(i, q);
+            }
+            else
+            {
+                D += d;
             }
         }
     }
@@ -454,14 +355,50 @@ public class Draw : MonoBehaviour
 
         for (int i = 1; i < draw.Count; i++)
         {
-            DrawLenght += Vector3.Distance(draw[i-1], draw[i]);
+            DrawLenght += Vector3.Distance(draw[i - 1], draw[i]);
         }
 
         return DrawLenght;
     }
 
-    public void TestEnd()
+    //Step 2
+
+    //Find and save the indicative angle w from the points’
+    //centroid to first point.Then rotate by –w to set this angle to 0°.
+
+    public float IndicativeAngle(List<Vector3> points)
     {
-        Debug.Log("AAAAAAAAAAAAH");
+        Vector3 c = GetDrawCentroid(points);
+        return Mathf.Atan2(c.y - points[0].y, c.x - points[0].x);
+    }
+
+    public List<Vector3> RotateBy(List<Vector3> points, float w)
+    {
+        Vector3 c = GetDrawCentroid(points);
+        List<Vector3> newPoints = new() { Vector3.zero };
+
+        foreach (Vector3 p in points)
+        {
+            //float Qx = (p.x - c.x) * Mathf.Cos(w - (p.y - c.y)) * Mathf.Sin(w+c.x);
+
+            float Qx = (p.x - c.x) * Mathf.Cos(w) - (p.y - c.y) * Mathf.Sin(w) + c.x;
+            float Qy = (p.x - c.x) * Mathf.Sin(w) - (p.y - c.y) * Mathf.Cos(w) + c.x;
+            newPoints.Add(new Vector3(Qx, Qy));
+        }
+
+        return newPoints;
+    }
+
+    //step 3
+
+    //Scale points so that the resulting bounding box will be of
+    //size2
+    //size.We use size=250. Then translate points to the origin
+    //k=(0,0). BOUNDING-BOX returns a rectangle defined by(minx,
+    //miny), (maxx, maxy).
+
+    public Vector3 ScaleTo(Vector3 points)
+    {
+        return Vector3.zero;
     }
 }
