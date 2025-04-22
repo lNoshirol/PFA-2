@@ -1,15 +1,21 @@
+using Unity.Cinemachine;
 using UnityEngine;
 
 public class MapBounds : MonoBehaviour
 {
 
     [SerializeField] private GameObject mapList;
-    public GameObject groundToCopy;
+    [SerializeField] private CinemachineCamera cinemachine;
+    [SerializeField] private float boundAmount;
+    CinemachineConfiner3D confiner;
+    private GameObject groundToCopy;
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        FindActiveMap();
-        CreateMapBounds();
+        confiner = cinemachine.GetComponent<CinemachineConfiner3D>();
+        //FindActiveMap();
+        //CreateMapBounds();
     }
 
     // Update is called once per frame
@@ -34,7 +40,12 @@ public class MapBounds : MonoBehaviour
     void CreateMapBounds()
     {
         BoxCollider bc = groundToCopy.AddComponent<BoxCollider>();
-         
+        //bc.isTrigger = true;
+        bc.center = new Vector3(0, 0, 0);
+        bc.size = new Vector3(boundAmount, 10, 0);
+        confiner.BoundingVolume = bc;
+
+
     }
 
 
