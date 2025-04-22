@@ -9,6 +9,7 @@ public class MapBounds : MonoBehaviour
     void Start()
     {
         FindActiveMap();
+        CreateMapBounds();
     }
 
     // Update is called once per frame
@@ -32,7 +33,8 @@ public class MapBounds : MonoBehaviour
 
     void CreateMapBounds()
     {
-        BoxCollider bc = gameObject.AddComponent<BoxCollider>();
+        BoxCollider bc = groundToCopy.AddComponent<BoxCollider>();
+         
     }
 
 
