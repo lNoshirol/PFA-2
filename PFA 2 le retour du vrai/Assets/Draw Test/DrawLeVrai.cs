@@ -1,6 +1,9 @@
+﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class DrawLeVrai : MonoBehaviour
 {
@@ -20,6 +23,11 @@ public class DrawLeVrai : MonoBehaviour
     public TextMeshProUGUI inputFieldText;
 
     private bool isDrawing = false;
+
+    readonly float phi = 1 / 2 * (-1 + Mathf.Sqrt(5));
+
+    float Theta = Mathf.Deg2Rad * 45f;
+    float DeltaTheta = Mathf.Deg2Rad * 2f;
 
     #region Base SHape
 
@@ -243,8 +251,9 @@ public class DrawLeVrai : MonoBehaviour
         if (Input.GetMouseButtonUp(0))
         {
             isDrawing = false;
-            /*string rocognizedShape = Recognize(points);
-            resultText.text = "Reconnu : " + rocognizedShape;*/
+            Tuple<String, float> RecognizeResult = Recognize(points, templates, );
+            string rocognizedShape = RecognizeResult.Item1;
+            resultText.text = "Reconnu : " + rocognizedShape;
         }
 
         if (Input.GetKeyDown(KeyCode.R))
@@ -298,6 +307,23 @@ public class DrawLeVrai : MonoBehaviour
     public void Resetpoint()
     {
         lineRenderer.positionCount = 0;
+    }
+
+    public float GetMaxDistance(List<Vector3> points)
+    {
+        float maxDistance = 0f;
+        Vector3 centroid = GetDrawCentroid(points);
+
+        foreach (Vector3 point in points)
+        {
+            float distance = Vector3.Distance(point, centroid);
+            if (distance >= maxDistance)
+            {
+                maxDistance = distance;
+            }
+        }
+
+        return maxDistance;
     }
 
     public Vector3 GetDrawCentroid(List<Vector3> points)
@@ -363,8 +389,8 @@ public class DrawLeVrai : MonoBehaviour
 
     //Step 2
 
-    //Find and save the indicative angle w from the points�
-    //centroid to first point.Then rotate by �w to set this angle to 0�.
+    //Find and save the indicative angle w from the points’
+    //centroid to first point.Then rotate by –w to set this angle to 0°.
 
     public float IndicativeAngle(List<Vector3> points)
     {
@@ -391,14 +417,98 @@ public class DrawLeVrai : MonoBehaviour
 
     //step 3
 
-    //Scale points so that the resulting bounding box will be of
-    //size2
-    //size.We use size=250. Then translate points to the origin
-    //k=(0,0). BOUNDING-BOX returns a rectangle defined by(minx,
-    //miny), (maxx, maxy).
-
-    public Vector3 ScaleTo(Vector3 points)
+    public List<Vector3> ScaleAndRecenter(List<Vector3> points)
     {
-        return Vector3.zero;
+        List<Vector3> newPoints = new();
+        Vector3 c = GetDrawCentroid(points);
+        float d = GetMaxDistance(points);
+
+        foreach (Vector3 p in points)
+        {
+            Vector3 reCenter = p - c;
+            Vector3 scaled = reCenter / d;
+            newPoints.Add(scaled);
+        }
+
+        return newPoints;
+    }
+
+    //step 4 
+
+    //Match points against a set of templates.The size variable
+    //on line 7 of RECOGNIZE refers to the size passed to SCALE-TO in
+    //Step 3. The symbol ϕ equals ½(-1 + √5). We use θ=±45° and
+    //θ∆=2° on line 3 of RECOGNIZE.Due to using RESAMPLE, we can
+    //assume that A and B in PATH-DISTANCE contain the same number
+    //of points, i.e., |A|=|B|. 
+
+    public Tuple<String, float> Recognize(List<Vector3> points, Dictionary<string, List<Vector3>> templates, float size)
+    {
+        float b = int.MaxValue;
+        string bestTemplate = null;
+
+        foreach (var template in templates)
+        {
+            float distance = DistanceAtBestAngle(points, template.Value, -Theta, Theta, DeltaTheta);
+            if (distance < b)
+            {
+                b = distance;
+                bestTemplate = template.Key;
+            }
+        }
+
+        float score = (float)(1 - b / (0.5 * Mathf.Sqrt(size*size+size*size)));
+
+        return new Tuple<string, float>(bestTemplate, score);
+    }
+
+    public float DistanceAtBestAngle(List<Vector3> points, List<Vector3> template, float ThetaA, float ThetaB, float ThetaDelta)
+    {
+        float x1 = phi * ThetaA + (1 - phi) * ThetaB;
+        float f1 = DistanceAtAngle(points, template, x1);
+
+        float x2 = (1 - phi) * ThetaA + (1 - phi) * ThetaB;
+        float f2 = DistanceAtAngle(points, template, x2);
+
+        while (Mathf.Abs(ThetaB - ThetaA) > ThetaDelta)
+        {
+            if (f1 < f2)
+            {
+                ThetaB = x2;
+                x2 = x1;
+                f2 = f1;
+                x1 = phi * ThetaA + (1-phi) * ThetaB;
+                f1 = DistanceAtAngle(points, template, x1);
+            }
+            else
+            {
+                ThetaA = x1;
+                x1 = x2;
+                f1 = f2;
+                x2 = (1-phi)* ThetaA + phi * ThetaB;
+                f2 = DistanceAtAngle(points, template, x2);
+            }
+        }
+
+        return Mathf.Min(f1, f2);
+    }
+
+    public float DistanceAtAngle(List<Vector3> points, List<Vector3> template, float Theta)
+    {
+        List<Vector3> newPoints = RotateBy(points, Theta);
+        float d = PathDistance(newPoints, template);
+
+        return d;
+    }
+
+    public float PathDistance(List<Vector3> points, List<Vector3> template)
+    {
+        float d = 0;
+        for (int i = 0; i < points.Count; i++)
+        {
+            d += Vector3.Distance(points[i], template[i]);
+        }
+
+        return d/points.Count;
     }
 }
