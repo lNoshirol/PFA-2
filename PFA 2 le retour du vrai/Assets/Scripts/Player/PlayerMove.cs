@@ -5,17 +5,17 @@ public class PlayerMove : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 5f;
 
-    private Rigidbody rb;
+    private Rigidbody rbMain;
     private Vector3 moveInput;
 
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
+        rbMain = GetComponent<Rigidbody>();
     }
 
     void Update()
     {
-        rb.linearVelocity = moveInput * moveSpeed;
+        rbMain.linearVelocity = moveInput * moveSpeed;
     }
 
     public void Move(InputAction.CallbackContext context)
@@ -24,7 +24,7 @@ public class PlayerMove : MonoBehaviour
 
         if (moveInput != Vector3.zero)
         {
-            transform.rotation = Quaternion.LookRotation(moveInput);
+            PlayerMain.Instance.playerMesh.transform.rotation = Quaternion.LookRotation(moveInput);
         }
     }
 }
