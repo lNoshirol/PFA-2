@@ -3,21 +3,10 @@ using UnityEngine;
 
 public class RoomSwitch : MonoBehaviour
 {
-
     [SerializeField] private Vector3 cameraChange;
     [SerializeField] private Vector3 playerChange;
     [SerializeField] private CinemachineCamera cam;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    [SerializeField] private int roomIdToLoad;
 
 
     private void OnTriggerEnter(Collider other)
@@ -25,6 +14,8 @@ public class RoomSwitch : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             Debug.Log("yoo");
+            other.transform.position += playerChange;
+            WorldMain.Instance.SwitchRoom(roomIdToLoad);
         }
     }
 }
