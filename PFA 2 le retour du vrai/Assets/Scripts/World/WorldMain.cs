@@ -32,9 +32,10 @@ public class WorldMain : MonoBehaviour
     {
         currentRoomName = SceneManager.GetActiveScene().name;
     }
-    public void SwitchRoom(string roomName, string switcherName, Vector3 spawnPosition)
+    public void SwitchRoom(string roomName, string switcherName)
     {
         SceneManager.LoadScene(roomName);
-        PlayerMain.Instance.playerMesh.transform.position = spawnPosition;
+        GameObject targetSwitcher = GameObject.Find(switcherName);
+        PlayerMain.Instance.playerMesh.transform.position = targetSwitcher.transform.GetChild(0).transform.position;
     }
 }

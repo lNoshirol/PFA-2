@@ -4,12 +4,16 @@ using UnityEngine;
 public class RoomSwitch : MonoBehaviour
 {
     [SerializeField] private RoomSwitcherDATA roomSwitcherData;
+    private void Start()
+    {
+        gameObject.name = roomSwitcherData.switcherID;
+    }
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
             Debug.Log("yoo");
-            WorldMain.Instance.SwitchRoom(roomSwitcherData.targetSceneName, roomSwitcherData.targetSwitcherID, transform.GetChild(0).transform.position);
+            WorldMain.Instance.SwitchRoom(roomSwitcherData.targetSceneName, roomSwitcherData.targetSwitcherID);
         }
     }
 }
