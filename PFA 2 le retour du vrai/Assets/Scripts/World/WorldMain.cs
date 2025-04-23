@@ -1,19 +1,19 @@
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class WorldMain : MonoBehaviour
 {
 
     public static WorldMain Instance { get; private set; }
-    public GameObject mapParent;
 
-    public List<GameObject> mapList = new List<GameObject> ();
+    public List<GameObject> currentRoomSwitchList = new List<GameObject> ();
 
-    public int currentRoomId = 0;
+    [SerializeField] private GameObject roomSwitchers;
+
+    public string currentRoomName;
 
     public MapBounds mapBounds { get; private set; }
-
-
 
     private void Awake()
     {
@@ -24,29 +24,17 @@ public class WorldMain : MonoBehaviour
         }
 
         Instance = this;
+        DontDestroyOnLoad(gameObject);
         mapBounds = GetComponent<MapBounds>();
     }
 
-
     private void Start()
     {
-        HideOtherMaps(currentRoomId);
+        currentRoomName = SceneManager.GetActiveScene().name;
     }
-
-    void HideOtherMaps(int currentRoom)
+    public void SwitchRoom(string roomName, string switcherName, Vector3 spawnPosition)
     {
-        foreach(Transform child in mapParent.transform)
-        {
-            if (child == mapParent.transform.GetChild(currentRoom))
-            {
-            }
-            else child.gameObject.SetActive(false);
-
-        }
-    }
-
-    public void SwitchRoom(int roomIdToLoad)
-    {
-        HideOtherMaps(roomIdToLoad);
+        SceneManager.LoadScene(roomName);
+        PlayerMain.Instance.playerMesh.transform.position = spawnPosition;
     }
 }
