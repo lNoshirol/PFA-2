@@ -10,7 +10,7 @@ public class SpawnManager : MonoBehaviour
         WorldMain.Instance.CleanSpawnList();
         foreach (Transform child in transform)
         {
-            WorldMain.Instance.roomSwitchList.Add(child.gameObject);
+            WorldMain.Instance.RoomSwitchList.Add(child.gameObject);
         }
     }
 }
