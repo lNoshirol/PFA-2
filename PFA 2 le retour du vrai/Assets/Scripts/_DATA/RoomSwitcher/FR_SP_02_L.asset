@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b8b4916529ae5de42a5164d9c08a4928, type: 3}
-  m_Name: FR_SP_1_R
+  m_Name: FR_SP_02_L
   m_EditorClassIdentifier: 
-  currentSceneName: FR_SP_1
-  switcherID: FR_SP_1_R
-  targetSceneName: FR_SP_2
-  targetSwitcherID: FR_SP_2_L
+  currentSceneName: FR_SP_02
+  switcherID: FR_SP_02_L
+  targetSceneName: FR_SP_01
+  targetSwitcherID: FR_SP_01_R

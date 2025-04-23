@@ -9,10 +9,10 @@ EditorBuildSettings:
     path: Assets/Scenes/SampleScene.unity
     guid: c850ee8c3b14cc8459e7e186857cf567
   - enabled: 1
-    path: Assets/Scenes/EmrysScene/FR_SP_1.unity
+    path: Assets/Scenes/EmrysScene/FR_SP_01.unity
     guid: bcb6efb8bbdff794bad45bfb3885efb6
   - enabled: 1
-    path: Assets/Scenes/EmrysScene/FR_SP_2.unity
+    path: Assets/Scenes/EmrysScene/FR_SP_02.unity
     guid: a25bdb67980dd1749aea51b62a636923
   m_configObjects:
     com.unity.adaptiveperformance.simulator.provider_settings: {fileID: 11400000, guid: 774e197dd550c0e4ab4a49c3bf382a64, type: 2}

@@ -9,7 +9,7 @@ public class RoomSwitch : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             Debug.Log("yoo");
-            WorldMain.Instance.SwitchRoom(roomSwitcherData.targetSceneName, roomSwitcherData.targetSwitcherID);
+            WorldMain.Instance.SwitchRoom(roomSwitcherData.targetSceneName, roomSwitcherData.targetSwitcherID, transform.GetChild(0).transform.position);
         }
     }
 }

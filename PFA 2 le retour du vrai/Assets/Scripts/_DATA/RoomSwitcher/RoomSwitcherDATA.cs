@@ -5,9 +5,9 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "RoomSwitcher", menuName = "Switching/RoomSwitcher", order =1)]
 public class RoomSwitcherDATA : ScriptableObject
 {
-    public string currentSceneName;         // e.g., "Forest_Main_01"
-    public string switcherID;               // e.g., "Right01"
+    public string currentSceneName;         // "Forest_Main_01" "FR_M_01"
+    public string switcherID;               // "Forest_Main_01_Right01" "FR_M_01_R01"
 
-    public string targetSceneName;          // e.g., "Forest_Main_02"
-    public string targetSwitcherID;         // e.g., "Left01"
+    public string targetSceneName;          // "Forest_Main_02"
+    public string targetSwitcherID;         // "Left01"
 }
