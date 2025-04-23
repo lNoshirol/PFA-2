@@ -12,7 +12,6 @@ public class RoomSwitch : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log("yoo");
             WorldMain.Instance.SwitchRoom(roomSwitcherData.targetSceneName, roomSwitcherData.targetSwitcherID);
         }
     }
