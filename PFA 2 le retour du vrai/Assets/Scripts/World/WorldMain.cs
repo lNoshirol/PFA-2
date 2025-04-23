@@ -1,19 +1,21 @@
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
+using System.Collections;
+using System.Threading.Tasks;
 
 public class WorldMain : MonoBehaviour
 {
 
     public static WorldMain Instance { get; private set; }
 
-    public List<GameObject> currentRoomSwitchList = new List<GameObject> ();
+    public List<GameObject> RoomSwitchList = new List<GameObject>();
 
-    [SerializeField] private GameObject roomSwitchers;
+    public GameObject currentRoomSwitcher;
 
-    public string currentRoomName;
+    public string CurrentRoomName;
 
-    public MapBounds mapBounds { get; private set; }
+    public RoomTransition RoomTransition { get; private set; }
 
     private void Awake()
     {
@@ -22,19 +24,42 @@ public class WorldMain : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-
+        RoomTransition = gameObject.GetComponent<RoomTransition>();
         Instance = this;
         DontDestroyOnLoad(gameObject);
-        mapBounds = GetComponent<MapBounds>();
     }
 
     private void Start()
     {
-        currentRoomName = SceneManager.GetActiveScene().name;
+        CurrentRoomName = SceneManager.GetActiveScene().name;
     }
-    public void SwitchRoom(string roomName, string switcherName, Vector3 spawnPosition)
+
+    public void CleanSpawnList()
     {
-        SceneManager.LoadScene(roomName);
-        PlayerMain.Instance.PlayerMesh.transform.position = spawnPosition;
+        RoomSwitchList.Clear();
     }
+
+    public GameObject FindCorrectSpawn(string switcherName)
+    {
+        foreach (GameObject spawn in RoomSwitchList) {
+            Debug.Log("I search this switch : " + switcherName);
+            Debug.Log("Current spawn in list : " + spawn.name);
+
+            if (spawn.name == switcherName)
+            {
+                currentRoomSwitcher = spawn;
+            }
+        }
+        return currentRoomSwitcher;
+        
+    }
+    public async void SwitchRoom(string roomName, string switcherName)
+    {
+        RoomTransition.Fade(1);
+        SceneManager.LoadScene(roomName);
+        await Task.Delay(10);
+        PlayerMain.Instance.transform.position = FindCorrectSpawn(switcherName).transform.GetChild(0).transform.position;
+        RoomTransition.Fade(0);
+    }
+
 }

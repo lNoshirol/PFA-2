@@ -681,6 +681,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 15
+  moveVector2: {x: 0, y: 0}
 --- !u!114 &5658382612289644800
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -693,7 +694,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7d7b9c7273561e44b6994c301052c85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerMesh: {fileID: 3952298088638066454}
+  PlayerMesh: {fileID: 3952298088638066454}
 --- !u!114 &1056653486634695155
 MonoBehaviour:
   m_ObjectHideFlags: 0
