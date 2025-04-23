@@ -15,8 +15,6 @@ public class WorldMain : MonoBehaviour
 
     public MapBounds mapBounds { get; private set; }
 
-
-
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -36,22 +34,13 @@ public class WorldMain : MonoBehaviour
         GetAllCurrentRoomSwitcher();
 
     }
-
-
     void GetAllCurrentRoomSwitcher()
     {
         foreach (Transform child in roomSwitchers.transform) {
             currentRoomSwitchList.Add(child.gameObject);
         }
     }
-
-    void DefineRoomSwitchPosition()
-    {
-
-    }
-
-
-    public void SwitchRoom(string roomName)
+    public void SwitchRoom(string roomName, string switcherName)
     {
         SceneManager.LoadScene(roomName);
     }

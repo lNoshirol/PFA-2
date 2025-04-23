@@ -633,11 +633,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c02a92a24e0cb342985dc1e90571a17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraChange: {x: 25, y: 0, z: 0}
-  playerChange: {x: 25, y: 0, z: 0}
-  cam: {fileID: 0}
-  roomIdToLoad: EmrysScene2
-  roomSwitchPosition: 
+  roomSwitcherData: {fileID: 0}
 --- !u!65 &202006458
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1701,11 +1697,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c02a92a24e0cb342985dc1e90571a17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraChange: {x: 25, y: 0, z: 0}
-  playerChange: {x: 25, y: 0, z: 0}
-  cam: {fileID: 0}
-  roomIdToLoad: EmrysScene2
-  roomSwitchPosition: 
+  roomSwitcherData: {fileID: 0}
 --- !u!65 &895368357
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2043,11 +2035,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c02a92a24e0cb342985dc1e90571a17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraChange: {x: 25, y: 0, z: 0}
-  playerChange: {x: 25, y: 0, z: 0}
-  cam: {fileID: 0}
-  roomIdToLoad: EmrysScene2
-  roomSwitchPosition: 
+  roomSwitcherData: {fileID: 0}
 --- !u!65 &931181708
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2262,11 +2250,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c02a92a24e0cb342985dc1e90571a17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraChange: {x: 25, y: 0, z: 0}
-  playerChange: {x: 25, y: 0, z: 0}
-  cam: {fileID: 0}
-  roomIdToLoad: EmrysScene2
-  roomSwitchPosition: 
+  roomSwitcherData: {fileID: 11400000, guid: 36167817f55140a4b9abec33d5008579, type: 2}
 --- !u!65 &1300011728
 BoxCollider:
   m_ObjectHideFlags: 0
