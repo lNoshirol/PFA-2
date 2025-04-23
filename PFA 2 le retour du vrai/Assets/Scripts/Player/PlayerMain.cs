@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerMain : MonoBehaviour
 {
@@ -14,6 +15,8 @@ public class PlayerMain : MonoBehaviour
     public Rigidbody Rigidbody { get; private set; }
     public GameObject PlayerMesh;
 
+    public PlayerInput playerInput;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -28,6 +31,8 @@ public class PlayerMain : MonoBehaviour
         Health = GetComponent<PlayerHealth>();
         UI = GetComponent<PlayerUI>();
         Rigidbody = GetComponent<Rigidbody>();
+
+        playerInput = GetComponent<PlayerInput>();
 
         DontDestroyOnLoad(gameObject);
     }

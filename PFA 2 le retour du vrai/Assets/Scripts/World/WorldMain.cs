@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using System.Collections;
 using System.Threading.Tasks;
+using UnityEngine.InputSystem;
 
 public class WorldMain : MonoBehaviour
 {
@@ -42,8 +43,6 @@ public class WorldMain : MonoBehaviour
     public GameObject FindCorrectSpawn(string switcherName)
     {
         foreach (GameObject spawn in RoomSwitchList) {
-            Debug.Log("I search this switch : " + switcherName);
-            Debug.Log("Current spawn in list : " + spawn.name);
 
             if (spawn.name == switcherName)
             {
@@ -55,11 +54,14 @@ public class WorldMain : MonoBehaviour
     }
     public async void SwitchRoom(string roomName, string switcherName)
     {
+        PlayerMain.Instance.playerInput.DeactivateInput();
         RoomTransition.Fade(1);
+        await Task.Delay(1000);
         SceneManager.LoadScene(roomName);
         await Task.Delay(10);
         PlayerMain.Instance.transform.position = FindCorrectSpawn(switcherName).transform.GetChild(0).transform.position;
         RoomTransition.Fade(0);
+        PlayerMain.Instance.playerInput.ActivateInput();
     }
 
 }
