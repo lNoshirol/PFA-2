@@ -14,7 +14,6 @@ public class MapBounds : MonoBehaviour
         ApplyMapBounds();
     }
 
-
     void ApplyMapBounds()
     {
         confiner.BoundingVolume = activeMapBounds.GetComponentAtIndex<BoxCollider>(4);
