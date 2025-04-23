@@ -3,6 +3,13 @@ using UnityEngine.VFX;
 
 public abstract class SkillParentClass
 {
+    public string Name;
+
+    public SkillParentClass() 
+    {
+            
+    }
+
     public abstract void Activate();
 
     protected void PlayVFX(VisualEffect vfx)
@@ -22,9 +29,14 @@ public abstract class SkillParentClass
 
     #region Subskills
 
-    protected void Dash(Vector3 direction, float force)
+    /// <summary>
+    /// Dash in a direction
+    /// </summary>
+    /// <param name="direction"></param>
+    /// <param name="force"></param>
+    protected void Dash(Vector2 direction, float force)
     {
-        
+        PlayerMain.Instance.Rigidbody.AddForce(direction * force, ForceMode.Impulse);
     }
 
     protected void /*Vector3*/ GetNearestEnemyPosition()
