@@ -1,15 +1,17 @@
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class WorldMain : MonoBehaviour
 {
 
     public static WorldMain Instance { get; private set; }
-    public GameObject mapParent;
 
-    public List<GameObject> mapList = new List<GameObject> ();
+    public List<GameObject> currentRoomSwitchList = new List<GameObject> ();
 
-    public int currentRoomId = 0;
+    [SerializeField] private GameObject roomSwitchers;
+
+    public string currentRoomName;
 
     public MapBounds mapBounds { get; private set; }
 
@@ -24,29 +26,33 @@ public class WorldMain : MonoBehaviour
         }
 
         Instance = this;
+        DontDestroyOnLoad(gameObject);
         mapBounds = GetComponent<MapBounds>();
     }
 
-
     private void Start()
     {
-        HideOtherMaps(currentRoomId);
+        currentRoomName = SceneManager.GetActiveScene ().name;
+        GetAllCurrentRoomSwitcher();
+
     }
 
-    void HideOtherMaps(int currentRoom)
-    {
-        foreach(Transform child in mapParent.transform)
-        {
-            if (child == mapParent.transform.GetChild(currentRoom))
-            {
-            }
-            else child.gameObject.SetActive(false);
 
+    void GetAllCurrentRoomSwitcher()
+    {
+        foreach (Transform child in roomSwitchers.transform) {
+            currentRoomSwitchList.Add(child.gameObject);
         }
     }
 
-    public void SwitchRoom(int roomIdToLoad)
+    void DefineRoomSwitchPosition()
     {
-        HideOtherMaps(roomIdToLoad);
+
+    }
+
+
+    public void SwitchRoom(string roomName)
+    {
+        SceneManager.LoadScene(roomName);
     }
 }

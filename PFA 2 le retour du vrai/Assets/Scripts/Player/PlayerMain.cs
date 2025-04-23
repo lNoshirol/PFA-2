@@ -26,6 +26,8 @@ public class PlayerMain : MonoBehaviour
         inventory = GetComponent<PlayerInventory>();
         health = GetComponent<PlayerHealth>();
         ui = GetComponent<PlayerUI>();
+
+        DontDestroyOnLoad(gameObject);
     }
 
 }

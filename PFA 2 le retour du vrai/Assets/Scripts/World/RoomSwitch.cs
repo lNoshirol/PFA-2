@@ -6,7 +6,9 @@ public class RoomSwitch : MonoBehaviour
     [SerializeField] private Vector3 cameraChange;
     [SerializeField] private Vector3 playerChange;
     [SerializeField] private CinemachineCamera cam;
-    [SerializeField] private int roomIdToLoad;
+    [SerializeField] private string roomIdToLoad;
+
+    public string roomSwitchPosition;
 
 
     private void OnTriggerEnter(Collider other)
