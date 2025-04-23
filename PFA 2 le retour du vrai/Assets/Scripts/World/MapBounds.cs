@@ -1,42 +1,35 @@
+using Unity.Cinemachine;
 using UnityEngine;
 
 public class MapBounds : MonoBehaviour
 {
+    [SerializeField] private CinemachineCamera cinemachine;
+    [SerializeField] private float boundAmount;
+    private CinemachineConfiner3D confiner;
+    private GameObject activeMapBounds;
 
-    [SerializeField] private GameObject mapList;
-    public GameObject groundToCopy;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        FindActiveMap();
-        CreateMapBounds();
+        confiner = cinemachine.GetComponent<CinemachineConfiner3D>();
+        FindActiveMapsBounds();
+        ApplyMapBounds();
     }
 
-    // Update is called once per frame
-    void Update()
+    GameObject FindActiveMapsBounds()
     {
-        
-    }
-
-    GameObject FindActiveMap()
-    {
-        foreach (Transform child in mapList.transform)
+        foreach (Transform child in WorldMain.Instance.mapParent.transform)
         {
             if(child.gameObject.activeSelf == true)
             {
-                groundToCopy = child.GetChild(0).gameObject;
-                
+                activeMapBounds = child.transform.GetChild(0).gameObject;
             }
         }
-        return groundToCopy;
+        return activeMapBounds;
+
     }
 
-    void CreateMapBounds()
+    void ApplyMapBounds()
     {
-        BoxCollider bc = groundToCopy.AddComponent<BoxCollider>();
-         
+        confiner.BoundingVolume = activeMapBounds.GetComponentAtIndex<BoxCollider>(4);
     }
-
-
-
 }

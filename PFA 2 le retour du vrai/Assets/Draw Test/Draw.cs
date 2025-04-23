@@ -219,6 +219,8 @@ public class Draw : MonoBehaviour
         {
 
         }
+
+        Debug.LogError("ta grosse mere");
     }
 
     void SetUpDicBaseShape()

@@ -1,6 +1,9 @@
+﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class DrawLeVrai : MonoBehaviour
 {
@@ -20,6 +23,11 @@ public class DrawLeVrai : MonoBehaviour
     public TextMeshProUGUI inputFieldText;
 
     private bool isDrawing = false;
+
+    readonly float phi = 1 / 2 * (-1 + Mathf.Sqrt(5));
+
+    float Theta = Mathf.Deg2Rad * 45f;
+    float DeltaTheta = Mathf.Deg2Rad * 2f;
 
     #region Base SHape
 
@@ -243,8 +251,13 @@ public class DrawLeVrai : MonoBehaviour
         if (Input.GetMouseButtonUp(0))
         {
             isDrawing = false;
-            /*string rocognizedShape = Recognize(points);
-            resultText.text = "Reconnu : " + rocognizedShape;*/
+            
+            List<Vector2> draw2d = Resemple(ConvertVec3ToVec2(points), 32);
+
+
+            Tuple<String, float> RecognizeResult = Recognize(draw2d, templates, GetMaxDistance(draw2d));
+            string rocognizedShape = RecognizeResult.Item1;
+            resultText.text = "Reconnu : " + rocognizedShape;
         }
 
         if (Input.GetKeyDown(KeyCode.R))
@@ -300,16 +313,46 @@ public class DrawLeVrai : MonoBehaviour
         lineRenderer.positionCount = 0;
     }
 
-    public Vector3 GetDrawCentroid(List<Vector3> points)
+    public float GetMaxDistance(List<Vector2> points)
     {
-        Vector3 sum = Vector3.zero;
+        float maxDistance = 0f;
+        Vector2 centroid = GetDrawCentroid(points);
+
+        foreach (Vector2 point in points)
+        {
+            float distance = Vector2.Distance(point, centroid);
+            if (distance >= maxDistance)
+            {
+                maxDistance = distance;
+            }
+        }
+
+        return maxDistance;
+    }
+
+    public List<Vector2> ConvertVec3ToVec2(List<Vector3> points)
+    {
+        List<Vector2> newPoints = new();
 
         foreach (Vector3 point in points)
+        {
+            Vector2 newPoint = new Vector2(point.x, point.y);
+            newPoints.Add(newPoint);
+        }
+
+        return newPoints;
+    }
+
+    public Vector2 GetDrawCentroid(List<Vector2> points)
+    {
+        Vector2 sum = Vector2.zero;
+
+        foreach (Vector2 point in points)
         {
             sum += point;
         }
 
-        Vector3 centroid = sum / points.Count;
+        Vector2 centroid = sum / points.Count;
 
         return centroid;
     }
@@ -321,23 +364,25 @@ public class DrawLeVrai : MonoBehaviour
     //carried out once on the raw input points.For candidates, Steps 1-4
     //should be used just after the candidate is articulated.
 
-    public void Resemple(List<Vector3> Path, int pointNumber)
+    public List<Vector2> Resemple(List<Vector2> Path, int pointNumber)
     {
-        float I = PathLenght(Path) / pointNumber - 1;
+        float I = PathLenght(Path) / (pointNumber - 1);
         float D = 0;
-        List<Vector3> newPath = new List<Vector3>();
-        newPath.Add(Path[0]);
-
-        for (int i = 1; i < PathLenght(Path); i++)
+        List<Vector2> newPath = new()
         {
-            float d = Vector3.Distance(Path[i - 1], Path[i]);
+            Path[0]
+        };
+
+        for (int i = 1; i < I; i++)
+        {
+            float d = Vector2.Distance(Path[i - 1], Path[i]);
 
             if (D + d > I)
             {
                 float Qx = Path[i - 1].x + ((I - D / d) * (Path[i].x - Path[i - 1].x));
                 float Qy = Path[i - 1].y + ((I - D / d) * (Path[i].y - Path[i - 1].y));
 
-                Vector3 q = new Vector3(Qx, Qy, 0);
+                Vector2 q = new(Qx, Qy);
 
                 newPath.Add(q);
                 Path.Insert(i, q);
@@ -347,15 +392,18 @@ public class DrawLeVrai : MonoBehaviour
                 D += d;
             }
         }
+
+        
+        return newPath;
     }
 
-    public float PathLenght(List<Vector3> draw)
+    public float PathLenght(List<Vector2> draw)
     {
         float DrawLenght = 0;
 
         for (int i = 1; i < draw.Count; i++)
         {
-            DrawLenght += Vector3.Distance(draw[i - 1], draw[i]);
+            DrawLenght += Vector2.Distance(draw[i - 1], draw[i]);
         }
 
         return DrawLenght;
@@ -363,27 +411,27 @@ public class DrawLeVrai : MonoBehaviour
 
     //Step 2
 
-    //Find and save the indicative angle w from the points�
-    //centroid to first point.Then rotate by �w to set this angle to 0�.
+    //Find and save the indicative angle w from the points’
+    //centroid to first point.Then rotate by –w to set this angle to 0°.
 
-    public float IndicativeAngle(List<Vector3> points)
+    public float IndicativeAngle(List<Vector2> points)
     {
-        Vector3 c = GetDrawCentroid(points);
+        Vector2 c = GetDrawCentroid(points);
         return Mathf.Atan2(c.y - points[0].y, c.x - points[0].x);
     }
 
-    public List<Vector3> RotateBy(List<Vector3> points, float w)
+    public List<Vector2> RotateBy(List<Vector2> points, float w)
     {
-        Vector3 c = GetDrawCentroid(points);
-        List<Vector3> newPoints = new() { Vector3.zero };
+        Vector2 c = GetDrawCentroid(points);
+        List<Vector2> newPoints = new() { Vector2.zero };
 
-        foreach (Vector3 p in points)
+        foreach (Vector2 p in points)
         {
             //float Qx = (p.x - c.x) * Mathf.Cos(w - (p.y - c.y)) * Mathf.Sin(w+c.x);
 
             float Qx = (p.x - c.x) * Mathf.Cos(w) - (p.y - c.y) * Mathf.Sin(w) + c.x;
             float Qy = (p.x - c.x) * Mathf.Sin(w) - (p.y - c.y) * Mathf.Cos(w) + c.x;
-            newPoints.Add(new Vector3(Qx, Qy));
+            newPoints.Add(new Vector2(Qx, Qy));
         }
 
         return newPoints;
@@ -391,14 +439,102 @@ public class DrawLeVrai : MonoBehaviour
 
     //step 3
 
-    //Scale points so that the resulting bounding box will be of
-    //size2
-    //size.We use size=250. Then translate points to the origin
-    //k=(0,0). BOUNDING-BOX returns a rectangle defined by(minx,
-    //miny), (maxx, maxy).
-
-    public Vector3 ScaleTo(Vector3 points)
+    public List<Vector2> ScaleAndRecenter(List<Vector2> points)
     {
-        return Vector3.zero;
+        List<Vector2> newPoints = new();
+        Vector2 c = GetDrawCentroid(points);
+        float d = GetMaxDistance(points);
+
+        foreach (Vector2 p in points)
+        {
+            Vector2 reCenter = p - c;
+            Vector2 scaled = reCenter / d;
+            newPoints.Add(scaled);
+        }
+
+        return newPoints;
+    }
+
+    //step 4 
+
+    //Match points against a set of templates.The size variable
+    //on line 7 of RECOGNIZE refers to the size passed to SCALE-TO in
+    //Step 3. The symbol ϕ equals ½(-1 + √5). We use θ=±45° and
+    //θ∆=2° on line 3 of RECOGNIZE.Due to using RESAMPLE, we can
+    //assume that A and B in PATH-DISTANCE contain the same number
+    //of points, i.e., |A|=|B|. 
+
+    public Tuple<String, float> Recognize(List<Vector2> points, Dictionary<string, List<Vector3>> templates, float size)
+    {
+        float b = int.MaxValue;
+        string bestTemplate = null;
+
+        foreach (var template in templates)
+        {
+            float distance = DistanceAtBestAngle(points, ConvertVec3ToVec2(template.Value), -Theta, Theta, DeltaTheta);
+            if (distance < b)
+            {
+                b = distance;
+                bestTemplate = template.Key;
+            }
+        }
+
+        float score = (float)(1 - b / (0.5 * Mathf.Sqrt(size*size+size*size)));
+
+        return new Tuple<string, float>(bestTemplate, score);
+    }
+
+    public float DistanceAtBestAngle(List<Vector2> points, List<Vector2> template, float ThetaA, float ThetaB, float ThetaDelta)
+    {
+        float x1 = phi * ThetaA + (1 - phi) * ThetaB;
+        float f1 = DistanceAtAngle(points, template, x1);
+
+        float x2 = (1 - phi) * ThetaA + (1 - phi) * ThetaB;
+        float f2 = DistanceAtAngle(points, template, x2);
+
+        while (Mathf.Abs(ThetaB - ThetaA) > ThetaDelta)
+        {
+            if (f1 < f2)
+            {
+                ThetaB = x2;
+                x2 = x1;
+                f2 = f1;
+                x1 = phi * ThetaA + (1-phi) * ThetaB;
+                f1 = DistanceAtAngle(points, template, x1);
+            }
+            else
+            {
+                ThetaA = x1;
+                x1 = x2;
+                f1 = f2;
+                x2 = (1-phi)* ThetaA + phi * ThetaB;
+                f2 = DistanceAtAngle(points, template, x2);
+            }
+        }
+
+        return Mathf.Min(f1, f2);
+    }
+
+    public float DistanceAtAngle(List<Vector2> points, List<Vector2> template, float Theta)
+    {
+        List<Vector2> newPoints = RotateBy(points, Theta);
+        float d = PathDistance(newPoints, template);
+
+        return d;
+    }
+
+    public float PathDistance(List<Vector2> points, List<Vector2> template)
+    {
+        float d = 0;
+
+        //Debug.Log($"Draw points count : {points.Count}, Template points count : {template.Count}");
+
+        for (int i = 0; i < points.Count; i++)
+        {
+            //Debug.Log(i);
+            d += Vector2.Distance(points[i], template[i]);
+        }
+
+        return d/points.Count;
     }
 }
