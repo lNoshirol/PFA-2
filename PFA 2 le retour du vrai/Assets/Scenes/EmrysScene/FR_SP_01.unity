@@ -1852,6 +1852,11 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1035236776}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1112325438 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3952298088638066454, guid: 978470b0a638bee4884f779494b64f09, type: 3}
+  m_PrefabInstance: {fileID: 3145760875188361176}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1506334220
 GameObject:
   m_ObjectHideFlags: 0
@@ -2518,6 +2523,10 @@ PrefabInstance:
       propertyPath: BoundingVolume
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 5658382612289644800, guid: 978470b0a638bee4884f779494b64f09, type: 3}
+      propertyPath: PlayerMesh
+      value: 
+      objectReference: {fileID: 1112325438}
     - target: {fileID: 9100616866877208724, guid: 978470b0a638bee4884f779494b64f09, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
