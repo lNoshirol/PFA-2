@@ -35,6 +35,6 @@ public class WorldMain : MonoBehaviour
     public void SwitchRoom(string roomName, string switcherName, Vector3 spawnPosition)
     {
         SceneManager.LoadScene(roomName);
-        PlayerMain.Instance.playerMesh.transform.position = spawnPosition;
+        PlayerMain.Instance.PlayerMesh.transform.position = spawnPosition;
     }
 }

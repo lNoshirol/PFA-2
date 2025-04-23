@@ -5,13 +5,14 @@ public class PlayerMain : MonoBehaviour
 
     public static PlayerMain Instance { get; private set; }
 
-    public PlayerMove move { get; private set; }
-    public PlayerInventory inventory { get; private set; }
-    public PlayerHealth health { get; private set; }
+    public PlayerMove Move { get; private set; }
+    public PlayerInventory Inventory { get; private set; }
+    public PlayerHealth Health { get; private set; }
 
-    public PlayerUI ui { get; private set; }
+    public PlayerUI UI { get; private set; }
 
-    public GameObject playerMesh;
+    public Rigidbody Rigidbody { get; private set; }
+    public GameObject PlayerMesh;
 
     private void Awake()
     {
@@ -22,10 +23,11 @@ public class PlayerMain : MonoBehaviour
         }
 
         Instance = this;
-        move = GetComponent<PlayerMove>();
-        inventory = GetComponent<PlayerInventory>();
-        health = GetComponent<PlayerHealth>();
-        ui = GetComponent<PlayerUI>();
+        Move = GetComponent<PlayerMove>();
+        Inventory = GetComponent<PlayerInventory>();
+        Health = GetComponent<PlayerHealth>();
+        UI = GetComponent<PlayerUI>();
+        Rigidbody = GetComponent<Rigidbody>();
 
         DontDestroyOnLoad(gameObject);
     }

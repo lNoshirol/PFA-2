@@ -8,6 +8,6 @@ public class HealthAffectZone : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Player")
-            PlayerMain.Instance.health.PlayerHealthChange(affectHealthValue);
+            PlayerMain.Instance.Health.PlayerHealthChange(affectHealthValue);
     }
 }
