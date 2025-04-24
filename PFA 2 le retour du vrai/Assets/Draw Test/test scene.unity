@@ -704,7 +704,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &354969503
 Transform:
   m_ObjectHideFlags: 0
@@ -913,6 +913,7 @@ MonoBehaviour:
   trailPrefab: {fileID: 107754074}
   currentTrail: {fileID: 107754074}
   points: []
+  points2: []
   distanceBetweenPoint: 0.01
   resultText: {fileID: 276005380}
   lineRenderer: {fileID: 107754074}
@@ -1224,6 +1225,61 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1235261765
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1235261767}
+  - component: {fileID: 1235261766}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1235261766
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1235261765}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77965f82dd4d11f49875fc0b24792f08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CellPrefab: {fileID: 6792856405609658322, guid: b8dd35b0e2bf8b54aaaae4eda6f6150f, type: 3}
+  BlankCellColor: {r: 0, g: 0, b: 0, a: 0}
+  HighlightedCellColor: {r: 0, g: 0, b: 0, a: 0}
+  MovementPreviewColor: {r: 0, g: 0, b: 0, a: 0}
+  EnnemyOnCaseRangePreview: {r: 0, g: 0, b: 0, a: 0}
+  AllyOnCaseRangePreview: {r: 0, g: 0, b: 0, a: 0}
+  CaseInSkillRange: {r: 0, g: 0, b: 0, a: 0}
+  CaseInDamageZone: {r: 0, g: 0, b: 0, a: 0}
+  _newOffsets: []
+  _oldOffsets: []
+  CurrentPointedCell: {fileID: 0}
+--- !u!4 &1235261767
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1235261765}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1311689231
 GameObject:
   m_ObjectHideFlags: 0
@@ -1429,7 +1485,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 53.5
+  m_fontSize: 25.7
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1565,7 +1621,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 42.05
+  m_fontSize: 18
   m_fontSizeBase: 14
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2103,7 +2159,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 42.05
+  m_fontSize: 18
   m_fontSizeBase: 14
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2169,3 +2225,4 @@ SceneRoots:
   - {fileID: 215003569}
   - {fileID: 1593396776}
   - {fileID: 434956607}
+  - {fileID: 1235261767}
