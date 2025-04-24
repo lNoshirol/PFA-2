@@ -37,4 +37,10 @@ public class PlayerMain : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
+
+    private void Start()
+    {
+        CameraMain.Instance.CenterCameraAtPosition(Instance.transform.position);
+    }
+
 }
