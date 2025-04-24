@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using TMPro;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -12,8 +13,9 @@ public class DrawLeVrai : MonoBehaviour
 
     [SerializeField] private LineRenderer currentTrail;
     [SerializeField] private List<Vector3> points = new List<Vector3>();
+    [SerializeField] private List<Vector2> points2 = new List<Vector2>();
 
-    private Dictionary<string, List<Vector3>> templates = new Dictionary<string, List<Vector3>>();
+    private Dictionary<string, List<Vector2>> templates = new Dictionary<string, List<Vector2>>();
 
     [SerializeField] private float distanceBetweenPoint;
     private float currentDistance;
@@ -104,36 +106,48 @@ public class DrawLeVrai : MonoBehaviour
         new Vector3(-1f, -0.5f, 0f),
         new Vector3(-1f, -0.75f, 0f),
     };
+
     List<Vector3> triangle = new List<Vector3>
     {
-        // Base gauche vers droite
-        new Vector3(-0.866f, -0.5f, 0f),
-        new Vector3(-0.673f, -0.5f, 0f),
-        new Vector3(-0.480f, -0.5f, 0f),
-        new Vector3(-0.287f, -0.5f, 0f),
-        new Vector3(-0.094f, -0.5f, 0f),
-        new Vector3(0.099f, -0.5f, 0f),
-        new Vector3(0.292f, -0.5f, 0f),
-        new Vector3(0.485f, -0.5f, 0f),
-        new Vector3(0.678f, -0.5f, 0f),
-        new Vector3(0.866f, -0.5f, 0f),
+        // A (0.5, 0.866) → B (0, 0)
+        new Vector3(0.5f, 0.866f, 0f),
+        new Vector3(0.45f, 0.787f, 0f),
+        new Vector3(0.4f, 0.709f, 0f),
+        new Vector3(0.35f, 0.630f, 0f),
+        new Vector3(0.3f, 0.551f, 0f),
+        new Vector3(0.25f, 0.472f, 0f),
+        new Vector3(0.2f, 0.394f, 0f),
+        new Vector3(0.15f, 0.315f, 0f),
+        new Vector3(0.1f, 0.236f, 0f),
+        new Vector3(0.05f, 0.157f, 0f),
+        new Vector3(0f, 0f, 0f),
 
-        // Vers le sommet
-        new Vector3(0.722f, -0.295f, 0f),
-        new Vector3(0.578f, -0.09f, 0f),
-        new Vector3(0.433f, 0.115f, 0f),
-        new Vector3(0.289f, 0.32f, 0f),
-        new Vector3(0.144f, 0.525f, 0f),
-        new Vector3(0.000f, 0.73f, 0f),
-        new Vector3(-0.144f, 0.525f, 0f),
-        new Vector3(-0.289f, 0.32f, 0f),
-        new Vector3(-0.433f, 0.115f, 0f),
-        new Vector3(-0.578f, -0.09f, 0f),
-        new Vector3(-0.722f, -0.295f, 0f),
+        // B (0, 0) → C (1, 0)
+        new Vector3(0.1f, 0f, 0f),
+        new Vector3(0.2f, 0f, 0f),
+        new Vector3(0.3f, 0f, 0f),
+        new Vector3(0.4f, 0f, 0f),
+        new Vector3(0.5f, 0f, 0f),
+        new Vector3(0.6f, 0f, 0f),
+        new Vector3(0.7f, 0f, 0f),
+        new Vector3(0.8f, 0f, 0f),
+        new Vector3(0.9f, 0f, 0f),
+        new Vector3(1f, 0f, 0f),
 
-        // Fermeture base
-        new Vector3(-0.866f, -0.5f, 0f), // Reprise
+        // C (1, 0) → A (0.5, 0.866)
+        new Vector3(0.95f, 0.087f, 0f),
+        new Vector3(0.9f, 0.173f, 0f),
+        new Vector3(0.85f, 0.260f, 0f),
+        new Vector3(0.8f, 0.346f, 0f),
+        new Vector3(0.75f, 0.433f, 0f),
+        new Vector3(0.7f, 0.520f, 0f),
+        new Vector3(0.65f, 0.606f, 0f),
+        new Vector3(0.6f, 0.693f, 0f),
+        new Vector3(0.55f, 0.779f, 0f),
+        new Vector3(0.5f, 0.866f, 0f),
+        new Vector3(0.5f, 0.866f, 0f) // boucle
     };
+
     List<Vector3> ellipse = new List<Vector3>
     {
         new Vector3(1.000f, 0.000f, 0f),
@@ -227,11 +241,11 @@ public class DrawLeVrai : MonoBehaviour
 
     void SetUpDicBaseShape()
     {
-        templates.Add("Circle", circlePoints);
-        templates.Add("Square", square);
-        templates.Add("Triangle", triangle);
-        templates.Add("Ellipse", ellipse);
-        templates.Add("Check", check);
+        templates.Add("Circle", ScaleTo(TranslateTo(ConvertVec3ToVec2(circlePoints), Vector2.zero), 250));
+        templates.Add("Square", ScaleTo(TranslateTo(ConvertVec3ToVec2(square), Vector2.zero), 250) );
+        templates.Add("Triangle", ScaleTo(TranslateTo(ConvertVec3ToVec2(triangle), Vector2.zero), 250) );
+        templates.Add("Ellipse", ScaleTo(TranslateTo(ConvertVec3ToVec2(ellipse), Vector2.zero), 250) );
+        templates.Add("Check", ScaleTo(TranslateTo(ConvertVec3ToVec2(check), Vector2.zero), 250) );
     }
 
     void Update()
@@ -252,10 +266,10 @@ public class DrawLeVrai : MonoBehaviour
         {
             isDrawing = false;
             
-            List<Vector2> draw2d = Resemple(ConvertVec3ToVec2(points), 32);
+            points2 = Resemple(ConvertVec3ToVec2(points), 32);
 
 
-            Tuple<String, float> RecognizeResult = Recognize(draw2d, templates, GetMaxDistance(draw2d));
+            Tuple<String, float> RecognizeResult = Recognize(ScaleTo(TranslateTo(points2, Vector2.zero), 250), templates, 250);
             string rocognizedShape = RecognizeResult.Item1;
             resultText.text = "Reconnu : " + rocognizedShape;
         }
@@ -357,6 +371,37 @@ public class DrawLeVrai : MonoBehaviour
         return centroid;
     }
 
+    public Tuple<float, float, float, float> BoundingBox(List<Vector2> points)
+    {
+        float minX = int.MinValue;
+        float maxX = int.MinValue;
+
+        float minY = int.MinValue;
+        float maxY = int.MinValue;
+
+        foreach (Vector2 point in points)
+        {
+            if (point.x < minX)
+            {
+                minX = point.x;
+            }
+            if (point.y < minY)
+            {
+                minY = point.y;
+            }
+            if (maxX > point.x)
+            {
+                maxX = point.x;
+            }
+            if (maxY > point.y)
+            {
+                maxY = point.y;
+            }
+        }
+
+        return Tuple.Create(minX, maxX, minY, maxY);
+    }
+
     //Step 1
 
     //Resample a points path into n evenly spaced points.We
@@ -373,7 +418,7 @@ public class DrawLeVrai : MonoBehaviour
             Path[0]
         };
 
-        for (int i = 1; i < I; i++)
+        for (int i = 1; i < pointNumber; i++)
         {
             float d = Vector2.Distance(Path[i - 1], Path[i]);
 
@@ -392,7 +437,7 @@ public class DrawLeVrai : MonoBehaviour
                 D += d;
             }
         }
-
+        points2 = newPath;
         
         return newPath;
     }
@@ -439,7 +484,45 @@ public class DrawLeVrai : MonoBehaviour
 
     //step 3
 
-    public List<Vector2> ScaleAndRecenter(List<Vector2> points)
+    public List<Vector2> ScaleTo(List<Vector2> points, float size)
+    {
+        Tuple<float, float, float, float> B = BoundingBox(points);
+
+        Tuple<float, float> boxHeightWidth = new Tuple<float, float>(MathF.Abs(B.Item3) + Mathf.Abs(B.Item4), MathF.Abs(B.Item1) + Mathf.Abs(B.Item2));
+
+        List<Vector2> newPoints = new();
+
+        foreach (Vector2 p in points)
+        {
+            float Qx = p.x * size / boxHeightWidth.Item2;
+            float Qy = p.y * size / boxHeightWidth.Item1;
+
+            Vector2 newp = new Vector2(Qx, Qy);
+
+            newPoints.Add(newp);
+        }
+
+        return newPoints;
+    }
+
+    public List<Vector2> TranslateTo(List<Vector2> points, Vector2 k)
+    {
+        Vector2 c = GetDrawCentroid(points);
+        List<Vector2> newPoints = new();
+
+        foreach (Vector2 p in points)
+        {
+            float Qx = p.x + k.x - c.x;
+            float Qy = p.y + k.y - c.y;
+
+            Vector2 newp = new Vector2(Qx, Qy);
+            newPoints.Add(newp);
+        }
+
+        return newPoints;
+    }
+
+    /*public List<Vector2> ScaleAndRecenter(List<Vector2> points)
     {
         List<Vector2> newPoints = new();
         Vector2 c = GetDrawCentroid(points);
@@ -453,7 +536,7 @@ public class DrawLeVrai : MonoBehaviour
         }
 
         return newPoints;
-    }
+    }*/
 
     //step 4 
 
@@ -464,19 +547,21 @@ public class DrawLeVrai : MonoBehaviour
     //assume that A and B in PATH-DISTANCE contain the same number
     //of points, i.e., |A|=|B|. 
 
-    public Tuple<String, float> Recognize(List<Vector2> points, Dictionary<string, List<Vector3>> templates, float size)
+    public Tuple<String, float> Recognize(List<Vector2> points, Dictionary<string, List<Vector2>> templates, float size)
     {
         float b = int.MaxValue;
         string bestTemplate = null;
 
         foreach (var template in templates)
         {
-            float distance = DistanceAtBestAngle(points, ConvertVec3ToVec2(template.Value), -Theta, Theta, DeltaTheta);
+            float distance = DistanceAtBestAngle(points, template.Value, -Theta, Theta, DeltaTheta, template.Key);
             if (distance < b)
             {
                 b = distance;
                 bestTemplate = template.Key;
             }
+
+            //Debug.Log($"distance : {distance}, score : {(float)(1 - distance / (0.5 * Mathf.Sqrt(size * size + size * size)))}, template name : {template.Key}");
         }
 
         float score = (float)(1 - b / (0.5 * Mathf.Sqrt(size*size+size*size)));
@@ -484,13 +569,13 @@ public class DrawLeVrai : MonoBehaviour
         return new Tuple<string, float>(bestTemplate, score);
     }
 
-    public float DistanceAtBestAngle(List<Vector2> points, List<Vector2> template, float ThetaA, float ThetaB, float ThetaDelta)
+    public float DistanceAtBestAngle(List<Vector2> points, List<Vector2> template, float ThetaA, float ThetaB, float ThetaDelta, string DebugTemplateName)
     {
         float x1 = phi * ThetaA + (1 - phi) * ThetaB;
-        float f1 = DistanceAtAngle(points, template, x1);
+        float f1 = DistanceAtAngle(points, template, x1, DebugTemplateName);
 
         float x2 = (1 - phi) * ThetaA + (1 - phi) * ThetaB;
-        float f2 = DistanceAtAngle(points, template, x2);
+        float f2 = DistanceAtAngle(points, template, x2, DebugTemplateName);
 
         while (Mathf.Abs(ThetaB - ThetaA) > ThetaDelta)
         {
@@ -500,7 +585,7 @@ public class DrawLeVrai : MonoBehaviour
                 x2 = x1;
                 f2 = f1;
                 x1 = phi * ThetaA + (1-phi) * ThetaB;
-                f1 = DistanceAtAngle(points, template, x1);
+                f1 = DistanceAtAngle(points, template, x1, DebugTemplateName);
             }
             else
             {
@@ -508,30 +593,30 @@ public class DrawLeVrai : MonoBehaviour
                 x1 = x2;
                 f1 = f2;
                 x2 = (1-phi)* ThetaA + phi * ThetaB;
-                f2 = DistanceAtAngle(points, template, x2);
+                f2 = DistanceAtAngle(points, template, x2, DebugTemplateName);
             }
+
         }
 
         return Mathf.Min(f1, f2);
     }
 
-    public float DistanceAtAngle(List<Vector2> points, List<Vector2> template, float Theta)
+    public float DistanceAtAngle(List<Vector2> points, List<Vector2> template, float Theta, string DebugTemplateName)
     {
         List<Vector2> newPoints = RotateBy(points, Theta);
-        float d = PathDistance(newPoints, template);
+        float d = PathDistance(newPoints, template, DebugTemplateName);
 
         return d;
     }
 
-    public float PathDistance(List<Vector2> points, List<Vector2> template)
+    public float PathDistance(List<Vector2> points, List<Vector2> template, string DebugTemplateName)
     {
         float d = 0;
 
-        //Debug.Log($"Draw points count : {points.Count}, Template points count : {template.Count}");
+        //Debug.Log($"Draw points count : {points.Count}, Template points count : {template.Count}, Template name : {DebugTemplateName}");
 
         for (int i = 0; i < points.Count; i++)
         {
-            //Debug.Log(i);
             d += Vector2.Distance(points[i], template[i]);
         }
 
