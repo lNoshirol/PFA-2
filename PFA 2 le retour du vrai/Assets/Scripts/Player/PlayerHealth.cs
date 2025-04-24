@@ -8,14 +8,14 @@ public class PlayerHealth : MonoBehaviour
 
     private void Start()
     {
-        PlayerMain.Instance.ui.UpdatePlayerHealthUI();
+        PlayerMain.Instance.UI.UpdatePlayerHealthUI();
     }
 
     public void PlayerHealthChange(int healthChangeAmount)
     {
         playerActualHealth -= healthChangeAmount;
 
-        PlayerMain.Instance.ui.UpdatePlayerHealthUI();
+        PlayerMain.Instance.UI.UpdatePlayerHealthUI();
 
         if (playerActualHealth <= 0) {
             playerActualHealth = 0;
