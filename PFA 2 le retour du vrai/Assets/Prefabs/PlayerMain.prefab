@@ -312,6 +312,7 @@ GameObject:
   - component: {fileID: 7577823411821127699}
   - component: {fileID: 7165152910995371025}
   - component: {fileID: 181145290674455261}
+  - component: {fileID: 2560249266590689769}
   - component: {fileID: 105560751731582578}
   - component: {fileID: 6613314532644909832}
   - component: {fileID: 7765251600769286284}
@@ -484,8 +485,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ecdddd00178bf704cbb66c9a0e1a3c5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _topSpeed: 28
+  _acceleration: 36
+  _deceleration: 48
+  _velocityPower: 0.87
+  _friction: 0.25
   moveSpeed: 15
-  moveVector2: {x: 0, y: 0}
 --- !u!114 &181145290674455261
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -500,6 +505,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerMesh: {fileID: 4565140861363283908}
   playerInput: {fileID: 0}
+--- !u!114 &2560249266590689769
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5208124166552653695}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff7ae095c61b4284ab81cbad64686acf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &105560751731582578
 MonoBehaviour:
   m_ObjectHideFlags: 0
