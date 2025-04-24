@@ -21,6 +21,10 @@ public class PlayerHealth : MonoBehaviour
             playerActualHealth = 0;
             PlayerIsDead();
         }
+        else if(playerActualHealth >= 100)
+        {
+            playerActualHealth = 100;
+        }
     }
 
     private void PlayerIsDead()
