@@ -11,5 +11,4 @@ public class RoomTransition : MonoBehaviour
     {
         blackScreen.DOFade(value, fadeSpeed).SetEase(Ease.InOutCubic);
     }
-
 }
