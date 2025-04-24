@@ -16,6 +16,7 @@ public class CameraMain : MonoBehaviour
     }
 
 
+
     public void CenterCameraAtPosition(Vector3 targetPosition)
     {
         transform.position = targetPosition;

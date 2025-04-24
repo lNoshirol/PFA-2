@@ -2664,6 +2664,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: CameraPrefab
       objectReference: {fileID: 0}
+    - target: {fileID: 5002642861582650060, guid: ef2c73a8270ee1949bb09a83d6f45ae1, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5002642861582650060, guid: ef2c73a8270ee1949bb09a83d6f45ae1, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 15.45
+      objectReference: {fileID: 0}
+    - target: {fileID: 5002642861582650060, guid: ef2c73a8270ee1949bb09a83d6f45ae1, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 8.309999
+      objectReference: {fileID: 0}
     - target: {fileID: 5386218282374828018, guid: ef2c73a8270ee1949bb09a83d6f45ae1, type: 3}
       propertyPath: Target.LookAtTarget
       value: 
@@ -2682,7 +2694,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7127903120514736174, guid: ef2c73a8270ee1949bb09a83d6f45ae1, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -23.31
       objectReference: {fileID: 0}
     - target: {fileID: 7127903120514736174, guid: ef2c73a8270ee1949bb09a83d6f45ae1, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2711,6 +2723,18 @@ PrefabInstance:
     - target: {fileID: 7127903120514736174, guid: ef2c73a8270ee1949bb09a83d6f45ae1, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8054237964650567559, guid: ef2c73a8270ee1949bb09a83d6f45ae1, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8054237964650567559, guid: ef2c73a8270ee1949bb09a83d6f45ae1, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 15.45
+      objectReference: {fileID: 0}
+    - target: {fileID: 8054237964650567559, guid: ef2c73a8270ee1949bb09a83d6f45ae1, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 8.309999
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
