@@ -6,8 +6,7 @@ public class SimpleDash : SkillParentClass
     public async override void Activate()
     {
         float timer = 5f;
-        Dash(PlayerMain.Instance.Move.moveVector2, 25);
-
-
+        Debug.Log("dash");
+        Dash(PlayerMain.Instance.transform.forward, 500);
     }
 }
