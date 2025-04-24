@@ -9,7 +9,6 @@ public class PROTOPlayerSkills : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Space))
         {
             dash.Activate();
-            print("dash");
         }
     }
 }

@@ -19,7 +19,17 @@ public class PlayerAttack : MonoBehaviour
     }
     public void BaseAttack(InputAction.CallbackContext context)
     {
+        Debug.Log("Attack");
         if(canAttack) {
+            StartCoroutine(AttackDuration());
+        }
+    }
+
+    public void BaseAttackMobile()
+    {
+        Debug.Log("AttackMobile");
+        if (canAttack)
+        {
             StartCoroutine(AttackDuration());
         }
     }

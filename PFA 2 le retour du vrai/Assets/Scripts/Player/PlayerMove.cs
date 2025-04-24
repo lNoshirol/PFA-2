@@ -3,28 +3,56 @@ using UnityEngine.InputSystem;
 
 public class PlayerMove : MonoBehaviour
 {
-    
+    [SerializeField] private float _topSpeed;
+    [SerializeField] private float _acceleration;
+    [SerializeField] private float _deceleration;
+    [SerializeField] private float _velocityPower;
+    [SerializeField] private float _friction;
+
     [SerializeField] private float moveSpeed = 5f;
 
-    private Vector3 moveInput;
-
-    public Vector2 moveVector2;
+    private Vector3 _moveInput;
 
     void Update()
     {
-        Vector3 movement = moveInput * moveSpeed;
-        PlayerMain.Instance.Rigidbody.linearVelocity = new Vector3(movement.x, PlayerMain.Instance.Rigidbody.linearVelocity.y, movement.z);
-        PlayerMain.Instance.Rigidbody.linearVelocity = new Vector3(Mathf.Clamp(PlayerMain.Instance.Rigidbody.linearVelocity.x + movement.x, -5, 5), PlayerMain.Instance.Rigidbody.linearVelocity.y, Mathf.Clamp(PlayerMain.Instance.Rigidbody.linearVelocity.z + movement.z, -5, 5));
+        float targetSpeedX = _moveInput.x * _topSpeed;
+        float targetSpeedZ = _moveInput.z * _topSpeed;
+
+        float speedDifX = targetSpeedX - PlayerMain.Instance.Rigidbody.linearVelocity.x;
+        float speedDifZ = targetSpeedZ - PlayerMain.Instance.Rigidbody.linearVelocity.z;
+
+        float accelRateX = (Mathf.Abs(targetSpeedX) > 0.01f) ? _acceleration : _deceleration;
+        float accelRateY = (Mathf.Abs(targetSpeedZ) > 0.01f) ? _acceleration : _deceleration;
+
+        float movementX = Mathf.Pow(Mathf.Abs(speedDifX) * accelRateX, _velocityPower) * Mathf.Sign(speedDifX);
+        float movementZ = Mathf.Pow(Mathf.Abs(speedDifZ) * accelRateY, _velocityPower) * Mathf.Sign(speedDifZ);
+
+        Vector3 movementForce = Vector3.right * movementX + Vector3.forward * movementZ;
+
+        if (Mathf.Abs(_moveInput.x) < 0.01f)
+        {
+            float frictionX = Mathf.Min(Mathf.Abs(PlayerMain.Instance.Rigidbody.linearVelocity.x), Mathf.Abs(_friction));
+            frictionX *= Mathf.Sign(PlayerMain.Instance.Rigidbody.linearVelocity.x);
+            PlayerMain.Instance.Rigidbody.AddForce(Vector3.right * -frictionX);
+        }
+
+        if (Mathf.Abs(_moveInput.y) < 0.01f)
+        {
+            float frictionZ = Mathf.Min(Mathf.Abs(PlayerMain.Instance.Rigidbody.linearVelocity.y), Mathf.Abs(_friction));
+            frictionZ *= Mathf.Sign(PlayerMain.Instance.Rigidbody.linearVelocity.y);
+            PlayerMain.Instance.Rigidbody.AddForce(Vector3.forward * -frictionZ);
+        }
+
+        PlayerMain.Instance.Rigidbody.AddForce(movementForce);
     }
 
     public void Move(InputAction.CallbackContext context)
     {
-        moveInput = new Vector3(context.ReadValue<Vector2>().x, 0f, context.ReadValue<Vector2>().y);
-        moveVector2 = context.ReadValue<Vector2>();
+        _moveInput = new Vector3(context.ReadValue<Vector2>().x, 0f, context.ReadValue<Vector2>().y);
 
-        if (moveInput != Vector3.zero)
+        if (_moveInput != Vector3.zero)
         {
-            PlayerMain.Instance.PlayerMesh.transform.rotation = Quaternion.LookRotation(moveInput);
+            PlayerMain.Instance.PlayerMesh.transform.rotation = Quaternion.LookRotation(_moveInput);
         }
     }
 }
