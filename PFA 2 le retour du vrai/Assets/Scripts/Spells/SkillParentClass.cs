@@ -36,7 +36,7 @@ public abstract class SkillParentClass
     /// <param name="force"></param>
     protected void Dash(Vector2 direction, float force)
     {
-        PlayerMain.Instance.Rigidbody.AddForce(direction * force, ForceMode.Impulse);
+        PlayerMain.Instance.Rigidbody.AddForce(new Vector3(direction.x, 0, direction.y) * force, ForceMode.Impulse);
     }
 
     protected void /*Vector3*/ GetNearestEnemyPosition()

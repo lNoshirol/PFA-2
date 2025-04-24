@@ -3,6 +3,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerMove : MonoBehaviour
 {
+    
     [SerializeField] private float moveSpeed = 5f;
 
     private Vector3 moveInput;
@@ -13,6 +14,7 @@ public class PlayerMove : MonoBehaviour
     {
         Vector3 movement = moveInput * moveSpeed;
         PlayerMain.Instance.Rigidbody.linearVelocity = new Vector3(movement.x, PlayerMain.Instance.Rigidbody.linearVelocity.y, movement.z);
+        PlayerMain.Instance.Rigidbody.linearVelocity = new Vector3(Mathf.Clamp(PlayerMain.Instance.Rigidbody.linearVelocity.x + movement.x, -5, 5), PlayerMain.Instance.Rigidbody.linearVelocity.y, Mathf.Clamp(PlayerMain.Instance.Rigidbody.linearVelocity.z + movement.z, -5, 5));
     }
 
     public void Move(InputAction.CallbackContext context)
