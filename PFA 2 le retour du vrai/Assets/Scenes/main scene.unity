@@ -131,7 +131,7 @@ GameObject:
   - component: {fileID: 65679979}
   - component: {fileID: 65679978}
   m_Layer: 0
-  m_Name: Terrain_(-1000.00, 0.00, 0.00)
+  m_Name: partie1.2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -350,7 +350,7 @@ GameObject:
   - component: {fileID: 566141886}
   - component: {fileID: 566141885}
   m_Layer: 0
-  m_Name: Terrain_(0.00, 0.00, -1000.00)
+  m_Name: partie2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -443,7 +443,7 @@ GameObject:
   - component: {fileID: 657857303}
   - component: {fileID: 657857302}
   m_Layer: 0
-  m_Name: Terrain_(1000.00, 0.00, -1000.00)
+  m_Name: partie2.1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -536,7 +536,7 @@ GameObject:
   - component: {fileID: 775365370}
   - component: {fileID: 775365369}
   m_Layer: 0
-  m_Name: Terrain_(0.00, 0.00, -2000.00)
+  m_Name: partie3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -629,7 +629,7 @@ GameObject:
   - component: {fileID: 805212668}
   - component: {fileID: 805212667}
   m_Layer: 0
-  m_Name: Terrain_(1000.00, 0.00, -2000.00)
+  m_Name: partie3.1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -722,7 +722,7 @@ GameObject:
   - component: {fileID: 937559748}
   - component: {fileID: 937559747}
   m_Layer: 0
-  m_Name: Terrain
+  m_Name: partie1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -815,7 +815,7 @@ GameObject:
   - component: {fileID: 1008961253}
   - component: {fileID: 1008961252}
   m_Layer: 0
-  m_Name: Terrain_(1000.00, 0.00, 0.00)
+  m_Name: partie1.1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1106,7 +1106,7 @@ GameObject:
   - component: {fileID: 1923949672}
   - component: {fileID: 1923949671}
   m_Layer: 0
-  m_Name: Terrain_(-1000.00, 0.00, -2000.00)
+  m_Name: partie3.2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1199,7 +1199,7 @@ GameObject:
   - component: {fileID: 1964838114}
   - component: {fileID: 1964838113}
   m_Layer: 0
-  m_Name: Terrain_(-1000.00, 0.00, -1000.00)
+  m_Name: partie2.2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1288,11 +1288,11 @@ SceneRoots:
   - {fileID: 1829251215}
   - {fileID: 1705177291}
   - {fileID: 937559749}
-  - {fileID: 566141887}
-  - {fileID: 775365371}
-  - {fileID: 1964838115}
-  - {fileID: 657857304}
   - {fileID: 1008961254}
-  - {fileID: 805212669}
   - {fileID: 65679980}
+  - {fileID: 566141887}
+  - {fileID: 657857304}
+  - {fileID: 1964838115}
+  - {fileID: 775365371}
+  - {fileID: 805212669}
   - {fileID: 1923949673}
