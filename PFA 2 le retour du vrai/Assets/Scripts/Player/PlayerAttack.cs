@@ -25,6 +25,15 @@ public class PlayerAttack : MonoBehaviour
         }
     }
 
+    public void BaseAttackMobile()
+    {
+        Debug.Log("AttackMobile");
+        if (canAttack)
+        {
+            StartCoroutine(AttackDuration());
+        }
+    }
+
     IEnumerator AttackDuration()
     {
         canAttack = false;
