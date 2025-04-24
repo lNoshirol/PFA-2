@@ -3,9 +3,8 @@ using UnityEngine;
 
 public class SimpleDash : SkillParentClass
 {
-    public async override void Activate()
+    public override void Activate()
     {
-        float timer = 5f;
         Dash(PlayerMain.Instance.PlayerMesh.transform.forward, 100);
     }
 }
