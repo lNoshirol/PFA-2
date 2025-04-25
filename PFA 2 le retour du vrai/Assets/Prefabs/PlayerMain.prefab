@@ -682,12 +682,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ecdddd00178bf704cbb66c9a0e1a3c5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _topSpeed: 28
-  _acceleration: 36
-  _deceleration: 48
+  _topSpeed: 112
+  _acceleration: 72
+  _deceleration: 192
   _velocityPower: 0.87
   _friction: 0.25
-  moveSpeed: 15
 --- !u!114 &181145290674455261
 MonoBehaviour:
   m_ObjectHideFlags: 0
