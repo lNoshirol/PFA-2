@@ -10,6 +10,7 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] private float _friction;
 
     private Vector3 _moveInput;
+    private Vector3 _movementForce;
 
     void Update()
     {
@@ -25,7 +26,9 @@ public class PlayerMove : MonoBehaviour
         float movementX = Mathf.Pow(Mathf.Abs(speedDifX) * accelRateX, _velocityPower) * Mathf.Sign(speedDifX);
         float movementZ = Mathf.Pow(Mathf.Abs(speedDifZ) * accelRateY, _velocityPower) * Mathf.Sign(speedDifZ);
 
-        Vector3 movementForce = Vector3.right * movementX * Time.deltaTime + Vector3.forward * movementZ * Time.deltaTime;
+        _movementForce = Vector3.right * movementX + Vector3.forward * movementZ;
+
+        PlayerMain.Instance.Rigidbody.AddForce(_movementForce * Time.deltaTime * 50);
 
         if (Mathf.Abs(_moveInput.x) < 0.01f)
         {
@@ -40,9 +43,7 @@ public class PlayerMove : MonoBehaviour
             frictionZ *= Mathf.Sign(PlayerMain.Instance.Rigidbody.linearVelocity.z);
             PlayerMain.Instance.Rigidbody.AddForce(Vector3.forward * -frictionZ);
         }
-
-        PlayerMain.Instance.Rigidbody.AddForce(movementForce);
-    } 
+    }
 
     public void Move(InputAction.CallbackContext context)
     {
