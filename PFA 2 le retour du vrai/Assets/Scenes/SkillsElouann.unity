@@ -2637,6 +2637,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerMain
       objectReference: {fileID: 0}
+    - target: {fileID: 7165152910995371025, guid: 978470b0a638bee4884f779494b64f09, type: 3}
+      propertyPath: _topSpeed
+      value: 112
+      objectReference: {fileID: 0}
+    - target: {fileID: 7165152910995371025, guid: 978470b0a638bee4884f779494b64f09, type: 3}
+      propertyPath: _acceleration
+      value: 72
+      objectReference: {fileID: 0}
+    - target: {fileID: 7165152910995371025, guid: 978470b0a638bee4884f779494b64f09, type: 3}
+      propertyPath: _deceleration
+      value: 192
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

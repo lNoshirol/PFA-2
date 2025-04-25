@@ -25,7 +25,7 @@ public class PlayerMove : MonoBehaviour
         float movementX = Mathf.Pow(Mathf.Abs(speedDifX) * accelRateX, _velocityPower) * Mathf.Sign(speedDifX);
         float movementZ = Mathf.Pow(Mathf.Abs(speedDifZ) * accelRateY, _velocityPower) * Mathf.Sign(speedDifZ);
 
-        Vector3 movementForce = Vector3.right * movementX + Vector3.forward * movementZ;
+        Vector3 movementForce = Vector3.right * movementX * Time.deltaTime + Vector3.forward * movementZ * Time.deltaTime;
 
         if (Mathf.Abs(_moveInput.x) < 0.01f)
         {
@@ -34,10 +34,10 @@ public class PlayerMove : MonoBehaviour
             PlayerMain.Instance.Rigidbody.AddForce(Vector3.right * -frictionX);
         }
 
-        if (Mathf.Abs(_moveInput.y) < 0.01f)
+        if (Mathf.Abs(_moveInput.z) < 0.01f)
         {
-            float frictionZ = Mathf.Min(Mathf.Abs(PlayerMain.Instance.Rigidbody.linearVelocity.y), Mathf.Abs(_friction));
-            frictionZ *= Mathf.Sign(PlayerMain.Instance.Rigidbody.linearVelocity.y);
+            float frictionZ = Mathf.Min(Mathf.Abs(PlayerMain.Instance.Rigidbody.linearVelocity.z), Mathf.Abs(_friction));
+            frictionZ *= Mathf.Sign(PlayerMain.Instance.Rigidbody.linearVelocity.z);
             PlayerMain.Instance.Rigidbody.AddForce(Vector3.forward * -frictionZ);
         }
 
