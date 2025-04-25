@@ -52,6 +52,7 @@ public class WorldMain : MonoBehaviour
     public async void SwitchRoom(string roomName, string switcherName)
     {
         PlayerMain.Instance.playerInput.DeactivateInput();
+        PlayerMain.Instance.Rigidbody.linearVelocity = new Vector3(0, 0, 0);
         PlayerMain.Instance.UI.SwitchRoomUI();
         await Task.Delay(1000);
         SceneManager.LoadScene(roomName);
