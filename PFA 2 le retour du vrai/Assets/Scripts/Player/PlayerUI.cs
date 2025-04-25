@@ -6,6 +6,7 @@ public class PlayerUI : MonoBehaviour
 {
     [SerializeField] private Image healthbarSprite;
     [SerializeField] private CanvasGroup blackScreen;
+    [SerializeField] private CanvasGroup playerControl;
     [SerializeField] private float fadeSpeed;
     public void UpdatePlayerHealthUI()
     {
@@ -13,11 +14,26 @@ public class PlayerUI : MonoBehaviour
     }
     private void Start()
     {
-        Fade(0);
+        Fade(0, blackScreen);
     }
-    public void Fade(int value)
+    public void Fade(int value, CanvasGroup group)
     {
-        blackScreen.DOFade(value, fadeSpeed).SetEase(Ease.InOutCubic);
+        group.DOFade(value, fadeSpeed).SetEase(Ease.InOutCubic);
+    }
+
+
+    public void SwitchRoomUI()
+    {
+        if (blackScreen.alpha == 0 & playerControl.alpha == 1)
+        {
+            Fade(1, blackScreen);
+            Fade(0, playerControl);
+        }
+        else {
+            Fade(0, blackScreen);
+            Fade(1, playerControl);
+        }
+
     }
 
     
