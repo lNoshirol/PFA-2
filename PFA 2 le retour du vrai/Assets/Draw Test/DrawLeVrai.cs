@@ -33,7 +33,7 @@ public class DrawLeVrai : MonoBehaviour
 
     #region Base SHape
 
-    List<Vector3> circlePoints = new List<Vector3>
+    [SerializeField] List<Vector3> circlePoints = new List<Vector3>
     {
         new Vector3(1.000f, 0.000f, 0f),
         new Vector3(0.981f, 0.195f, 0f),
@@ -68,7 +68,10 @@ public class DrawLeVrai : MonoBehaviour
         new Vector3(0.924f, -0.383f, 0f),
         new Vector3(0.981f, -0.195f, 0f),
     };
-    List<Vector3> square = new List<Vector3>
+
+    [SerializeField] List<Vector2> circlePointsRemake = new List<Vector2>();
+
+    [SerializeField] List<Vector3> square = new List<Vector3>
     {
         new Vector3(-1f, -1f, 0f),
         new Vector3(-0.75f, -1f, 0f),
@@ -107,7 +110,9 @@ public class DrawLeVrai : MonoBehaviour
         new Vector3(-1f, -0.75f, 0f),
     };
 
-    List<Vector3> triangle = new List<Vector3>
+    [SerializeField] List<Vector2> squareRemake = new List<Vector2>();
+
+    [SerializeField] List<Vector3> triangle = new List<Vector3>
     {
         // A (0.5, 0.866) → B (0, 0)
         new Vector3(0.5f, 0.866f, 0f),
@@ -148,7 +153,9 @@ public class DrawLeVrai : MonoBehaviour
         new Vector3(0.5f, 0.866f, 0f) // boucle
     };
 
-    List<Vector3> ellipse = new List<Vector3>
+    [SerializeField] List<Vector2> triangleRemake = new List<Vector2>();
+
+    [SerializeField] List<Vector3> ellipse = new List<Vector3>
     {
         new Vector3(1.000f, 0.000f, 0f),
         new Vector3(0.981f, 0.098f, 0f),
@@ -183,7 +190,10 @@ public class DrawLeVrai : MonoBehaviour
         new Vector3(0.924f, -0.191f, 0f),
         new Vector3(0.981f, -0.098f, 0f),
     };
-    List<Vector3> check = new List<Vector3>
+
+    [SerializeField] List<Vector2> ellipseRemake = new List<Vector2>();
+
+    [SerializeField] List<Vector3> check = new List<Vector3>
     {
         new Vector3(-0.8f, 0.5f, 0f),
         new Vector3(-0.7f, 0.3f, 0f),
@@ -221,6 +231,8 @@ public class DrawLeVrai : MonoBehaviour
         new Vector3(0.3f, 0.2f, 0f),
     };
 
+    [SerializeField] List<Vector2> checkRemake = new List<Vector2>();
+
     #endregion
 
 
@@ -241,11 +253,20 @@ public class DrawLeVrai : MonoBehaviour
 
     void SetUpDicBaseShape()
     {
-        templates.Add("Circle", ScaleTo(TranslateTo(ConvertVec3ToVec2(circlePoints), Vector2.zero), 250));
-        templates.Add("Square", ScaleTo(TranslateTo(ConvertVec3ToVec2(square), Vector2.zero), 250) );
-        templates.Add("Triangle", ScaleTo(TranslateTo(ConvertVec3ToVec2(triangle), Vector2.zero), 250) );
-        templates.Add("Ellipse", ScaleTo(TranslateTo(ConvertVec3ToVec2(ellipse), Vector2.zero), 250) );
-        templates.Add("Check", ScaleTo(TranslateTo(ConvertVec3ToVec2(check), Vector2.zero), 250) );
+        circlePointsRemake = ConvertVec3ToVec2(circlePoints);
+        templates.Add("Circle", circlePointsRemake);
+
+        squareRemake = ConvertVec3ToVec2(square);
+        templates.Add("Square", squareRemake);
+
+        triangleRemake = ConvertVec3ToVec2(triangle);
+        templates.Add("Triangle", triangleRemake);
+
+        ellipseRemake = ConvertVec3ToVec2(ellipse);
+        templates.Add("Ellipse", ellipseRemake);
+
+        checkRemake = ConvertVec3ToVec2(check);
+        templates.Add("Check", checkRemake);
     }
 
     void Update()
@@ -472,7 +493,6 @@ public class DrawLeVrai : MonoBehaviour
 
         foreach (Vector2 p in points)
         {
-            //float Qx = (p.x - c.x) * Mathf.Cos(w - (p.y - c.y)) * Mathf.Sin(w+c.x);
 
             float Qx = (p.x - c.x) * Mathf.Cos(w) - (p.y - c.y) * Mathf.Sin(w) + c.x;
             float Qy = (p.x - c.x) * Mathf.Sin(w) - (p.y - c.y) * Mathf.Cos(w) + c.x;
@@ -561,7 +581,7 @@ public class DrawLeVrai : MonoBehaviour
                 bestTemplate = template.Key;
             }
 
-            //Debug.Log($"distance : {distance}, score : {(float)(1 - distance / (0.5 * Mathf.Sqrt(size * size + size * size)))}, template name : {template.Key}");
+            Debug.Log($"distance : {distance}, score : {(float)(1 - distance / (0.5 * Mathf.Sqrt(size * size + size * size)))}, template name : {template.Key}");
         }
 
         float score = (float)(1 - b / (0.5 * Mathf.Sqrt(size*size+size*size)));
@@ -603,7 +623,7 @@ public class DrawLeVrai : MonoBehaviour
 
     public float DistanceAtAngle(List<Vector2> points, List<Vector2> template, float Theta, string DebugTemplateName)
     {
-        List<Vector2> newPoints = RotateBy(points, Theta);
+        List<Vector2> newPoints = RotateBy(points, - IndicativeAngle(points));
         float d = PathDistance(newPoints, template, DebugTemplateName);
 
         return d;
