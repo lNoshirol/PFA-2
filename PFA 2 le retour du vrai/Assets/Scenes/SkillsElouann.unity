@@ -1353,6 +1353,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CameraPrefab
       objectReference: {fileID: 0}
+    - target: {fileID: 2039477755020758066, guid: ef2c73a8270ee1949bb09a83d6f45ae1, type: 3}
+      propertyPath: m_OcclusionCulling
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5002642861582650060, guid: ef2c73a8270ee1949bb09a83d6f45ae1, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -2636,6 +2640,22 @@ PrefabInstance:
     - target: {fileID: 5208124166552653695, guid: 978470b0a638bee4884f779494b64f09, type: 3}
       propertyPath: m_Name
       value: PlayerMain
+      objectReference: {fileID: 0}
+    - target: {fileID: 7165152910995371025, guid: 978470b0a638bee4884f779494b64f09, type: 3}
+      propertyPath: _friction
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 7165152910995371025, guid: 978470b0a638bee4884f779494b64f09, type: 3}
+      propertyPath: _topSpeed
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 7165152910995371025, guid: 978470b0a638bee4884f779494b64f09, type: 3}
+      propertyPath: _acceleration
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 7165152910995371025, guid: 978470b0a638bee4884f779494b64f09, type: 3}
+      propertyPath: _deceleration
+      value: 24
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
