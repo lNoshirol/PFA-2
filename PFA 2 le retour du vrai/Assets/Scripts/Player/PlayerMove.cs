@@ -9,8 +9,6 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] private float _velocityPower;
     [SerializeField] private float _friction;
 
-    [SerializeField] private float moveSpeed = 5f;
-
     private Vector3 _moveInput;
 
     void Update()
@@ -44,7 +42,7 @@ public class PlayerMove : MonoBehaviour
         }
 
         PlayerMain.Instance.Rigidbody.AddForce(movementForce);
-    }
+    } 
 
     public void Move(InputAction.CallbackContext context)
     {

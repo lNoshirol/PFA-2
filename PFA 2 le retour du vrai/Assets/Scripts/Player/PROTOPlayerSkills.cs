@@ -11,4 +11,9 @@ public class PROTOPlayerSkills : MonoBehaviour
             dash.Activate();
         }
     }
+
+    public void UseSkill()
+    {
+        dash.Activate();
+    }
 }
