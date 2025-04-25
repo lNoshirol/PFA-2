@@ -2,15 +2,11 @@ using UnityEngine;
 
 public class TestRota : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    public Vector3 rotation;
+    public GameObject truc;
 
-    // Update is called once per frame
-    void Update()
+    private void Start()
     {
-        
+        truc.transform.position = Quaternion.Euler(rotation) * transform.position;
     }
 }
