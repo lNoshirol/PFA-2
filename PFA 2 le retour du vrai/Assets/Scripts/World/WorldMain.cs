@@ -52,13 +52,13 @@ public class WorldMain : MonoBehaviour
     public async void SwitchRoom(string roomName, string switcherName)
     {
         PlayerMain.Instance.playerInput.DeactivateInput();
-        PlayerMain.Instance.UI.Fade(1);
+        PlayerMain.Instance.UI.SwitchRoomUI();
         await Task.Delay(1000);
         SceneManager.LoadScene(roomName);
         await Task.Delay(10);
         PlayerMain.Instance.transform.position = FindCorrectSpawn(switcherName).transform.GetChild(0).transform.position;
         CameraMain.Instance.CenterCameraAtPosition(CameraMain.Instance.transform.position);
-        PlayerMain.Instance.UI.Fade(0);
+        PlayerMain.Instance.UI.SwitchRoomUI();
         PlayerMain.Instance.playerInput.ActivateInput();
     }
 }
