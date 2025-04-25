@@ -1,4 +1,3 @@
-using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.U2D;
 using System.Collections.Generic;
@@ -19,6 +18,11 @@ public class CastSpriteShape : MonoBehaviour
 
     [Header("Jsp")]
     public Camera Cam;
+
+    [Header("Debug")]
+    public GameObject centroidVisu;
+    [SerializeField] LineRenderer lineRendererRecenter;
+    [SerializeField] LineRenderer lineRendererRotate;
 
     void Update()
     {
@@ -93,16 +97,68 @@ public class CastSpriteShape : MonoBehaviour
         lineRenderer.positionCount = 0;
     }
 
+    public Vector3 GetDrawCentroid(List<Vector3> points)
+    {
+        Vector3 sum = Vector3.zero;
+
+        foreach (Vector3 point in points)
+        {
+            sum += point;
+        }
+
+        Vector3 centroid = sum / points.Count;
+
+        return centroid;
+    }
+
     public void LineToSpriteShape()
     {
         List<Vector3> worldPosToScreen = new List<Vector3>();
         
         controller.spline.Clear();
 
+        Vector3 centroid = GetDrawCentroid(points);
+
+        centroidVisu.transform.position = centroid;
+
+
+        List<Vector3> recenterDraw = new List<Vector3>();
+
         foreach (Vector3 point in points)
+        {
+            Vector3 newPoint = point - centroid;
+
+            recenterDraw.Add(newPoint);
+        }
+
+        lineRendererRecenter.positionCount = recenterDraw.Count;
+        lineRendererRecenter.SetPositions(recenterDraw.ToArray());
+
+        List<Vector3> rotateDraw = new();
+
+        foreach (Vector3 point in recenterDraw)
+        {
+            Vector3 newPoint = Quaternion.Euler(-45, 0, 0) * point;
+            rotateDraw.Add(newPoint);
+        }
+
+        lineRendererRotate.positionCount = rotateDraw.Count;
+        lineRendererRotate.SetPositions(rotateDraw.ToArray());
+
+        List<Vector3> tkt = new();
+
+        foreach (Vector3 point in recenterDraw)
+        {
+            Vector3 newPoint = point + centroid;
+            tkt.Add(newPoint);
+        }
+
+
+        foreach (Vector3 point in tkt)
         {
             controller.spline.InsertPointAt(controller.spline.GetPointCount(), point /*+ Vector3.one/10*/);
         }
+        
         /*for(int i = controller.spline.GetPointCount()-1; i >= 0; i--)
         {
             controller.spline.InsertPointAt(controller.spline.GetPointCount(), points[i] *//*- Vector3.one*//*);
