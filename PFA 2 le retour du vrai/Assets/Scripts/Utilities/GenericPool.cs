@@ -11,7 +11,6 @@ public class GenericPool<T> where T : MonoBehaviour
         {
             Stock(GameObject.Instantiate(item));
         }
-        Debug.Log($"Successfully instantiated {amount} {item}.");
     }
 
     /// <summary>

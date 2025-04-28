@@ -9,12 +9,14 @@ public class Projectile : MonoBehaviour
     private void Awake()
     {
         _rb = TryGetComponent(out Rigidbody rb) ? rb : null;
-        print(_rb);
-        print(_projectileDatas.Speed);
     }
 
+    /// <summary>
+    /// Launch the projectile in the direction of its forward vector, with its Datas speed
+    /// </summary>
     public void Launch()
     {
-        _rb.AddForce(Vector3.forward * _projectileDatas.Speed, ForceMode.Impulse);
+        _rb.AddForce(this.transform.forward * this._projectileDatas.Speed, ForceMode.Impulse);
+        // Jouer SFX et VFX OnLaunch
     }
 }

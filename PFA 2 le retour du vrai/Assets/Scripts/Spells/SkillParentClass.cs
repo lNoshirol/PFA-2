@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.VFX;
 
@@ -69,7 +70,7 @@ public abstract class SkillParentClass
     {
         Transform targetTransform = PlayerMain.Instance.ProjectileSocket.transform;
         transform.localPosition = targetTransform.position;
-        transform.localRotation = targetTransform.rotation;
+        transform.rotation = targetTransform.parent.rotation;
     }
 
     protected void /*Vector3*/ GetNearestEnemyPosition()
