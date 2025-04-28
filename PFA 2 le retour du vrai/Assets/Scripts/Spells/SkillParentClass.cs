@@ -60,6 +60,18 @@ public abstract class SkillParentClass
         Debug.Log(text);
     }
 
+    protected GameObject GetProjectile(string projectileName)
+    {
+        return ProjectileManager.Instance.ProjectilePools[projectileName].GetObject();
+    }
+
+    protected void UpdateTransform(Transform transform)
+    {
+        Transform targetTransform = PlayerMain.Instance.ProjectileSocket.transform;
+        transform.localPosition = targetTransform.position;
+        transform.localRotation = targetTransform.rotation;
+    }
+
     protected void /*Vector3*/ GetNearestEnemyPosition()
     {
         // Récupérer la positon de l'ennemi le plus proche
