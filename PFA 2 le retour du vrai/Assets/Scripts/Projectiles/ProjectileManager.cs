@@ -19,6 +19,7 @@ public class ProjectileManager : MonoBehaviour
             {
                 GameObject go = new GameObject("Projectile Manager");
                 _instance = go.AddComponent<ProjectileManager>();
+                Debug.Log("<color=#8b59f0>Projectile Manager</color> instance <color=#58ed7d>created</color>");
             }
             return _instance;
         }
@@ -29,6 +30,7 @@ public class ProjectileManager : MonoBehaviour
         if (_instance != null)
         {
             Destroy(this.gameObject);
+            Debug.Log("<color=#8b59f0>Projectile Manager</color> instance <color=#eb624d>destroyed</color>");
         }
         else
         {
