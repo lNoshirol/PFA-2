@@ -5,13 +5,6 @@ public class PROTOPlayerSkills : MonoBehaviour
     private SimpleDash dash = new();
     
     public GameObject prefab;
-    private GameObject _previousProj;
-    private Pool _pool;
-
-    private void Start()
-    {
-        _pool = new(prefab, 5);    
-    }
 
     private void Update()
     {
@@ -24,12 +17,5 @@ public class PROTOPlayerSkills : MonoBehaviour
     public void UseSkill()
     {
         dash.Activate();
-    }
-
-    public void ProtoGetFromPool()
-    {
-        GameObject current = _pool.GetObject();
-        print($"Current projectile : {current}, previous : {_previousProj}. Similar ? {current == _previousProj}.");
-        _previousProj = current;
     }
 }

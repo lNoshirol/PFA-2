@@ -45,13 +45,4 @@ public class ProjectileManager : MonoBehaviour
             ProjectilePools.Add(duo.ObjectPrefab.name, newPool);
         }
     }
-    
-    public void PrintPool()
-    {
-        // miss an enumerator in Pool
-        foreach(GameObject gameObj in ProjectilePools["Projectile"].ObjectStock)
-        {
-
-        }
-    }
 }
