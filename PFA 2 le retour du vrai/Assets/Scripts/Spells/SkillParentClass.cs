@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.VFX;
 
@@ -58,6 +59,18 @@ public abstract class SkillParentClass
         string[] textDatas = { "zarma", "tout roule", "bigre", "zebi", "corneguidouille", "fichtre" };
         string text = textDatas[Random.Range(0, textDatas.Length)];
         Debug.Log(text);
+    }
+
+    protected GameObject GetProjectile(string projectileName)
+    {
+        return ProjectileManager.Instance.ProjectilePools[projectileName].GetObject();
+    }
+
+    protected void UpdateTransform(Transform transform)
+    {
+        Transform targetTransform = PlayerMain.Instance.ProjectileSocket.transform;
+        transform.localPosition = targetTransform.position;
+        transform.rotation = targetTransform.parent.rotation;
     }
 
     protected void /*Vector3*/ GetNearestEnemyPosition()

@@ -1,8 +1,9 @@
 using System;
+using UnityEngine;
 
 [Serializable]
-public struct ProjectileAmount
+public struct ObjectAmount
 {
-    public Projectile ProjectileType;
+    public GameObject ObjectPrefab;
     public int Amount;
 }

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "RoomSwitcher", menuName = "Switching/RoomSwitcher", order =1)]
+[CreateAssetMenu(fileName = "RoomSwitcher", menuName = "Scriptable Objects/RoomSwitcher", order =1)]
 public class RoomSwitcherDATA : ScriptableObject
 {
     public string currentSceneName;         // "Forest_Main_01" "FR_M_01"

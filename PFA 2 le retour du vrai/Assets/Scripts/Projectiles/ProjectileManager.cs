@@ -3,7 +3,48 @@ using UnityEngine;
 
 public class ProjectileManager : MonoBehaviour
 {
-    public List<ProjectileAmount> ProjectileList = new();
+    public List<ObjectAmount> ProjectileList = new();
 
-    //public Dictionary<Projectile, >
+    public Dictionary<string, Pool> ProjectilePools = new();
+    
+    // Singleton
+    #region Singleton
+    private static ProjectileManager _instance;
+
+    public static ProjectileManager Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                GameObject go = new GameObject("Projectile Manager");
+                _instance = go.AddComponent<ProjectileManager>();
+                Debug.Log("<color=#8b59f0>Projectile Manager</color> instance <color=#58ed7d>created</color>");
+            }
+            return _instance;
+        }
+    }
+
+    private void Awake()
+    {
+        if (_instance != null)
+        {
+            Destroy(this.gameObject);
+            Debug.Log("<color=#8b59f0>Projectile Manager</color> instance <color=#eb624d>destroyed</color>");
+        }
+        else
+        {
+            _instance = this;
+        }
+    }
+    #endregion
+
+    private void Start()
+    {
+        foreach (ObjectAmount duo in ProjectileList)
+        {
+            Pool newPool = new(duo.ObjectPrefab, duo.Amount);
+            ProjectilePools.Add(duo.ObjectPrefab.name, newPool);
+        }
+    }
 }
