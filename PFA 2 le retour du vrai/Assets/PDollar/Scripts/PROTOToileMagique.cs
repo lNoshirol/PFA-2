@@ -25,6 +25,11 @@ namespace PDollarGestureRecognizer
         private LineRenderer currentGestureLineRenderer;
 
         [SerializeField] private Canvas toileMagiqueCanva;
+        private CanvasGroup toileMagiqueCanvasGroup;
+
+        [SerializeField] private GameObject gestureSocket;
+
+        public bool toileEnable = false;
 
         //GUI
         private bool recognized;
@@ -32,7 +37,9 @@ namespace PDollarGestureRecognizer
         void Start()
         {
             platform = Application.platform;
-            drawArea = new Rect(0, 0, Screen.width, Screen.height);
+            drawArea = toileMagiqueCanva.pixelRect;
+
+            toileMagiqueCanvasGroup = toileMagiqueCanva.GetComponent<CanvasGroup>();
 
             //Load pre-made gestures
             TextAsset[] gesturesXml = Resources.LoadAll<TextAsset>("GestureSet/LostColors/");
@@ -40,8 +47,27 @@ namespace PDollarGestureRecognizer
                 trainingSet.Add(GestureIO.ReadGestureFromXML(gestureXml.text));
         }
 
+        void OpenAndCloseToileMagique()
+        {
+            if (toileEnable == false)
+            {
+                toileMagiqueCanvasGroup.alpha = 1f;
+                toileEnable = true;
+            }
+            else
+            {
+                toileMagiqueCanvasGroup.alpha = 0f;
+                toileEnable = false;
+            }
+ 
+        }
+
+
         void Update()
         {
+            if (Input.GetKeyDown(KeyCode.T))
+                OpenAndCloseToileMagique();
+
             if (platform == RuntimePlatform.Android || platform == RuntimePlatform.IPhonePlayer)
             {
                 if (Input.touchCount > 0)
@@ -51,7 +77,7 @@ namespace PDollarGestureRecognizer
             }
             else
             {
-                if (Input.GetMouseButton(0))
+                if (Input.GetMouseButton(0) && toileEnable)
                 {
                     virtualKeyPosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y);
                 }
@@ -80,7 +106,7 @@ namespace PDollarGestureRecognizer
 
                     ++strokeId;
 
-                    Transform tmpGesture = Instantiate(gestureOnScreenPrefab, transform.position, transform.rotation) as Transform;
+                    Transform tmpGesture = Instantiate(gestureOnScreenPrefab, transform.position, transform.rotation, gestureSocket.transform) as Transform;
                     currentGestureLineRenderer = tmpGesture.GetComponent<LineRenderer>();
 
                     gestureLinesRenderer.Add(currentGestureLineRenderer);
