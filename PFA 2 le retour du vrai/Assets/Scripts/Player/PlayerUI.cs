@@ -24,18 +24,32 @@ public class PlayerUI : MonoBehaviour
 
     public void SwitchRoomUI()
     {
-        if (blackScreen.alpha == 0 & playerControl.alpha == 1)
-        {
-            Fade(1, blackScreen);
-            Fade(0, playerControl);
-        }
-        else {
-            Fade(0, blackScreen);
-            Fade(1, playerControl);
-        }
-
+        FadePlayerInput();
+        FadeBlackScreen();
     }
 
-    
+    public void FadePlayerInput()
+    {
+        if (playerControl.alpha == 1)
+        {
+            Fade(0, playerControl);
+        }
+        else
+        {
+            Fade(1, playerControl);
+        }
+    }
+
+    public void FadeBlackScreen()
+    {
+        if (blackScreen.alpha == 0)
+        {
+            Fade(1, blackScreen);
+        }
+        else
+        {
+            Fade(0, blackScreen);
+        }
+    }
 
 }
