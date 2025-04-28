@@ -83,7 +83,7 @@ namespace PDollarGestureRecognizer
                 }
             }
 
-            if (drawArea.Contains(virtualKeyPosition))
+            if (drawArea.Contains(virtualKeyPosition) && toileEnable)
             {
                 if (Input.GetMouseButtonDown(0))
                 {
@@ -114,7 +114,7 @@ namespace PDollarGestureRecognizer
                     vertexCount = 0;
                 }
 
-                if (Input.GetMouseButton(0))
+                if (Input.GetMouseButton(0) && toileEnable)
                 {
                     points.Add(new Point(virtualKeyPosition.x, -virtualKeyPosition.y, strokeId));
 

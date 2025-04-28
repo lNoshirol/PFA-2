@@ -2548,6 +2548,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1248423070632744355, guid: 978470b0a638bee4884f779494b64f09, type: 3}
+      propertyPath: gestureOnScreenPrefab
+      value: 
+      objectReference: {fileID: 400000, guid: 93542e271dc9c1f4e858537dd0623638, type: 3}
     - target: {fileID: 1901170257556483085, guid: 978470b0a638bee4884f779494b64f09, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -2558,7 +2562,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1901170257556483085, guid: 978470b0a638bee4884f779494b64f09, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 4
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1901170257556483085, guid: 978470b0a638bee4884f779494b64f09, type: 3}
       propertyPath: m_LocalRotation.x
@@ -2659,9 +2663,21 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Untagged
       objectReference: {fileID: 0}
+    - target: {fileID: 556405756756672399, guid: ef2c73a8270ee1949bb09a83d6f45ae1, type: 3}
+      propertyPath: m_CameraType
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1535520199256844676, guid: ef2c73a8270ee1949bb09a83d6f45ae1, type: 3}
       propertyPath: m_TagString
       value: MainCamera
+      objectReference: {fileID: 0}
+    - target: {fileID: 2039477755020758066, guid: ef2c73a8270ee1949bb09a83d6f45ae1, type: 3}
+      propertyPath: m_ClearFlags
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2039477755020758066, guid: ef2c73a8270ee1949bb09a83d6f45ae1, type: 3}
+      propertyPath: orthographic
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5002642861582650060, guid: ef2c73a8270ee1949bb09a83d6f45ae1, type: 3}
       propertyPath: m_LocalPosition.x
