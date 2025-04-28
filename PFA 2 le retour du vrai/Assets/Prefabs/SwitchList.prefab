@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6222895479523418837}
   - component: {fileID: 1969954463054746020}
   m_Layer: 0
-  m_Name: SwitchManager
+  m_Name: SwitchList
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -59,15 +59,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 846130728324876350, guid: c019530cd94a43b47834d641bf1a0e05, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 22.92
+      value: 24.47
       objectReference: {fileID: 0}
     - target: {fileID: 846130728324876350, guid: c019530cd94a43b47834d641bf1a0e05, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -7.35
+      value: -0.5
       objectReference: {fileID: 0}
     - target: {fileID: 846130728324876350, guid: c019530cd94a43b47834d641bf1a0e05, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 4.11
+      value: 1.02
       objectReference: {fileID: 0}
     - target: {fileID: 846130728324876350, guid: c019530cd94a43b47834d641bf1a0e05, type: 3}
       propertyPath: m_LocalRotation.w

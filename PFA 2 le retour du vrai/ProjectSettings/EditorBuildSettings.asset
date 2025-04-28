@@ -15,6 +15,8 @@ EditorBuildSettings:
     path: Assets/Scenes/EmrysScene/FR_SP_02.unity
     guid: a25bdb67980dd1749aea51b62a636923
   m_configObjects:
+    com.unity.adaptiveperformance.google.android.provider_settings: {fileID: 11400000, guid: e5e2417c05c3c074088fda1a1ef707a9, type: 2}
+    com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: 22c83cd37fbfe4441abd9dbc0a0216ce, type: 2}
     com.unity.adaptiveperformance.simulator.provider_settings: {fileID: 11400000, guid: 774e197dd550c0e4ab4a49c3bf382a64, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0
