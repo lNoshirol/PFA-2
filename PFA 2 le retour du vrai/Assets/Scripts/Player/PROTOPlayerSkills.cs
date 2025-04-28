@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PROTOPlayerSkills : MonoBehaviour
 {
-    private SimpleDash dash = new();
+    private FireBall dash = new();
     
     public GameObject prefab;
 
@@ -10,6 +10,7 @@ public class PROTOPlayerSkills : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Space))
         {
+            print("use KATON FIRE BALL");
             dash.Activate();
         }
     }
