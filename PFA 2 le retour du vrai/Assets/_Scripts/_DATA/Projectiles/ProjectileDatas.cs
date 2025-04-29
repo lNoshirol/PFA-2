@@ -10,9 +10,6 @@ public class ProjectileDatas : ScriptableObject
     public int Damage;
     public float Speed;
 
-    [Header("System")]
-    public bool AffectAllTarget;
-
     [Header("Feedback")]
     public VisualEffect OnLaunchVFX, OnHitVFX;
     public AudioClip OnLaunchSFX, OnHitSFX;

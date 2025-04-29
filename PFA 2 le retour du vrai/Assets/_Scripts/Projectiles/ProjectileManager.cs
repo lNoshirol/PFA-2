@@ -6,6 +6,8 @@ public class ProjectileManager : MonoBehaviour
     public List<ObjectAmount> ProjectileList = new();
 
     public Dictionary<string, Pool> ProjectilePools = new();
+
+    public Dictionary<string, GenericPool<Projectile>> V2 = new();
     
     // Singleton
     #region Singleton
@@ -41,12 +43,25 @@ public class ProjectileManager : MonoBehaviour
 
     private void Start()
     {
+        //foreach (ObjectAmount duo in ProjectileList)
+        //{
+        //    GameObject parent = new("[Pool Parent]" + duo.ObjectPrefab.name);
+        //    parent.transform.parent = this.transform;
+            
+        //    Pool newPool = new(duo.ObjectPrefab, duo.Amount, parent.transform);
+        //    ProjectilePools.Add(duo.ObjectPrefab.name, newPool);
+        //}
+
         foreach (ObjectAmount duo in ProjectileList)
         {
             GameObject parent = new("[Pool Parent]" + duo.ObjectPrefab.name);
             parent.transform.parent = this.transform;
-            Pool newPool = new(duo.ObjectPrefab, duo.Amount, parent.transform);
-            ProjectilePools.Add(duo.ObjectPrefab.name, newPool);
+         
+            //Pool newPoolEx = new(duo.ObjectPrefab, duo.Amount, parent.transform);
+            //ProjectilePools.Add(duo.ObjectPrefab.name, newPoolEx);
+
+            Projectile currentObjectProjectile = duo.ObjectPrefab.TryGetComponent(out Projectile proj) ? proj : null;
+            GenericPool<Projectile> newPool = new(currentObjectProjectile, duo.Amount, parent.transform);
         }
     }
 }

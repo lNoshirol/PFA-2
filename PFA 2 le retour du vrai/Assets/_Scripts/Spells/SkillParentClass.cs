@@ -1,5 +1,4 @@
 using System.Threading.Tasks;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.VFX;
 
@@ -63,7 +62,8 @@ public abstract class SkillParentClass
 
     protected GameObject GetProjectile(string projectileName)
     {
-        return ProjectileManager.Instance.ProjectilePools[projectileName].GetObject();
+        //return ProjectileManager.Instance.ProjectilePools[projectileName].GetObject();
+        return ProjectileManager.Instance.V2[projectileName].GetObject();
     }
 
     protected void AlignToPlayerTransform(Transform transform)
