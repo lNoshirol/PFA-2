@@ -7,6 +7,7 @@ public class FireBall : SkillParentClass
         // PROTO
         GameObject fireBall = GetProjectile("FireBall");
         AlignToCameraTransform(fireBall.transform);
-        fireBall.GetComponent<Projectile>().Launch(); // ATTENTION PAS OUBLIER
+        Projectile proj = fireBall.TryGetComponent(out Projectile projectile) ? projectile : null;
+        proj.Launch();
     }
 }

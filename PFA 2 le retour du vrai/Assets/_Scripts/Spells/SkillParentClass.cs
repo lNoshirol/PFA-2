@@ -1,5 +1,4 @@
 using System.Threading.Tasks;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.VFX;
 
@@ -50,8 +49,8 @@ public abstract class SkillParentClass
     protected void Dash(Vector3 direction, float force)
     {
         PlayerMain.Instance.Rigidbody.AddForce(direction * force, ForceMode.Impulse);
-        Delegate[] functions = { PrintRandomTest, PrintRandomTest, PrintRandomTest };
-        DelayedFunction(functions, 1f);
+        //Delegate[] functions = { PrintRandomTest, PrintRandomTest, PrintRandomTest };
+        //DelayedFunction(functions, 1f);
     }
 
     protected void PrintRandomTest()
@@ -64,6 +63,7 @@ public abstract class SkillParentClass
     protected GameObject GetProjectile(string projectileName)
     {
         return ProjectileManager.Instance.ProjectilePools[projectileName].GetObject();
+        //return ProjectileManager.Instance.V2[projectileName].GetObject().gameObject;
     }
 
     protected void AlignToPlayerTransform(Transform transform)
