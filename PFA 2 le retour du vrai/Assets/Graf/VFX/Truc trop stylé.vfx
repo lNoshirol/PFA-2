@@ -7467,7 +7467,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEditor.VFX.Vector, Unity.VisualEffectGraph.Editor,
           Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"vector":{"x":0.0,"y":6.800000190734863,"z":0.0}}'
+      m_SerializableObject: '{"vector":{"x":-2.2351841926574709,"y":3.2968075275421144,"z":10.436923027038575}}'
     m_Space: 0
   m_Property:
     name: _Velocity
