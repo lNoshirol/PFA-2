@@ -5,11 +5,11 @@ public class GenericPool<T> where T : MonoBehaviour
 {
     public Queue<T> ObjectStock { get; private set; } = new Queue<T>();
 
-    public GenericPool(T item, int amount)
+    public GenericPool(T item, int amount, Transform parent)
     {
         for (int i = 0; i < amount; i++)
         {
-            Stock(GameObject.Instantiate(item));
+            Stock(GameObject.Instantiate(item, parent));
         }
     }
 
