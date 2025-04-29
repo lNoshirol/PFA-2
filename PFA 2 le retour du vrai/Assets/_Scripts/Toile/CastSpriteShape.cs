@@ -26,11 +26,6 @@ public class CastSpriteShape : MonoBehaviour
         foreach (TextAsset gestureXml in gesturesXml)
             trainingSet.Add(GestureIO.ReadGestureFromXML(gestureXml.text));
 
-        //Load user custom gestures
-        string[] filePaths = Directory.GetFiles(Application.persistentDataPath, "*.xml");
-        foreach (string filePath in filePaths)
-            trainingSet.Add(GestureIO.ReadGestureFromFile(filePath));
-
         Cam = Camera.main;
 
         Debug.Log("CastSpriteShape.cs l45/ " + trainingSet.Count);
