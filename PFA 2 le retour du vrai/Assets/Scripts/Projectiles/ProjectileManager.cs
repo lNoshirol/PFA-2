@@ -43,7 +43,9 @@ public class ProjectileManager : MonoBehaviour
     {
         foreach (ObjectAmount duo in ProjectileList)
         {
-            Pool newPool = new(duo.ObjectPrefab, duo.Amount);
+            GameObject parent = new("[Pool Parent]" + duo.ObjectPrefab.name);
+            parent.transform.parent = this.transform;
+            Pool newPool = new(duo.ObjectPrefab, duo.Amount, parent.transform);
             ProjectilePools.Add(duo.ObjectPrefab.name, newPool);
         }
     }

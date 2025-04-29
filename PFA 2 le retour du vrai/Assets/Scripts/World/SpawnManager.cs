@@ -4,7 +4,6 @@ using System.Collections.Generic;
 
 public class SpawnManager : MonoBehaviour
 {
-    
     void Start()
     {
         WorldMain.Instance.CleanSpawnList();

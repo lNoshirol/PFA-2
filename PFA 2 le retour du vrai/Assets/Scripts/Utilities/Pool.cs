@@ -7,13 +7,13 @@ public class Pool
 {
     public Queue<GameObject> ObjectStock { get; private set; } = new();
 
-    public Pool(GameObject item, int amount)
+    public Pool(GameObject item, int amount, Transform parent)
     {
         for (int i = 0; i < amount; i++)
         {
-            Stock(GameObject.Instantiate(item));
+            Stock(GameObject.Instantiate(item, parent));
         }
-        Debug.Log($"Successfully instantiated {amount} {item}.");
+        Debug.Log($"[Pool] Successfully instantiated {amount} {item}.");
     }
 
     /// <summary>
