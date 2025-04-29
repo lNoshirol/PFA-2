@@ -43,6 +43,8 @@ namespace PDollarGestureRecognizer
 			string[] filePaths = Directory.GetFiles(Application.persistentDataPath, "*.xml");
 			foreach (string filePath in filePaths)
 				trainingSet.Add(GestureIO.ReadGestureFromFile(filePath));
+
+			Debug.Log("Demo.cs l47/ " + trainingSet.Count);
 		}
 
 		void Update()
@@ -118,6 +120,8 @@ namespace PDollarGestureRecognizer
 				Result gestureResult = PointCloudRecognizer.Classify(candidate, trainingSet.ToArray());
 
 				message = gestureResult.GestureClass + " " + gestureResult.Score;
+
+				Debug.Log("click");
 			}
 
 			GUI.Label(new Rect(Screen.width - 200, 150, 70, 30), "Add as: ");

@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.U2D;
 using System.Collections.Generic;
+using PDollarGestureRecognizer;
+using System.IO;
 
 public class CastSpriteShape : MonoBehaviour
 {
@@ -14,6 +16,9 @@ public class CastSpriteShape : MonoBehaviour
     [SerializeField] private float distanceBetweenPoint;
     private float currentDistance;
     [SerializeField] private List<Vector3> points = new();
+
+    public List<Gesture> trainingSet = new List<Gesture>();
+
     bool isDrawing;
 
     [Header("Jsp")]
@@ -23,6 +28,22 @@ public class CastSpriteShape : MonoBehaviour
     public GameObject centroidVisu;
     [SerializeField] LineRenderer lineRendererRecenter;
     [SerializeField] LineRenderer lineRendererRotate;
+    public List<Vector3> testTkt;
+
+    void Start()
+    {
+        //Load pre-made gestures
+        TextAsset[] gesturesXml = Resources.LoadAll<TextAsset>("GestureSet/LostColors/");
+        foreach (TextAsset gestureXml in gesturesXml)
+            trainingSet.Add(GestureIO.ReadGestureFromXML(gestureXml.text));
+
+        //Load user custom gestures
+        string[] filePaths = Directory.GetFiles(Application.persistentDataPath, "*.xml");
+        foreach (string filePath in filePaths)
+            trainingSet.Add(GestureIO.ReadGestureFromFile(filePath));
+
+        Debug.Log("CastSpriteShape.cs l45/ " + trainingSet.Count);
+    }
 
     void Update()
     {
@@ -41,13 +62,35 @@ public class CastSpriteShape : MonoBehaviour
         if (Input.GetMouseButtonUp(0))
         {
             isDrawing = false;
-            LineToSpriteShape();
+
+            //LineToSpriteShape();
+
+            List<Point> drawReady = Vec3ToPoints(RecenterAndRotate());
+
+            Gesture candidate = new Gesture(drawReady.ToArray());
+            Result gestureResult = PointCloudRecognizer.Classify(candidate, trainingSet.ToArray());
+
+            Debug.Log(gestureResult.GestureClass + " " + gestureResult.Score);
+
         }
 
         if (Input.GetKeyDown(KeyCode.R))
         {
             Resetpoint();
         }
+    }
+
+    public List<Point> Vec3ToPoints(List<Vector3> list)
+    {
+        List<Point> listPoint = new List<Point>();
+
+        foreach (Vector3 point in list)
+        {
+            Point newPoint = new Point(point.x, point.y, 1);
+            listPoint.Add(newPoint);
+        }
+
+        return listPoint;
     }
 
     private void UpdateLinePoints()
@@ -72,6 +115,7 @@ public class CastSpriteShape : MonoBehaviour
                 {
                     // points.Add(new Vector3(hit.point.x, 0f, hit.point.z));
                     points.Add(hit.point);
+
                     //points.Add(hit.point);
                     UpdateLinePoints();
                     return;
@@ -84,6 +128,7 @@ public class CastSpriteShape : MonoBehaviour
                     {
                         // points.Add(new Vector3(hit.point.x, 0f, hit.point.z));
                         points.Add(hit.point);
+
                         UpdateLinePoints();
                         return;
                     }
@@ -111,12 +156,28 @@ public class CastSpriteShape : MonoBehaviour
         return centroid;
     }
 
+    public List<Vector3> RecenterAndRotate()
+    {
+        Vector3 centroid = GetDrawCentroid(points);
+
+        List<Vector3> recenterDraw = new List<Vector3>();
+
+        foreach (Vector3 point in points)
+        {
+            Vector3 newPoint = point - centroid;
+
+            newPoint = Quaternion.Euler(-45, 0, 0) * newPoint;
+
+            newPoint = Quaternion.Euler(0, 0, 180) * newPoint;
+
+            recenterDraw.Add(newPoint);
+        }
+
+        return recenterDraw;
+    }
+
     public void LineToSpriteShape()
     {
-        List<Vector3> worldPosToScreen = new List<Vector3>();
-        
-        controller.spline.Clear();
-
         Vector3 centroid = GetDrawCentroid(points);
 
         centroidVisu.transform.position = centroid;
@@ -126,7 +187,7 @@ public class CastSpriteShape : MonoBehaviour
 
         foreach (Vector3 point in points)
         {
-            Vector3 newPoint = point - centroid;
+            Vector3 newPoint = Quaternion.Euler(-45, 0, 0) * (point - centroid);
 
             recenterDraw.Add(newPoint);
         }
