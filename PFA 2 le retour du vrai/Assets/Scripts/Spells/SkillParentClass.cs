@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.VFX;
 
@@ -7,9 +8,9 @@ public abstract class SkillParentClass
     protected string Name;
     protected delegate void Delegate();
 
-    public SkillParentClass() 
+    public SkillParentClass()
     {
-            
+
     }
 
     public abstract void Activate();
@@ -24,7 +25,7 @@ public abstract class SkillParentClass
         // jouer le son dans le sound manager
     }
 
-    protected void PlayAnimation(AnimationClip animation) 
+    protected void PlayAnimation(AnimationClip animation)
     {
         // jouer l'animation
     }
@@ -58,6 +59,29 @@ public abstract class SkillParentClass
         string[] textDatas = { "zarma", "tout roule", "bigre", "zebi", "corneguidouille", "fichtre" };
         string text = textDatas[Random.Range(0, textDatas.Length)];
         Debug.Log(text);
+    }
+
+    protected GameObject GetProjectile(string projectileName)
+    {
+        return ProjectileManager.Instance.ProjectilePools[projectileName].GetObject();
+    }
+
+    protected void AlignToPlayerTransform(Transform transform)
+    {
+        Transform targetTransform = PlayerMain.Instance.ProjectileSocket.transform;
+        transform.localPosition = targetTransform.position;
+        transform.rotation = targetTransform.parent.rotation;
+    }
+
+    protected void AlignToCameraTransform(Transform transform)
+    {
+        AlignToTransform(transform, Camera.main.transform);
+    }
+
+    protected void AlignToTransform(Transform transform, Transform target)
+    {
+        transform.localPosition = target.position;
+        transform.rotation = target.rotation;
     }
 
     protected void /*Vector3*/ GetNearestEnemyPosition()

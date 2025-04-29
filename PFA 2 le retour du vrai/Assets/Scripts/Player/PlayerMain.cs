@@ -3,7 +3,6 @@ using UnityEngine.InputSystem;
 
 public class PlayerMain : MonoBehaviour
 {
-
     public static PlayerMain Instance { get; private set; }
 
     public PlayerMove Move { get; private set; }
@@ -13,6 +12,7 @@ public class PlayerMain : MonoBehaviour
     public PlayerUI UI { get; private set; }
 
     public Rigidbody Rigidbody { get; private set; }
+    [field: SerializeField] public GameObject ProjectileSocket { get; private set; }
     public GameObject PlayerMesh;
 
     public PlayerInput playerInput;
