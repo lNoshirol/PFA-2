@@ -57,11 +57,12 @@ public class ProjectileManager : MonoBehaviour
             GameObject parent = new("[Pool Parent]" + duo.ObjectPrefab.name);
             parent.transform.parent = this.transform;
 
-            Pool newPoolEx = new(duo.ObjectPrefab, duo.Amount, parent.transform);
-            ProjectilePools.Add(duo.ObjectPrefab.name, newPoolEx);
+            //Pool newPoolEx = new(duo.ObjectPrefab, duo.Amount, parent.transform);
+            //ProjectilePools.Add(duo.ObjectPrefab.name, newPoolEx);
 
-            //Projectile currentObjectProjectile = duo.ObjectPrefab.TryGetComponent(out Projectile proj) ? proj : null;
-            //GenericPool<Projectile> newPool = new(currentObjectProjectile, duo.Amount, parent.transform);
+            Projectile currentObjectProjectile = duo.ObjectPrefab.TryGetComponent(out Projectile proj) ? proj : null;
+            GenericPool<Projectile> newPool = new(currentObjectProjectile, duo.Amount, parent.transform);
+            V2.Add(duo.ObjectPrefab.name, newPool);
         }
     }
 }
