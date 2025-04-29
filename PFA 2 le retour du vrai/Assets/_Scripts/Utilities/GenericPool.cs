@@ -9,7 +9,11 @@ public class GenericPool<T> where T : MonoBehaviour
     {
         for (int i = 0; i < amount; i++)
         {
-            Stock(GameObject.Instantiate(item, parent));
+            //GameObject current = GameObject.Instantiate(item, parent);
+            GameObject current = new(item.name);
+            current.AddComponent<T>();
+            T self = current.TryGetComponent(out T component) ? component : null;
+            Stock(self);
         }
     }
 
