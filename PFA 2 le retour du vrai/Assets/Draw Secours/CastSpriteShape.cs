@@ -6,11 +6,6 @@ using System.IO;
 
 public class CastSpriteShape : MonoBehaviour
 {
-    [Header("Sprite Shape")]
-    [SerializeField] SpriteShapeController controller;
-    [SerializeField] PolygonCollider2D polygonCollider;
-    [SerializeField] float splineWidth;
-
     [Header("Line")]
     [SerializeField] LineRenderer lineRenderer;
     [SerializeField] private float distanceBetweenPoint;
@@ -24,12 +19,6 @@ public class CastSpriteShape : MonoBehaviour
     [Header("Jsp")]
     public Camera Cam;
 
-    [Header("Debug")]
-    public GameObject centroidVisu;
-    [SerializeField] LineRenderer lineRendererRecenter;
-    [SerializeField] LineRenderer lineRendererRotate;
-    public List<Vector3> testTkt;
-
     void Start()
     {
         //Load pre-made gestures
@@ -41,6 +30,8 @@ public class CastSpriteShape : MonoBehaviour
         string[] filePaths = Directory.GetFiles(Application.persistentDataPath, "*.xml");
         foreach (string filePath in filePaths)
             trainingSet.Add(GestureIO.ReadGestureFromFile(filePath));
+
+        Cam = Camera.main;
 
         Debug.Log("CastSpriteShape.cs l45/ " + trainingSet.Count);
     }
@@ -59,11 +50,9 @@ public class CastSpriteShape : MonoBehaviour
             AddPoint();
         }
 
-        if (Input.GetMouseButtonUp(0))
+        if (Input.GetMouseButtonUp(0) && lineRenderer.positionCount > 10)
         {
             isDrawing = false;
-
-            //LineToSpriteShape();
 
             List<Point> drawReady = Vec3ToPoints(RecenterAndRotate());
 
@@ -113,10 +102,8 @@ public class CastSpriteShape : MonoBehaviour
             {
                 if (points.Count == 0)
                 {
-                    // points.Add(new Vector3(hit.point.x, 0f, hit.point.z));
                     points.Add(hit.point);
 
-                    //points.Add(hit.point);
                     UpdateLinePoints();
                     return;
                 }
@@ -126,7 +113,6 @@ public class CastSpriteShape : MonoBehaviour
 
                     if (currentDistance >= distanceBetweenPoint)
                     {
-                        // points.Add(new Vector3(hit.point.x, 0f, hit.point.z));
                         points.Add(hit.point);
 
                         UpdateLinePoints();
@@ -174,55 +160,5 @@ public class CastSpriteShape : MonoBehaviour
         }
 
         return recenterDraw;
-    }
-
-    public void LineToSpriteShape()
-    {
-        Vector3 centroid = GetDrawCentroid(points);
-
-        centroidVisu.transform.position = centroid;
-
-
-        List<Vector3> recenterDraw = new List<Vector3>();
-
-        foreach (Vector3 point in points)
-        {
-            Vector3 newPoint = Quaternion.Euler(-45, 0, 0) * (point - centroid);
-
-            recenterDraw.Add(newPoint);
-        }
-
-        lineRendererRecenter.positionCount = recenterDraw.Count;
-        lineRendererRecenter.SetPositions(recenterDraw.ToArray());
-
-        List<Vector3> rotateDraw = new();
-
-        foreach (Vector3 point in recenterDraw)
-        {
-            Vector3 newPoint = Quaternion.Euler(-45, 0, 0) * point;
-            rotateDraw.Add(newPoint);
-        }
-
-        lineRendererRotate.positionCount = rotateDraw.Count;
-        lineRendererRotate.SetPositions(rotateDraw.ToArray());
-
-        List<Vector3> tkt = new();
-
-        foreach (Vector3 point in recenterDraw)
-        {
-            Vector3 newPoint = point + centroid;
-            tkt.Add(newPoint);
-        }
-
-
-        foreach (Vector3 point in tkt)
-        {
-            controller.spline.InsertPointAt(controller.spline.GetPointCount(), point /*+ Vector3.one/10*/);
-        }
-        
-        /*for(int i = controller.spline.GetPointCount()-1; i >= 0; i--)
-        {
-            controller.spline.InsertPointAt(controller.spline.GetPointCount(), points[i] *//*- Vector3.one*//*);
-        }*/
     }
 }
