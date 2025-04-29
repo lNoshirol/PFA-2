@@ -5,12 +5,15 @@ using UnityEngine.VFX;
 [CreateAssetMenu(fileName = "ProjectileDatas", menuName = "Scriptable Objects/ProjectileDatas")]
 public class ProjectileDatas : ScriptableObject
 {
-    // Stats
+    [Header("Stats")]
     public string Name;
     public int Damage;
     public float Speed;
 
-    // Feedback
+    [Header("System")]
+    public bool AffectAllTarget;
+
+    [Header("Feedback")]
     public VisualEffect OnLaunchVFX, OnHitVFX;
     public AudioClip OnLaunchSFX, OnHitSFX;
     
