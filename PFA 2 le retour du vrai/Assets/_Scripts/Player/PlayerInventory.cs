@@ -6,7 +6,7 @@ public class PlayerInventory : MonoBehaviour
 {
     [SerializeField]
     [Range(0f, 100f)]
-    int paintAmount = 100;
+    public int paintAmount = 100;
     [Header("NO UPDATE IN RUNTIME")]
     [SerializeField]
     DictItem itemType;

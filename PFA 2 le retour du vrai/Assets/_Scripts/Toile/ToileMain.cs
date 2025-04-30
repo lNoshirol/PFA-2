@@ -1,0 +1,45 @@
+using System.Collections;
+using UnityEngine;
+
+public class ToileMain : MonoBehaviour
+{
+    [SerializeField] private int timeAmount;
+    [SerializeField] public int toileTime = 60;
+
+    public static ToileMain Instance { get; private set; }
+    public ToileUI ToileUI { get; private set; }
+    public TriggerToile TriggerToile { get; private set; }
+
+    public bool gestureIsStarted = false;
+    void Start()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+
+
+        ToileUI = GetComponent<ToileUI>();
+        TriggerToile = GetComponent<TriggerToile>();
+
+        ToileUI.UpdateToileUI(timeAmount);
+    }
+
+    public IEnumerator ToileTimer()
+    {
+        gestureIsStarted = true;
+        timeAmount = toileTime;
+        while (toileTime > 0) {
+            ToileUI.UpdateToileUI(timeAmount);
+            yield return new WaitForSeconds(1);
+            timeAmount--;
+            ToileUI.UpdateToileUI(timeAmount);
+        }
+        gestureIsStarted = false;
+        yield break;
+    }
+
+}
