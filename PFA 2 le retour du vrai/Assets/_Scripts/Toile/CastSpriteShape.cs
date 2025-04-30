@@ -19,7 +19,9 @@ public class CastSpriteShape : MonoBehaviour
     [Header("Jsp")]
     public Camera Cam;
     public GameObject UnCaca;
+    public GameObject UnCaca2;
     public LayerMask IgnoreMeUwU;
+    public Vector3 vecTest;
 
     void Start()
     {
@@ -53,7 +55,8 @@ public class CastSpriteShape : MonoBehaviour
 
             List<Point> drawReady = Vec3ToPoints(RecenterAndRotate());
 
-            GetSpellTargetPoint(points);
+            GetSpellTargetPointFromCentroid(points);
+            GetSpellTargetPointFromCenter(points);
 
             Gesture candidate = new Gesture(drawReady.ToArray());
             Result gestureResult = PointCloudRecognizer.Classify(candidate, trainingSet.ToArray());
@@ -66,6 +69,8 @@ public class CastSpriteShape : MonoBehaviour
         {
             Resetpoint();
         }
+
+        DebugRay();
     }
 
     public List<Point> Vec3ToPoints(List<Vector3> list)
@@ -141,6 +146,36 @@ public class CastSpriteShape : MonoBehaviour
         return centroid;
     }
 
+    public Vector3 GetDrawCenter(List<Vector3> points)
+    {
+        float minX = points[0].x;
+        float maxX = points[0].x;
+
+        float minY = points[0].y;
+        float maxY = points[0].y;
+
+        float minZ = points[0].z;
+        float maxZ = points[0].z;
+
+        foreach (Vector3 point in points)
+        {
+            minX = point.x < minX ? point.x : minX;
+            maxX = point.x > maxX ? point.x : maxX;
+
+            minY = point.y < minY ? point.y : minY;
+            maxY = point.y > maxY ? point.y : maxY;
+
+            minZ = point.z < minZ ? point.z : minZ;
+            maxZ = point.z > maxZ ? point.z : maxZ;
+        }
+
+        float x = (maxX + minX)/2;
+        float y = (maxY + minY)/2;
+        float z = (maxZ + minZ)/2;
+
+        return new Vector3(x, y, z);
+    }
+
     public List<Vector3> RecenterAndRotate()
     {
         Vector3 centroid = GetDrawCentroid(points);
@@ -161,7 +196,7 @@ public class CastSpriteShape : MonoBehaviour
         return recenterDraw;
     }
 
-    public void GetSpellTargetPoint(List<Vector3> points)
+    public void GetSpellTargetPointFromCentroid(List<Vector3> points)
     {
         Vector3 centroid = GetDrawCentroid(points);
 
@@ -174,9 +209,39 @@ public class CastSpriteShape : MonoBehaviour
 
             if (hit.collider.CompareTag("Ground"))
             {
-                Debug.Log($"Spell cast location : {hit.point}");
+                Debug.Log($"Spell cast location from centroid : {hit.point}");
                 UnCaca.transform.position = hit.point;
             }
+        }
+    }
+
+    public void GetSpellTargetPointFromCenter(List<Vector3> points)
+    {
+        Vector3 center = GetDrawCenter(points);
+
+        Ray Ray = Cam.ScreenPointToRay(Cam.WorldToScreenPoint(center));
+        RaycastHit hit;
+
+        if (Physics.Raycast(Ray, out hit, 20000f, ~IgnoreMeUwU))
+        {
+            Debug.Log(hit.collider.gameObject.name);
+
+            if (hit.collider.CompareTag("Ground"))
+            {
+                Debug.Log($"Spell cast location from center : {hit.point}");
+                UnCaca2.transform.position = hit.point;
+            }
+        }
+    }
+
+    public void DebugRay()
+    {
+        if (points.Count > 0)
+        {
+            Vector3 centroid = GetDrawCentroid(points);
+
+            Ray ray = Cam.ScreenPointToRay(Cam.WorldToScreenPoint(centroid));
+            Debug.DrawRay(centroid, vecTest, Color.red);
         }
     }
 }
