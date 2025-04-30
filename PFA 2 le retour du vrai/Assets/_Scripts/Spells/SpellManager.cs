@@ -8,7 +8,7 @@ public class SpellManager : MonoBehaviour
         { new("Circle", "#E50037"), new FireBall() },
         { new("Spirale", "#0430A2"), new SimpleDash() }
     };
-    
+
     // Singleton
     #region Singleton
     private static SpellManager _instance;
@@ -41,6 +41,7 @@ public class SpellManager : MonoBehaviour
     }
     #endregion
 
+    //public void PROTO()
     public void UseSpell(SpellParameter spellParameter)
     {
         // On ne lance pas le sort si on ne l'a pas obtenu dans l'inventaire
@@ -54,6 +55,7 @@ public class SpellParameter
     public string shape;
     public string paintColor;
 
+    // Constructor
     public SpellParameter(string shape, string paintColor)
     {
         this.shape = shape;
