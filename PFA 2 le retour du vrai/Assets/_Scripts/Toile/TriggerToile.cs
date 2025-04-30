@@ -13,21 +13,24 @@ public class TriggerToile : MonoBehaviour
         toileButton.gameObject.SetActive(false);
     }
 
-    public void OnClick()
+    public void OpenAndCloseToileMagique()
     {
+        ToileMain.Instance.CastSpriteShape.Resetpoint();
         if (_isActive == false)
         {
             ToileMain.Instance.ToileUI.UpdateToileUI(ToileMain.Instance.toileTime);
             _isActive = true;
             toile.SetActive(_isActive);
             PlayerMain.Instance.playerInput.DeactivateInput();
-            
+            StopCoroutine(ToileMain.Instance.timerCo);
+
         }
         else
         {
             _isActive = false;
             toile.SetActive(_isActive);
             PlayerMain.Instance.playerInput.ActivateInput();
+            ToileMain.Instance.gestureIsStarted = false;
             StopCoroutine(ToileMain.Instance.timerCo);
         }
     }
