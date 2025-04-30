@@ -111,7 +111,7 @@ public class CastSpriteShape : MonoBehaviour
             {
                 if (points.Count == 0)
                 {
-                    points.Add(hit.point);
+                    points.Add(hit.point + new Vector3(0, 0.5f, -0.5f));
 
                     UpdateLinePoints();
                     return;
@@ -122,7 +122,7 @@ public class CastSpriteShape : MonoBehaviour
 
                     if (currentDistance >= distanceBetweenPoint)
                     {
-                        points.Add(hit.point);
+                        points.Add(hit.point + new Vector3(0, 0.5f, -0.5f));
 
                         UpdateLinePoints();
                         return;
