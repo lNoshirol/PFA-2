@@ -12,7 +12,11 @@ public class PlayerInventory : MonoBehaviour
     DictItem itemType;
 
     public Dictionary<ItemTypeEnum, bool> ItemDatabase;
-    public Dictionary<string, bool> SpellDataBase;
+    public Dictionary<string, bool> SpellDataBase = new()
+    {
+        { "Spirale", false},
+        { "Circle", false}
+    };
 
     void Start()
     {

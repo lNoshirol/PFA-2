@@ -8,7 +8,7 @@ public class PROTOPlayerSkills : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Space))
         {
-            _testSkill.Activate();
+            SpellManager.Instance.UseSpell(new("Spirale", "0430A2"));
         }
     }
 

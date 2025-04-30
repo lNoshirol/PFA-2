@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class SpellManager : MonoBehaviour
 {
+    // Vu que c'est des classes on peut pas les récupérer directement (cf GetSpell())
     public Dictionary<SpellParameter, SkillParentClass> Spells { get; private set; } = new() {
-        { new("Circle", "#E50037"), new FireBall() },
-        { new("Spirale", "#0430A2"), new SimpleDash() }
+        { new("Circle", "E50037"), new FireBall() },
+        { new("Spirale", "0430A2"), new SimpleDash() }
     };
 
     // Singleton
@@ -41,11 +42,21 @@ public class SpellManager : MonoBehaviour
     }
     #endregion
 
-    //public void PROTO()
+    //public void GetSpell() PRIORITE
+
+    public void GiveFireBall()
+    {
+        PlayerMain.Instance.Inventory.SpellDataBase["Spirale"] = true;
+    }
+
     public void UseSpell(SpellParameter spellParameter)
     {
         // On ne lance pas le sort si on ne l'a pas obtenu dans l'inventaire
-        if (!PlayerMain.Instance.Inventory.SpellDataBase[spellParameter.shape]) return;
+        if (!PlayerMain.Instance.Inventory.SpellDataBase[spellParameter.shape])
+        {
+            print("TU L'AS PAS TROUBADOUR");
+            return;
+        }
         Spells[spellParameter].Activate();
     }
 }
