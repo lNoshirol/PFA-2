@@ -2708,6 +2708,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerMain
       objectReference: {fileID: 0}
+    - target: {fileID: 6613314532644909832, guid: 978470b0a638bee4884f779494b64f09, type: 3}
+      propertyPath: itemType.thisDictItems.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6613314532644909832, guid: 978470b0a638bee4884f779494b64f09, type: 3}
+      propertyPath: itemType.thisDictItems.Array.data[0].type
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8566569018204448064, guid: 978470b0a638bee4884f779494b64f09, type: 3}
       propertyPath: m_LocalScale.z
       value: 0.6183386

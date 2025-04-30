@@ -1,11 +1,12 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class SpellManager : MonoBehaviour
 {
-    public Dictionary<string, SkillParentClass> Spells { get; private set; } = new() {
-        { "Circle", new FireBall() },
-        //{ "Triangle"}
+    public Dictionary<SpellParameter, SkillParentClass> Spells { get; private set; } = new() {
+        { new("Circle", "#E50037"), new FireBall() },
+        { new("Spirale", "#0430A2"), new SimpleDash() }
     };
     
     // Singleton
@@ -40,8 +41,28 @@ public class SpellManager : MonoBehaviour
     }
     #endregion
 
-    public void UseSpell(string sigilName)
+    public void UseSpell(SpellParameter spellParameter)
     {
-         
+        // On ne lance pas le sort si on ne l'a pas obtenu dans l'inventaire
+        if (!PlayerMain.Instance.Inventory.SpellDataBase[spellParameter.shape]) return;
+        Spells[spellParameter].Activate();
+    }
+}
+
+public class SpellParameter
+{
+    public string shape;
+    public string paintColor;
+
+    public SpellParameter(string shape, string paintColor)
+    {
+        this.shape = shape;
+        this.paintColor = paintColor;
+    }
+
+    public static SpellParameter ToSpellParameter(string shape, string color)
+    {
+        SpellParameter spellParam = new(shape, color);
+        return spellParam;
     }
 }
