@@ -18,6 +18,8 @@ public class CastSpriteShape : MonoBehaviour
 
     [Header("Jsp")]
     public Camera Cam;
+    public GameObject UnCaca;
+    public LayerMask IgnoreMeUwU;
 
     void Start()
     {
@@ -50,6 +52,8 @@ public class CastSpriteShape : MonoBehaviour
             isDrawing = false;
 
             List<Point> drawReady = Vec3ToPoints(RecenterAndRotate());
+
+            GetSpellTargetPoint(points);
 
             Gesture candidate = new Gesture(drawReady.ToArray());
             Result gestureResult = PointCloudRecognizer.Classify(candidate, trainingSet.ToArray());
@@ -88,7 +92,7 @@ public class CastSpriteShape : MonoBehaviour
 
     private void AddPoint()
     {
-        var Ray = Cam.ScreenPointToRay(Input.mousePosition);
+        Ray Ray = Cam.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 
         if (Physics.Raycast(Ray, out hit))
@@ -155,5 +159,24 @@ public class CastSpriteShape : MonoBehaviour
         }
 
         return recenterDraw;
+    }
+
+    public void GetSpellTargetPoint(List<Vector3> points)
+    {
+        Vector3 centroid = GetDrawCentroid(points);
+
+        Ray Ray = Cam.ScreenPointToRay(Cam.WorldToScreenPoint(centroid));
+        RaycastHit hit;
+
+        if (Physics.Raycast(Ray, out hit, 20000f, ~IgnoreMeUwU) )
+        {
+            Debug.Log(hit.collider.gameObject.name);
+
+            if (hit.collider.CompareTag("Ground"))
+            {
+                Debug.Log($"Spell cast location : {hit.point}");
+                UnCaca.transform.position = hit.point;
+            }
+        }
     }
 }
