@@ -568,16 +568,33 @@ PrefabInstance:
       propertyPath: toile
       value: 
       objectReference: {fileID: 4632431383483528856}
+    - target: {fileID: 6613314532644909832, guid: 978470b0a638bee4884f779494b64f09, type: 3}
+      propertyPath: itemType.thisDictItems.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6613314532644909832, guid: 978470b0a638bee4884f779494b64f09, type: 3}
+      propertyPath: itemType.thisDictItems.Array.data[1].type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6613314532644909832, guid: 978470b0a638bee4884f779494b64f09, type: 3}
+      propertyPath: itemType.thisDictItems.Array.data[2].type
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6613314532644909832, guid: 978470b0a638bee4884f779494b64f09, type: 3}
+      propertyPath: itemType.thisDictItems.Array.data[3].type
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 8794036134334125918, guid: 978470b0a638bee4884f779494b64f09, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 2538416694803316737}
     m_RemovedComponents:
     - {fileID: 6057090377116631438, guid: 978470b0a638bee4884f779494b64f09, type: 3}
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 6833071982534025217, guid: 978470b0a638bee4884f779494b64f09, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 833741366870280673, guid: 978470b0a638bee4884f779494b64f09, type: 3}
-      insertIndex: 1
+      insertIndex: 0
       addedObject: {fileID: 4518267558538250439}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 978470b0a638bee4884f779494b64f09, type: 3}
