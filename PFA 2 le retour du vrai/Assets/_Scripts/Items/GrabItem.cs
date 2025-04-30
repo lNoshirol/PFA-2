@@ -8,6 +8,10 @@ public class GrabItem : MonoBehaviour
         {
             PlayerMain.Instance.Inventory.AddItemToInventory(type);
             gameObject.SetActive(false);
+            if(type == ItemType.Paintbrush)
+            {
+                ToileMain.Instance.TriggerToile.EnableToileButton();
+            }
         }
     }
 }
