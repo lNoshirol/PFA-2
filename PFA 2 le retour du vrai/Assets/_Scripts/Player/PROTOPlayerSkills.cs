@@ -4,8 +4,6 @@ public class PROTOPlayerSkills : MonoBehaviour
 {
     private FireBall _testSkill = new();
     
-    public GameObject prefab;
-
     private void Update()
     {
         if(Input.GetKeyDown(KeyCode.Space))

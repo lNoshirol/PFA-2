@@ -5,7 +5,7 @@ public class SpellManager : MonoBehaviour
 {
     public Dictionary<string, SkillParentClass> Spells { get; private set; } = new() {
         { "Circle", new FireBall() },
-        //{ ""}
+        //{ "Triangle"}
     };
     
     // Singleton
@@ -39,4 +39,9 @@ public class SpellManager : MonoBehaviour
         }
     }
     #endregion
+
+    public void UseSpell(string sigilName)
+    {
+
+    }
 }
