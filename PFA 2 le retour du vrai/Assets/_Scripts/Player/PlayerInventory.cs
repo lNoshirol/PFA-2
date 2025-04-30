@@ -11,18 +11,17 @@ public class PlayerInventory : MonoBehaviour
     [SerializeField]
     DictItem itemType;
 
-    public Dictionary<ItemType, bool> itemDatabase;
-    //public 
-    // deuxième dico avec sorts
-    
+    public Dictionary<ItemTypeEnum, bool> ItemDatabase;
+    public Dictionary<SpellEnum, bool> SpellDataBase;
+
     void Start()
     {
-        itemDatabase = itemType.ToDictionary();
+        ItemDatabase = itemType.ToDictionary();
     }
 
-    public void AddItemToInventory(ItemType type)
+    public void AddItemToInventory(ItemTypeEnum type)
     {
-        itemDatabase[type] = true;
+        ItemDatabase[type] = true;
         Debug.Log("Item loot : " + type);
     }
 }
@@ -32,9 +31,9 @@ public class DictItem
     [SerializeField]
     DictItemType[] thisDictItems;
 
-    public Dictionary<ItemType, bool> ToDictionary()
+    public Dictionary<ItemTypeEnum, bool> ToDictionary()
     {
-        Dictionary<ItemType, bool> itemDatabase = new Dictionary<ItemType, bool>();
+        Dictionary<ItemTypeEnum, bool> itemDatabase = new Dictionary<ItemTypeEnum, bool>();
         foreach (var item in thisDictItems)
         {
             itemDatabase.Add(item.type, item.isLooted);
@@ -47,7 +46,14 @@ public class DictItem
 public class DictItemType
 {
     [SerializeField]
-    public ItemType type;
+    public ItemTypeEnum type;
     [SerializeField]
     public bool isLooted;
+}
+
+[Serializable]
+public struct DictSpellType
+{
+    public SpellEnum spell;
+    public bool isObtained;
 }

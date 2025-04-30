@@ -19,14 +19,14 @@ public class PlayerAttack : MonoBehaviour
     }
     public void BaseAttack(InputAction.CallbackContext context)
     {
-        if(canAttack && PlayerMain.Instance.Inventory.itemDatabase[ItemType.Paintbrush]) {
+        if(canAttack && PlayerMain.Instance.Inventory.ItemDatabase[ItemTypeEnum.Paintbrush]) {
             StartCoroutine(AttackDuration());
         }
     }
 
     public void BaseAttackMobile()
     {
-        if (canAttack && PlayerMain.Instance.Inventory.itemDatabase[ItemType.Paintbrush])
+        if (canAttack && PlayerMain.Instance.Inventory.ItemDatabase[ItemTypeEnum.Paintbrush])
         {
             StartCoroutine(AttackDuration());
         }

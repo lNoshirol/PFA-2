@@ -42,6 +42,6 @@ public class SpellManager : MonoBehaviour
 
     public void UseSpell(string sigilName)
     {
-
+         
     }
 }
