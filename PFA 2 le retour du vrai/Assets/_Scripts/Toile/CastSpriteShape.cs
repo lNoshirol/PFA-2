@@ -23,6 +23,9 @@ public class CastSpriteShape : MonoBehaviour
     public LayerMask IgnoreMeUwU;
     public Vector3 vecTest;
 
+
+    
+
     void Start()
     {
         //Load pre-made gestures
@@ -37,11 +40,13 @@ public class CastSpriteShape : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && ToileMain.Instance.TriggerToile._isActive)
         {
             isDrawing = true;
             points.Clear();
             lineRenderer.positionCount = 0;
+            if(!ToileMain.Instance.gestureIsStarted)
+            ToileMain.Instance.timerCo = StartCoroutine(ToileMain.Instance.ToileTimer());
         }
 
         if (Input.GetMouseButton(0))

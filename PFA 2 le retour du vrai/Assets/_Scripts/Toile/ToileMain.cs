@@ -11,6 +11,8 @@ public class ToileMain : MonoBehaviour
     public TriggerToile TriggerToile { get; private set; }
 
     public bool gestureIsStarted = false;
+
+    public Coroutine timerCo;
     void Start()
     {
         if (Instance != null && Instance != this)
