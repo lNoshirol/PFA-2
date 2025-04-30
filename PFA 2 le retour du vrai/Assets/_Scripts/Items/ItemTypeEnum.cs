@@ -1,4 +1,4 @@
-public enum ItemType
+public enum ItemTypeEnum
 {
     Paintbrush,
     ColorRed,
