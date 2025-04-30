@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PROTOPlayerSkills : MonoBehaviour
 {
-    private FireBall _testSkill = new();
+    private SimpleDash _testSkill = new();
     
     private void Update()
     {

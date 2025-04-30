@@ -12,6 +12,8 @@ public class PlayerInventory : MonoBehaviour
     DictItem itemType;
 
     public Dictionary<ItemType, bool> itemDatabase;
+    //public 
+    // deuxième dico avec sorts
     
     void Start()
     {
