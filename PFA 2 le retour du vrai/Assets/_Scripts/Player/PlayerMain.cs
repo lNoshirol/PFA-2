@@ -17,6 +17,8 @@ public class PlayerMain : MonoBehaviour
 
     public PlayerInput playerInput;
 
+    public GameObject paintBrushSocket;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
