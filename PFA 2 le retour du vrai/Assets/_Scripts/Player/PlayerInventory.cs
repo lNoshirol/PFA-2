@@ -12,7 +12,7 @@ public class PlayerInventory : MonoBehaviour
     DictItem itemType;
 
     public Dictionary<ItemTypeEnum, bool> ItemDatabase;
-    public Dictionary<SpellEnum, bool> SpellDataBase;
+    public Dictionary<string, bool> SpellDataBase;
 
     void Start()
     {
@@ -49,11 +49,4 @@ public class DictItemType
     public ItemTypeEnum type;
     [SerializeField]
     public bool isLooted;
-}
-
-[Serializable]
-public struct DictSpellType
-{
-    public SpellEnum spell;
-    public bool isObtained;
 }
