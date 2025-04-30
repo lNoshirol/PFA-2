@@ -2,10 +2,8 @@ using UnityEngine;
 
 public class PROTOPlayerSkills : MonoBehaviour
 {
-    private SimpleDash _testSkill = new();
+    private FireBall _testSkill = new();
     
-    public GameObject prefab;
-
     private void Update()
     {
         if(Input.GetKeyDown(KeyCode.Space))

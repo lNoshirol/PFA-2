@@ -63,7 +63,6 @@ public abstract class SkillParentClass
     protected GameObject GetProjectile(string projectileName)
     {
         return ProjectileManager.Instance.ProjectilePools[projectileName].GetObject();
-        //return ProjectileManager.Instance.V2[projectileName].GetObject().gameObject;
     }
 
     protected void AlignToPlayerTransform(Transform transform)
