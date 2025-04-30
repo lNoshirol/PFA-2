@@ -3,12 +3,10 @@ using UnityEngine.UI;
 
 public class TriggerToile : MonoBehaviour
 {
-    private bool _isActive;
+    public bool _isActive;
     [SerializeField] private GameObject toile;
     [SerializeField] private Button toileButton;
     
-    private Coroutine timerCo;
-
     private void Start()
     {
         _isActive = toile.activeSelf;
@@ -19,18 +17,18 @@ public class TriggerToile : MonoBehaviour
     {
         if (_isActive == false)
         {
+            ToileMain.Instance.ToileUI.UpdateToileUI(ToileMain.Instance.toileTime);
             _isActive = true;
             toile.SetActive(_isActive);
             PlayerMain.Instance.playerInput.DeactivateInput();
-            timerCo = StartCoroutine(ToileMain.Instance.ToileTimer()); 
+            
         }
         else
         {
             _isActive = false;
             toile.SetActive(_isActive);
             PlayerMain.Instance.playerInput.ActivateInput();
-            StopCoroutine(timerCo);
-            Debug.Log("AJUGHeiushgbuorlj");
+            StopCoroutine(ToileMain.Instance.timerCo);
         }
     }
 

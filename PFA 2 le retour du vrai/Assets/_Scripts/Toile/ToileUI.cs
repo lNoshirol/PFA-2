@@ -7,11 +7,6 @@ public class ToileUI : MonoBehaviour
     [SerializeField] TextMeshProUGUI timerUGUI;
     [SerializeField] TextMeshProUGUI paintAmountUGUI;
 
-    private void Start()
-    {
-        
-    }
-
     public void UpdateToileUI(int timerText)
     {
         timerUGUI.text = "timeAmountLeft : " + timerText;
