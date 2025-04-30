@@ -6,6 +6,8 @@ public class ToileMain : MonoBehaviour
     [SerializeField] private int timeAmount;
     [SerializeField] public int toileTime = 60;
 
+    [SerializeField] public CastSpriteShape CastSpriteShape;
+
     public static ToileMain Instance { get; private set; }
     public ToileUI ToileUI { get; private set; }
     public TriggerToile TriggerToile { get; private set; }
@@ -34,14 +36,17 @@ public class ToileMain : MonoBehaviour
     {
         gestureIsStarted = true;
         timeAmount = toileTime;
-        while (toileTime > 0) {
+        while (timeAmount > 0) {
             ToileUI.UpdateToileUI(timeAmount);
             yield return new WaitForSeconds(1);
             timeAmount--;
             ToileUI.UpdateToileUI(timeAmount);
         }
         gestureIsStarted = false;
+        ToileMain.Instance.TriggerToile.OpenAndCloseToileMagique();
         yield break;
+        
+        
     }
 
 }
