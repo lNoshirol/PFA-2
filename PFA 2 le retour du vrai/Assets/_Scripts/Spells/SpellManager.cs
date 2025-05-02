@@ -4,9 +4,17 @@ using UnityEngine;
 
 public class SpellManager : MonoBehaviour
 {
-    public Dictionary<SpellParameter, SkillParentClass> Spells { get; private set; } = new() {
-        { new("Circle", "#E50037"), new FireBall() },
-        { new("Spirale", "#0430A2"), new SimpleDash() }
+    // spell name --> spell IDs
+    public Dictionary<string, string> SpellsIDs { get; private set; } = new()
+    {
+        { "FireBall", "FireBall;Circle;E50037" },
+        { "SimpleDash", "SimpleDash;Spirale;0430A2" }
+    };
+
+    // V2 : que des strings du coup le dico est utile, et on parse les clés avec des fonctions
+    public Dictionary<string, SkillParentClass> Spells { get; private set; } = new() {
+        { "FireBall;Circle;E50037", new FireBall() },
+        { "SimpleDash;Spirale;0430A2", new SimpleDash() }
     };
 
     // Singleton
@@ -41,30 +49,69 @@ public class SpellManager : MonoBehaviour
     }
     #endregion
 
-    //public void PROTO()
-    public void UseSpell(SpellParameter spellParameter)
-    {
-        // On ne lance pas le sort si on ne l'a pas obtenu dans l'inventaire
-        if (!PlayerMain.Instance.Inventory.SpellDataBase[spellParameter.shape]) return;
-        Spells[spellParameter].Activate();
-    }
-}
+    #region SpellDetectionMethods
 
-public class SpellParameter
-{
-    public string shape;
-    public string paintColor;
-
-    // Constructor
-    public SpellParameter(string shape, string paintColor)
+    /// <summary>
+    /// Takes spell name, gives spell ID.
+    /// </summary>
+    /// <param name="spellName"></param>
+    /// <returns></returns>
+    public string SpellNameToSpellID(string spellName)
     {
-        this.shape = shape;
-        this.paintColor = paintColor;
+        print(SpellsIDs[spellName]);
+        return SpellsIDs[spellName];
     }
 
-    public static SpellParameter ToSpellParameter(string shape, string color)
+    /// <summary>
+    /// Takes spell ID, gives spell name.
+    /// </summary>
+    /// <param name="spellID"></param>
+    /// <returns></returns>
+    public string ToSpell(string spellID)
     {
-        SpellParameter spellParam = new(shape, color);
-        return spellParam;
+        return spellID.Split(';')[0];
+    }
+
+    /// <summary>
+    /// Takes spell ID, gives spell shape.
+    /// </summary>
+    /// <param name="spellID"></param>
+    /// <returns></returns>
+    public string ToShape(string spellID)
+    {
+        return spellID.Split(';')[1];
+    }
+
+    /// <summary>
+    /// Takes spell ID, gives spell color.
+    /// </summary>
+    /// <param name="spellID"></param>
+    /// <returns></returns>
+    public string ToColor(string spellID)
+    {
+        return spellID.Split(';')[2];
+    }
+    #endregion 
+
+    public void PROTOGiveSimpleDash()
+    {
+        PlayerMain.Instance.Inventory.SpellDataBase["SimpleDash"] = true;
+    }
+
+    //public void UseSpell(string spellName, Transform caster, bool isEnemy = false)
+    //{
+    //    // On ne lance le sort que si on l'a obtenu dans l'inventaire OU si c'est un ennemi qui le lance
+    //    if (PlayerMain.Instance.Inventory.SpellDataBase[spellName] | !isEnemy)
+    //    {
+    //        SkillParentClass spell = Spells[SpellsIDs[spellName]];
+    //        spell.Activate(caster);
+    //    }
+    //}
+
+    public SkillParentClass GetSpell(string spellName)
+    {
+        SkillParentClass spell = (PlayerMain.Instance.Inventory.SpellDataBase["SimpleDash"]) ? Spells[SpellsIDs[spellName]] : null;
+        print(spell);
+        return spell;
     }
 }

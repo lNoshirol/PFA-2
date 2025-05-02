@@ -8,12 +8,17 @@ public class PROTOPlayerSkills : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Space))
         {
-            _testSkill.Activate();
+            //SpellManager.Instance.UseSpell("SimpleDash", this.transform);
+            SimpleDash power = (SimpleDash)SpellManager.Instance.GetSpell("SimpleDash");
+            SkillContext context = new(PlayerMain.Instance.Rigidbody, this.gameObject, PlayerMain.Instance.PlayerMesh.transform.forward, 50);
+            if (power != null) power.Activate(context);
         }
     }
 
     public void UseSkill()
     {
-        _testSkill.Activate();
+        SkillContext context = new(PlayerMain.Instance.Rigidbody, this.gameObject, PlayerMain.Instance.PlayerMesh.transform.forward, 50);
+
+        _testSkill.Activate(context);
     }
 }
