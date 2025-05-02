@@ -137,6 +137,26 @@ public class CastSpriteShape : MonoBehaviour
         lineRenderer.positionCount = 0;
     }
 
+    public List<Vector3> RecenterAndRotate()
+    {
+        Vector3 centroid = GetDrawCentroid(points);
+
+        List<Vector3> recenterDraw = new List<Vector3>();
+
+        foreach (Vector3 point in points)
+        {
+            Vector3 newPoint = point - centroid;
+
+            newPoint = Quaternion.Euler(-45, 0, 0) * newPoint;
+
+            newPoint = Quaternion.Euler(0, 0, 180) * newPoint;
+
+            recenterDraw.Add(newPoint);
+        }
+
+        return recenterDraw;
+    }
+
     public Vector3 GetDrawCentroid(List<Vector3> points)
     {
         Vector3 sum = Vector3.zero;
@@ -181,26 +201,6 @@ public class CastSpriteShape : MonoBehaviour
         return new Vector3(x, y, z);
     }
 
-    public List<Vector3> RecenterAndRotate()
-    {
-        Vector3 centroid = GetDrawCentroid(points);
-
-        List<Vector3> recenterDraw = new List<Vector3>();
-
-        foreach (Vector3 point in points)
-        {
-            Vector3 newPoint = point - centroid;
-
-            newPoint = Quaternion.Euler(-45, 0, 0) * newPoint;
-
-            newPoint = Quaternion.Euler(0, 0, 180) * newPoint;
-
-            recenterDraw.Add(newPoint);
-        }
-
-        return recenterDraw;
-    }
-
     public void GetSpellTargetPointFromCentroid(List<Vector3> points)
     {
         Vector3 centroid = GetDrawCentroid(points);
@@ -236,6 +236,25 @@ public class CastSpriteShape : MonoBehaviour
                 Debug.Log($"Spell cast location from center : {hit.point}");
                 UnCaca2.transform.position = hit.point;
             }
+        }
+    }
+
+    public void TryMakeAdaptativeCollider(Vector3 center, Result result)
+    {
+        GameObject collider = new();
+        collider.transform.position = center;
+
+        switch (result.GestureClass)
+        {
+            case "Circle":
+                collider.AddComponent<SphereCollider>();
+                SphereCollider colliderComponent;
+                collider.TryGetComponent(out colliderComponent);
+                
+                break;
+            case "Square":
+                collider.AddComponent<BoxCollider>();
+                break;
         }
     }
 
