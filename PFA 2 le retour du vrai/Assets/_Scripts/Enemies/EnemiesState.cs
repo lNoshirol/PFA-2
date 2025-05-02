@@ -17,8 +17,7 @@ public abstract class EnemiesState : MonoBehaviour
     protected Animator animator ;
     protected EnemiesMain EnemiesMain;
 
-    public float sightRange, attackRange;
-    public bool playerInSightRange;
+
 
     public void Setup(EnemiesMain _enemiesMain)
     {

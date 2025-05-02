@@ -13,8 +13,8 @@ TagManager:
   - Writeable
   - Water
   - UI
-  - IsGround
-  - 
+  - WhatIsGround
+  - WhatIsPlayer
   - 
   - 
   - 

@@ -44,11 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea80a1b25256dd8409e5dafa89c9aa58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sightRange: 0
-  attackRange: 0
-  playerInSightRange: 0
-  cooldown: 0
-  isAttacking: 0
+  attackCooldown: 1
+  alreadyAttack: 0
 --- !u!1 &700040048651922826
 GameObject:
   m_ObjectHideFlags: 0
@@ -190,15 +187,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ad2ee4042f1ff84a9765e9f6f6fb8b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sightRange: 0
-  attackRange: 0
-  playerInSightRange: 0
   walkPointRange: 5
   walkPoint: {x: 0, y: 0, z: 0}
   walkPointSet: 0
-  whatIsGround:
-    serializedVersion: 2
-    m_Bits: 64
 --- !u!1 &5915774029437464484
 GameObject:
   m_ObjectHideFlags: 0
@@ -269,7 +260,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 097586868c1d614459e784ce767458fd, type: 2}
+  - {fileID: 2100000, guid: 3a9e4056c7e13f541ae47589c56a5ef0, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -378,8 +369,20 @@ MonoBehaviour:
   EPatrolState: {fileID: 1493235481126384695}
   EChaseState: {fileID: 227842503407518092}
   EAttackState: {fileID: 7349661698989904318}
-  EnemiesState: {fileID: 0}
+  EnemiesCurrentState: {fileID: 0}
   agent: {fileID: 0}
+  sightRange: 20
+  attackRange: 10
+  playerInSightRange: 0
+  playerInAttackRange: 0
+  whatIsGround:
+    serializedVersion: 2
+    m_Bits: 64
+  whatIsPlayer:
+    serializedVersion: 2
+    m_Bits: 128
+  projectile: {fileID: 8772747567583038724, guid: dccce8cd36e526849877631a77bb3fdc, type: 3}
+  mat: {fileID: 2100000, guid: 3a9e4056c7e13f541ae47589c56a5ef0, type: 2}
 --- !u!1 &9128936125359542676
 GameObject:
   m_ObjectHideFlags: 0
@@ -424,6 +427,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ecbc2adf1f6de9409c57851cbb7b92d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sightRange: 0
-  attackRange: 0
-  playerInSightRange: 0

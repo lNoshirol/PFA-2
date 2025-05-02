@@ -5,9 +5,9 @@ public class EPatrolState : EnemiesState
     public float walkPointRange;
     public Vector3 walkPoint;
     public bool walkPointSet = false;
-    public LayerMask whatIsGround;
     public override void OnEnter()
     {
+        EnemiesMain.mat.color = Color.green;
         SearchWalkPoint();
     }
     public override void Do()
@@ -18,16 +18,16 @@ public class EPatrolState : EnemiesState
         }
         if (walkPointSet)
         {
-            Debug.Log("Je me déplace");
-            EnemiesMain.agent.SetDestination(walkPoint);
-        }
-        Vector3 distanceToWalkPoint = transform.position - walkPoint; 
-
-        if(distanceToWalkPoint.magnitude < 1f) {
-            walkPointSet = false;
+            SetEnemyDestination(walkPoint);
         }
 
-        Debug.Log("In Patrol State");
+        CheckDistanceDestination();
+
+        if (EnemiesMain.CheckPlayerInSightRange())
+        {
+            EnemiesMain.SwitchState(EnemiesMain.EChaseState);
+        }
+
     }
 
     public override void FixedDo()
@@ -41,14 +41,30 @@ public class EPatrolState : EnemiesState
 
     private void SearchWalkPoint()
     {
-        Debug.Log("Je cherhce un point");
         float randomZ = Random.Range(-walkPointRange, walkPointRange);
         float randomX = Random.Range(-walkPointRange, walkPointRange);
         walkPoint = new Vector3(transform.position.x + randomX, transform.position.y, transform.position.z + randomZ);
 
-        if (Physics.Raycast(walkPoint, -transform.up, 2f, whatIsGround))
+        if (Physics.Raycast(walkPoint, -transform.up, 2f, EnemiesMain.whatIsGround))
         {
             walkPointSet = true;
         }
     }
+
+    private void SetEnemyDestination(Vector3 destination)
+    {
+        EnemiesMain.agent.SetDestination(destination);
+    }
+
+    private void CheckDistanceDestination()
+    {
+        Vector3 distanceToWalkPoint = transform.position - walkPoint;
+
+        if (distanceToWalkPoint.magnitude < 1f)
+        {
+            walkPointSet = false;
+        }
+    }
+
+
 }

@@ -7,7 +7,7 @@ public class EnemiesMain : MonoBehaviour
     public EChaseState EChaseState;
     public EAttackState EAttackState;
 
-    public EnemiesState EnemiesState;
+    public EnemiesState EnemiesCurrentState;
 
     public NavMeshAgent agent;
 
@@ -17,29 +17,68 @@ public class EnemiesMain : MonoBehaviour
     public Vector3 position { get; private set; }
     public Vector3 velocity { get; private set; }
 
+    public float sightRange, attackRange;
+    public bool playerInSightRange, playerInAttackRange;
+    public LayerMask whatIsGround;
+    public LayerMask whatIsPlayer;
+
+
+    public GameObject projectile;
+
+    public Material mat;
+
 
     private void Awake()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
         agent = gameObject.GetComponent<NavMeshAgent>();
+        mat = gameObject.GetComponent <Renderer>().material;
     }
     private void Start()
     {
         EPatrolState.Setup(this);
         EChaseState.Setup(this);
         EAttackState.Setup(this);
-        EnemiesState = EPatrolState;
+        EnemiesCurrentState = EPatrolState;
     }
 
     private void Update()
     {
-        EnemiesState?.Do();
+        EnemiesCurrentState?.Do();
+    }
+
+    private void FixedUpdate()
+    {
+        EnemiesCurrentState?.FixedDo();
     }
 
     public void SwitchState(EnemiesState newState)
     {
-        EnemiesState?.OnExit();
-        EnemiesState = newState;
-        EnemiesState?.OnEnter();
+        EnemiesCurrentState?.OnExit();
+        EnemiesCurrentState = newState;
+        EnemiesCurrentState?.OnEnter();
     }
+
+    public bool CheckPlayerInSightRange()
+    {
+        playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
+        return playerInSightRange;
+    }
+
+    public bool CheckPlayerInAttackRange()
+    {
+        playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
+        return playerInAttackRange;
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, attackRange);
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position, sightRange);
+    }
+
+
+
 }
