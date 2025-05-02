@@ -2,9 +2,10 @@ using UnityEngine;
 
 public class EAttackState : EnemiesState
 {
-
-    public float attackCooldown;
-    public bool alreadyAttack;
+    [SerializeField]
+    float attackCooldown;
+    [SerializeField]
+    bool alreadyAttack;
     public override void OnEnter()
     {
         EnemiesMain.mat.color = Color.red;
@@ -32,6 +33,7 @@ public class EAttackState : EnemiesState
     }
     public override void OnExit()
     {
+        ResetAttack();
     }
 
     private void ResetAttack()
