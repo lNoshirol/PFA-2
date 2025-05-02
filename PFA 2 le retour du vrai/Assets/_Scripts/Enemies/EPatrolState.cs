@@ -1,10 +1,17 @@
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EPatrolState : EnemiesState
 {
-    public float walkPointRange;
-    public Vector3 walkPoint;
-    public bool walkPointSet = false;
+    [SerializeField] 
+    float patrolSpeedMultiplier;
+    [SerializeField]
+    float walkPointRange;
+    [SerializeField]
+    Vector3 walkPoint;
+    [SerializeField]
+    bool walkPointSet = false;
+
     public override void OnEnter()
     {
         EnemiesMain.mat.color = Color.green;
@@ -16,18 +23,22 @@ public class EPatrolState : EnemiesState
         {
             SearchWalkPoint();
         }
+
         if (walkPointSet)
         {
             SetEnemyDestination(walkPoint);
         }
 
-        CheckDistanceDestination();
-
         if (EnemiesMain.CheckPlayerInSightRange())
         {
             EnemiesMain.SwitchState(EnemiesMain.EChaseState);
+            return;
         }
 
+        if (DestinationReach() && !EnemiesMain.CheckPlayerInSightRange())
+        {
+            EnemiesMain.SwitchState(EnemiesMain.EIdleState);
+        }
     }
 
     public override void FixedDo()
@@ -47,7 +58,11 @@ public class EPatrolState : EnemiesState
 
         if (Physics.Raycast(walkPoint, -transform.up, 2f, EnemiesMain.whatIsGround))
         {
-            walkPointSet = true;
+            NavMeshHit hit;
+            if (NavMesh.SamplePosition(walkPoint, out hit, 1f, NavMesh.AllAreas))
+            {
+                walkPointSet = true;
+            }
         }
     }
 
@@ -56,15 +71,16 @@ public class EPatrolState : EnemiesState
         EnemiesMain.agent.SetDestination(destination);
     }
 
-    private void CheckDistanceDestination()
+    private bool DestinationReach()
     {
+        bool destinationReach = false;
         Vector3 distanceToWalkPoint = transform.position - walkPoint;
 
         if (distanceToWalkPoint.magnitude < 1f)
         {
-            walkPointSet = false;
+            return destinationReach = true;
         }
+        return destinationReach;
     }
-
 
 }

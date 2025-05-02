@@ -4,6 +4,11 @@ using UnityEngine.AI;
 
 public class EChaseState : EnemiesState
 {
+
+    [SerializeField]
+    private float chaseSpeedMultiplier;
+
+
     public override void OnEnter()
     {
         EnemiesMain.mat.color = Color.magenta;

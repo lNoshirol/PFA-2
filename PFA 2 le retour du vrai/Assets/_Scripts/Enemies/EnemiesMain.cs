@@ -1,31 +1,41 @@
+using Unity.IO.LowLevel.Unsafe;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class EnemiesMain : MonoBehaviour
 {
+    [Header("Enemy State")]
+    public EIdle EIdleState;
     public EPatrolState EPatrolState;
     public EChaseState EChaseState;
     public EAttackState EAttackState;
-
     public EnemiesState EnemiesCurrentState;
 
-    public NavMeshAgent agent;
 
+    [Header("Enemy Components")]
+    public NavMeshAgent agent;
 
     public Rigidbody rb { get; private set; }
     public Transform player { get; private set; }
     public Vector3 position { get; private set; }
     public Vector3 velocity { get; private set; }
 
+    //Range
+
+    [Header("Enemy Brain Needs")]
     public float sightRange, attackRange;
     public bool playerInSightRange, playerInAttackRange;
     public LayerMask whatIsGround;
     public LayerMask whatIsPlayer;
 
-
+    [Header("Enemy Brain Needs")]
     public GameObject projectile;
-
     public Material mat;
+
+    //Delay for updates
+    private float nextSightCheckTime = 0f;
+    private float nextAttackCheckTime = 0f;
+    private float checkInterval = 0.2f;
 
 
     private void Awake()
@@ -39,7 +49,9 @@ public class EnemiesMain : MonoBehaviour
         EPatrolState.Setup(this);
         EChaseState.Setup(this);
         EAttackState.Setup(this);
-        EnemiesCurrentState = EPatrolState;
+        EIdleState.Setup(this);
+        EnemiesCurrentState = EIdleState;
+        EnemiesCurrentState?.OnEnter();
     }
 
     private void Update()
@@ -61,13 +73,21 @@ public class EnemiesMain : MonoBehaviour
 
     public bool CheckPlayerInSightRange()
     {
-        playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
+        if (Time.time >= nextSightCheckTime)
+        {
+            nextSightCheckTime = Time.time + checkInterval;
+            playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
+        }
         return playerInSightRange;
     }
 
     public bool CheckPlayerInAttackRange()
     {
-        playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
+        if (Time.time >= nextAttackCheckTime)
+        {
+            nextAttackCheckTime = Time.time + checkInterval;
+            playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
+        }
         return playerInAttackRange;
     }
 
@@ -78,7 +98,4 @@ public class EnemiesMain : MonoBehaviour
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(transform.position, sightRange);
     }
-
-
-
 }
