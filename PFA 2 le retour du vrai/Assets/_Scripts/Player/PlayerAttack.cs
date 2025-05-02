@@ -5,7 +5,7 @@ using System.Collections;
 public class PlayerAttack : MonoBehaviour
 {
 
-    [SerializeField] private float baseDamageAmount = 5;
+    public float baseDamageAmount = 20;
     [SerializeField] private float animationDuration = 1;
 
     [SerializeField] private bool canAttack = true;

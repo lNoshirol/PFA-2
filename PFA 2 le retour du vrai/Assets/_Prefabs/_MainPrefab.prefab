@@ -55,7 +55,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6721186866968185444}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: PaintBrushSocket
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -225,7 +225,7 @@ GameObject:
   - component: {fileID: 3941401611124460722}
   - component: {fileID: 1905233155920761551}
   - component: {fileID: 2538416694803316737}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: ToileMagique
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -598,9 +598,57 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1476460127923900671, guid: 978470b0a638bee4884f779494b64f09, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2018912917443564520, guid: 978470b0a638bee4884f779494b64f09, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 3.62
+      objectReference: {fileID: 0}
+    - target: {fileID: 2018912917443564520, guid: 978470b0a638bee4884f779494b64f09, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1.92
+      objectReference: {fileID: 0}
+    - target: {fileID: 2018912917443564520, guid: 978470b0a638bee4884f779494b64f09, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2550185815512572869, guid: 978470b0a638bee4884f779494b64f09, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3346771744162542417, guid: 978470b0a638bee4884f779494b64f09, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3577404536611076190, guid: 978470b0a638bee4884f779494b64f09, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3887301271871418476, guid: 978470b0a638bee4884f779494b64f09, type: 3}
+      propertyPath: baseDamageAmount
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 4565140861363283908, guid: 978470b0a638bee4884f779494b64f09, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4606256769081987195, guid: 978470b0a638bee4884f779494b64f09, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4606256769081987195, guid: 978470b0a638bee4884f779494b64f09, type: 3}
+      propertyPath: m_TagString
+      value: PlayerAttackArea
+      objectReference: {fileID: 0}
     - target: {fileID: 5208124166552653695, guid: 978470b0a638bee4884f779494b64f09, type: 3}
       propertyPath: m_Name
       value: PlayerMain
+      objectReference: {fileID: 0}
+    - target: {fileID: 5208124166552653695, guid: 978470b0a638bee4884f779494b64f09, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 6057090377116631438, guid: 978470b0a638bee4884f779494b64f09, type: 3}
       propertyPath: toile
@@ -622,6 +670,26 @@ PrefabInstance:
       propertyPath: itemType.thisDictItems.Array.data[3].type
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 7656349746086013700, guid: 978470b0a638bee4884f779494b64f09, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8067553563064596138, guid: 978470b0a638bee4884f779494b64f09, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8102761048095907577, guid: 978470b0a638bee4884f779494b64f09, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8531477028957883346, guid: 978470b0a638bee4884f779494b64f09, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8793749673935496789, guid: 978470b0a638bee4884f779494b64f09, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 8794036134334125918, guid: 978470b0a638bee4884f779494b64f09, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -630,8 +698,13 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: OpenAndCloseToileMagique
       objectReference: {fileID: 0}
+    - target: {fileID: 9095693458359972574, guid: 978470b0a638bee4884f779494b64f09, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6057090377116631438, guid: 978470b0a638bee4884f779494b64f09, type: 3}
+    - {fileID: 2061785619725465160, guid: 978470b0a638bee4884f779494b64f09, type: 3}
     m_RemovedGameObjects:
     - {fileID: 6833071982534025217, guid: 978470b0a638bee4884f779494b64f09, type: 3}
     m_AddedGameObjects:
@@ -641,13 +714,44 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4780417867035023067, guid: 978470b0a638bee4884f779494b64f09, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6721186866968185444}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4606256769081987195, guid: 978470b0a638bee4884f779494b64f09, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5992902315190147059}
   m_SourcePrefab: {fileID: 100100000, guid: 978470b0a638bee4884f779494b64f09, type: 3}
 --- !u!4 &978946475921128860 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 833741366870280673, guid: 978470b0a638bee4884f779494b64f09, type: 3}
   m_PrefabInstance: {fileID: 434564348656759933}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &4173526070833898502 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4606256769081987195, guid: 978470b0a638bee4884f779494b64f09, type: 3}
+  m_PrefabInstance: {fileID: 434564348656759933}
+  m_PrefabAsset: {fileID: 0}
+--- !u!136 &5992902315190147059
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4173526070833898502}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.53
+  m_Height: 1.03
+  m_Direction: 2
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!4 &4922598503067263654 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4780417867035023067, guid: 978470b0a638bee4884f779494b64f09, type: 3}
