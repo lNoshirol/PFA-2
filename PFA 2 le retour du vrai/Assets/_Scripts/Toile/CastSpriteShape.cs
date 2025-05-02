@@ -250,7 +250,7 @@ public class CastSpriteShape : MonoBehaviour
                 collider.AddComponent<SphereCollider>();
                 SphereCollider colliderComponent;
                 collider.TryGetComponent(out colliderComponent);
-                collider.
+                
                 break;
             case "Square":
                 collider.AddComponent<BoxCollider>();
