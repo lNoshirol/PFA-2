@@ -14,8 +14,8 @@ public class PlayerInventory : MonoBehaviour
     public Dictionary<ItemTypeEnum, bool> ItemDatabase;
     public Dictionary<string, bool> SpellDataBase = new()
     {
-        { "Spirale", false},
-        { "Circle", false}
+        { "FireBall", false},
+        { "SimpleDash", false}
     };
 
     void Start()
