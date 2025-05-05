@@ -10,17 +10,15 @@ public class PlayerInventory : MonoBehaviour
     [Header("NO UPDATE IN RUNTIME")]
     [SerializeField]
     DictItem itemType;
+    [SerializeField] private DictSpell LootableSpells;
 
     public Dictionary<ItemTypeEnum, bool> ItemDatabase;
-    public Dictionary<string, bool> SpellDataBase = new()
-    {
-        { "FireBall", false},
-        { "SimpleDash", false}
-    };
+    public Dictionary<string, bool> SpellDataBase;
 
     void Start()
     {
         ItemDatabase = itemType.ToDictionary();
+        SpellDataBase = LootableSpells.ToDictionary();
     }
 
     public void AddItemToInventory(ItemTypeEnum type)
@@ -29,6 +27,7 @@ public class PlayerInventory : MonoBehaviour
         Debug.Log("Item loot : " + type);
     }
 }
+
 [Serializable]
 public class DictItem
 {
@@ -46,11 +45,36 @@ public class DictItem
 
     }
 }
+
 [Serializable]
 public class DictItemType
 {
     [SerializeField]
     public ItemTypeEnum type;
     [SerializeField]
+    public bool isLooted;
+}
+
+[Serializable]
+public class DictSpell
+{
+    [SerializeField] private DictSpellItem[] spells;
+    public Dictionary<string, bool> ToDictionary()
+    {
+        Dictionary<string, bool> spellDatabase = new Dictionary<string, bool>();
+        foreach (var spell in spells)
+        {
+            spellDatabase.Add(spell.spellName, spell.isLooted);
+        }
+        return spellDatabase;
+
+    }
+
+}
+
+[Serializable]
+public class DictSpellItem
+{
+    public string spellName;
     public bool isLooted;
 }
