@@ -98,20 +98,9 @@ public class SpellManager : MonoBehaviour
         PlayerMain.Instance.Inventory.SpellDataBase["SimpleDash"] = true;
     }
 
-    //public void UseSpell(string spellName, Transform caster, bool isEnemy = false)
-    //{
-    //    // On ne lance le sort que si on l'a obtenu dans l'inventaire OU si c'est un ennemi qui le lance
-    //    if (PlayerMain.Instance.Inventory.SpellDataBase[spellName] | !isEnemy)
-    //    {
-    //        SkillParentClass spell = Spells[SpellsIDs[spellName]];
-    //        spell.Activate(caster);
-    //    }
-    //}
-
     public SkillParentClass GetSpell(string spellName)
     {
         SkillParentClass spell = (PlayerMain.Instance.Inventory.SpellDataBase["SimpleDash"]) ? Spells[SpellsIDs[spellName]] : null;
-        print(spell);
         return spell;
     }
 }

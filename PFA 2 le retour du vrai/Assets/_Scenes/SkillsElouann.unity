@@ -1019,6 +1019,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6755636378622904181, guid: e9227956101fc854cb3caeb4e085306f, type: 3}
+      propertyPath: SpellType.spells.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6755636378622904181, guid: e9227956101fc854cb3caeb4e085306f, type: 3}
+      propertyPath: LootableSpells.spells.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6755636378622904181, guid: e9227956101fc854cb3caeb4e085306f, type: 3}
+      propertyPath: SpellType.spells.Array.data[0].isLooted
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6755636378622904181, guid: e9227956101fc854cb3caeb4e085306f, type: 3}
+      propertyPath: LootableSpells.spells.Array.data[0].isLooted
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6755636378622904181, guid: e9227956101fc854cb3caeb4e085306f, type: 3}
+      propertyPath: LootableSpells.spells.Array.data[0].spellName
+      value: SimpleDash
+      objectReference: {fileID: 0}
+    - target: {fileID: 6755636378622904181, guid: e9227956101fc854cb3caeb4e085306f, type: 3}
+      propertyPath: LootableSpells.spells.Array.data[1].spellName
+      value: FireBall
+      objectReference: {fileID: 0}
+    - target: {fileID: 6755636378622904181, guid: e9227956101fc854cb3caeb4e085306f, type: 3}
+      propertyPath: itemType.thisDictItems.Array.data[0].isLooted
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:

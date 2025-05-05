@@ -10,6 +10,7 @@ public class PROTOPlayerSkills : MonoBehaviour
         {
             //SpellManager.Instance.UseSpell("SimpleDash", this.transform);
             SimpleDash power = (SimpleDash)SpellManager.Instance.GetSpell("SimpleDash");
+            print(power);
             SkillContext context = new(PlayerMain.Instance.Rigidbody, this.gameObject, PlayerMain.Instance.PlayerMesh.transform.forward, 50);
             if (power != null) power.Activate(context);
         }
