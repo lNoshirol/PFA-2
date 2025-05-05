@@ -14,6 +14,9 @@ public class EnemiesMain : MonoBehaviour
 
     [Header("Enemy Components")]
     public NavMeshAgent agent;
+    public GameObject enemyMesh;
+    public EnemyHealth Health { get; private set; }
+    public EnemyUI UI { get; private set; }
 
     public Rigidbody rb { get; private set; }
     public Transform player { get; private set; }
@@ -42,7 +45,7 @@ public class EnemiesMain : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
         agent = gameObject.GetComponent<NavMeshAgent>();
-        mat = gameObject.GetComponent <Renderer>().material;
+        mat = enemyMesh.GetComponent <Renderer>().material;
     }
     private void Start()
     {
@@ -52,6 +55,9 @@ public class EnemiesMain : MonoBehaviour
         EIdleState.Setup(this);
         EnemiesCurrentState = EIdleState;
         EnemiesCurrentState?.OnEnter();
+
+        Health = GetComponent<EnemyHealth>();
+        UI = GetComponent<EnemyUI>();
     }
 
     private void Update()
