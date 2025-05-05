@@ -1047,6 +1047,34 @@ PrefabInstance:
       propertyPath: itemType.thisDictItems.Array.data[0].isLooted
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8011402117015182446, guid: e9227956101fc854cb3caeb4e085306f, type: 3}
+      propertyPath: m_ActionEvents.Array.data[5].m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8011402117015182446, guid: e9227956101fc854cb3caeb4e085306f, type: 3}
+      propertyPath: m_ActionEvents.Array.data[5].m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8011402117015182446, guid: e9227956101fc854cb3caeb4e085306f, type: 3}
+      propertyPath: m_ActionEvents.Array.data[5].m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1674400079}
+    - target: {fileID: 8011402117015182446, guid: e9227956101fc854cb3caeb4e085306f, type: 3}
+      propertyPath: m_ActionEvents.Array.data[5].m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8011402117015182446, guid: e9227956101fc854cb3caeb4e085306f, type: 3}
+      propertyPath: m_ActionEvents.Array.data[5].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: UseSkill
+      objectReference: {fileID: 0}
+    - target: {fileID: 8011402117015182446, guid: e9227956101fc854cb3caeb4e085306f, type: 3}
+      propertyPath: m_ActionEvents.Array.data[5].m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: PROTOPlayerSkills, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 8011402117015182446, guid: e9227956101fc854cb3caeb4e085306f, type: 3}
+      propertyPath: m_ActionEvents.Array.data[5].m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -1056,7 +1084,10 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 6013129574364995038, guid: e9227956101fc854cb3caeb4e085306f, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1160935063}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5638815339430263554, guid: e9227956101fc854cb3caeb4e085306f, type: 3}
+      insertIndex: 9
+      addedObject: {fileID: 1674400089}
   m_SourcePrefab: {fileID: 100100000, guid: e9227956101fc854cb3caeb4e085306f, type: 3}
 --- !u!1 &534920771
 GameObject:
@@ -2212,6 +2243,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1160935062}
   m_CullTransparentMesh: 1
+--- !u!114 &1260349161 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6089315289693503353, guid: e9227956101fc854cb3caeb4e085306f, type: 3}
+  m_PrefabInstance: {fileID: 531697134}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d4549808b6daa444880ff25c73ba298, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1270493699
 GameObject:
   m_ObjectHideFlags: 0
@@ -2808,6 +2850,35 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1667653614}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1674400077 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5638815339430263554, guid: e9227956101fc854cb3caeb4e085306f, type: 3}
+  m_PrefabInstance: {fileID: 531697134}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1674400079 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2702217903002590612, guid: e9227956101fc854cb3caeb4e085306f, type: 3}
+  m_PrefabInstance: {fileID: 531697134}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1674400077}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff7ae095c61b4284ab81cbad64686acf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1674400089
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1674400077}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca6955f8517260c49b82e4276b0fdb5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  jsaisPasGros: {fileID: 1260349161}
 --- !u!1 &1931566156
 GameObject:
   m_ObjectHideFlags: 0
