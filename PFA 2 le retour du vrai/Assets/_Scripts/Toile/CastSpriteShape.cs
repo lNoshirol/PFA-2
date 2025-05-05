@@ -79,7 +79,7 @@ public class CastSpriteShape : MonoBehaviour
 
         }
 
-        if (Input.GetKeyDown(KeyCode.R))
+        if (1 == 2)
         {
             Resetpoint();
         }
