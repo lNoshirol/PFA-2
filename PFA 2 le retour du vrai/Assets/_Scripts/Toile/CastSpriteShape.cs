@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using PDollarGestureRecognizer;
 using System.IO;
 using System;
+using UnityEditor.ShaderGraph.Internal;
 
 public class CastSpriteShape : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class CastSpriteShape : MonoBehaviour
     private float currentDistance;
     [SerializeField] private List<Vector3> points = new();
     [SerializeField] float _drawOffset;
+    private DrawData _drawData;
 
     public List<Gesture> trainingSet = new List<Gesture>();
 
@@ -20,14 +22,11 @@ public class CastSpriteShape : MonoBehaviour
 
     [Header("Jsp (on va dire debug tkt)")]
     public Camera Cam;
-    public GameObject UnCaca;
-    public GameObject UnCaca2;
+    public GameObject CubeCentroid;
+    public GameObject CubeCentre;
     public LayerMask IgnoreMeUwU;
     public Vector3 vecTest;
     public Vector3 vecTest2;
-
-
-    
 
     void Start()
     {
@@ -70,6 +69,8 @@ public class CastSpriteShape : MonoBehaviour
             Result gestureResult = PointCloudRecognizer.Classify(candidate, trainingSet.ToArray());
 
             TryMakeAdaptativeCollider(GetDrawCenter(points), gestureResult);
+
+            _drawData = new DrawData(points, GetDrawDim(points), gestureResult, GetSpellTargetPointFromCenter(points));
 
             Debug.Log(gestureResult.GestureClass + " " + gestureResult.Score);
 
@@ -206,7 +207,7 @@ public class CastSpriteShape : MonoBehaviour
         return new Vector3(x, y, z);
     }
 
-    public Tuple<float, float> GetDrawDim(List<Vector3> points)
+    public Vector2 GetDrawDim(List<Vector3> points)
     {
         float minX = points[0].x;
         float maxX = points[0].x;
@@ -229,7 +230,12 @@ public class CastSpriteShape : MonoBehaviour
             maxZ = point.z > maxZ ? point.z : maxZ;
         }
 
-        return new(Mathf.Abs(minX) + Mathf.Abs(maxX), Mathf.Abs(minY) + Mathf.Abs(maxY));
+        Debug.Log($"MinX : {minX}, MaxX : {maxX}, minY : {minY}, maxY : {maxY}");
+        Debug.Log($"distance X : {maxX - minX}, distance Y : {maxY - minY}");
+
+        float X = minX >= 0 & maxX >= 0 ? minX : maxX;
+
+        return new(maxX - minX, maxY - minY);
     }
 
     public void GetSpellTargetPointFromCentroid(List<Vector3> points)
@@ -246,7 +252,7 @@ public class CastSpriteShape : MonoBehaviour
             if (hit.collider.CompareTag("Ground"))
             {
                 Debug.Log($"Spell cast location from centroid : {hit.point}");
-                UnCaca.transform.position = hit.point;
+                CubeCentroid.transform.position = hit.point;
             }
         }
     }
@@ -265,7 +271,7 @@ public class CastSpriteShape : MonoBehaviour
             if (hit.collider.CompareTag("Ground"))
             {
                 Debug.Log($"Spell cast location from center : {hit.point}");
-                UnCaca2.transform.position = hit.point;
+                CubeCentre.transform.position = hit.point;
                 return hit.point;
             }
 
@@ -289,12 +295,16 @@ public class CastSpriteShape : MonoBehaviour
                 SphereCollider sphereColliderComponent;
                 collider.TryGetComponent(out sphereColliderComponent);
                 sphereColliderComponent.isTrigger = true;
-                sphereColliderComponent.radius = (center.x >= center.y ? center.x : center.y)/4;
+
+                Vector2 drawDim = GetDrawDim(points);
+
+                sphereColliderComponent.radius = (drawDim.x >= drawDim.y ? drawDim.x : drawDim.y)*1.5f;
                 break;
             case "Square":
                 collider.AddComponent<BoxCollider>();
                 BoxCollider boxColliderComponent;
                 collider.TryGetComponent(out boxColliderComponent);
+
                 Vector3 cameraForward = Cam.transform.forward;
                 Vector3 toTarget = (collider.transform.position - Cam.transform.position).normalized;
                 float signedAngle = Vector3.SignedAngle(cameraForward, toTarget, Vector3.up);
@@ -302,9 +312,9 @@ public class CastSpriteShape : MonoBehaviour
 
                 boxColliderComponent.isTrigger = true;
 
-                Tuple<float, float> dim = GetDrawDim(points);
+                Vector2 dim = GetDrawDim(points);
 
-                Vector3 size = new(dim.Item1/2, Mathf.Abs(center.y), dim.Item2/4);
+                Vector3 size = new(dim.x/**2.2f*/, Mathf.Abs(center.y), dim.y);
 
                 Debug.Log($"Centre : {center}, Size : {size}");
 
@@ -313,6 +323,11 @@ public class CastSpriteShape : MonoBehaviour
 
                 break;
         }
+    }
+
+    public DrawData GetDrawData()
+    {
+        return _drawData;
     }
 
     public void DebugRay()
