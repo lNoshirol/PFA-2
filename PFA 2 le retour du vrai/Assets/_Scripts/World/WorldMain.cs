@@ -16,7 +16,6 @@ public class WorldMain : MonoBehaviour
 
     public string CurrentRoomName;
 
-
     private void Awake()
     {
         if (Instance != null && Instance != this)
