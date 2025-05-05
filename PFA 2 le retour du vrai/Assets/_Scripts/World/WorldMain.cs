@@ -7,7 +7,6 @@ using UnityEngine.InputSystem;
 
 public class WorldMain : MonoBehaviour
 {
-
     public static WorldMain Instance { get; private set; }
 
     public List<GameObject> RoomSwitchList = new List<GameObject>();

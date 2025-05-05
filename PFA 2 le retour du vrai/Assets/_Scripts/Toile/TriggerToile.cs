@@ -21,8 +21,8 @@ public class TriggerToile : MonoBehaviour
             ToileMain.Instance.ToileUI.UpdateToileUI(ToileMain.Instance.toileTime);
             _isActive = true;
             toile.SetActive(_isActive);
-            PlayerMain.Instance.playerInput.DeactivateInput();
-            StopCoroutine(ToileMain.Instance.timerCo);
+            //PlayerMain.Instance.playerInput.DeactivateInput();
+            //StopCoroutine(ToileMain.Instance.timerCo);
 
         }
         else
@@ -31,7 +31,7 @@ public class TriggerToile : MonoBehaviour
             toile.SetActive(_isActive);
             PlayerMain.Instance.playerInput.ActivateInput();
             ToileMain.Instance.gestureIsStarted = false;
-            StopCoroutine(ToileMain.Instance.timerCo);
+            //StopCoroutine(ToileMain.Instance.timerCo);
         }
     }
 

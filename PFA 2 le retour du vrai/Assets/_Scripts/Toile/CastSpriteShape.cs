@@ -27,6 +27,7 @@ public class CastSpriteShape : MonoBehaviour
     public Camera Cam;
     public GameObject CubeCentroid;
     public GameObject CubeCentre;
+    public GameObject CubeTest;
     public LayerMask IgnoreMeUwU;
     public Vector3 vecTest;
     public Vector3 vecTest2;
@@ -45,43 +46,9 @@ public class CastSpriteShape : MonoBehaviour
 
     void Update()
     {
-        if (touchingScreen && ToileMain.Instance.TriggerToile._isActive)
-        {
-            isDrawing = true;
-            points.Clear();
-            lineRenderer.positionCount = 0;
-            if(!ToileMain.Instance.gestureIsStarted)
-            ToileMain.Instance.timerCo = StartCoroutine(ToileMain.Instance.ToileTimer());
-        }
-
         if (touchingScreen)
         {
             AddPoint();
-        }
-
-        if (touchingScreen && lineRenderer.positionCount > 10)
-        {
-            isDrawing = false;
-
-            List<Point> drawReady = Vec3ToPoints(RecenterAndRotate());
-
-            GetSpellTargetPointFromCentroid(points);
-            GetSpellTargetPointFromCenter(points);
-
-            Gesture candidate = new Gesture(drawReady.ToArray());
-            Result gestureResult = PointCloudRecognizer.Classify(candidate, trainingSet.ToArray());
-
-            TryMakeAdaptativeCollider(GetDrawCenter(points), gestureResult);
-
-            _drawData = new DrawData(points, GetDrawDim(points), gestureResult, GetSpellTargetPointFromCenter(points));
-
-            Debug.Log(gestureResult.GestureClass + " " + gestureResult.Score);
-
-        }
-
-        if (1 == 2)
-        {
-            Resetpoint();
         }
 
         DebugRay();
@@ -89,13 +56,39 @@ public class CastSpriteShape : MonoBehaviour
 
     public void OnTouchScreen(InputAction.CallbackContext callbackContext)
     {
+        Debug.Log("CastSpriteShape L92/ AAAAAAAAAAAAH");
+
         if (callbackContext.started)
         {
             touchingScreen = true;
+            isDrawing = true;
+            points.Clear();
+            lineRenderer.positionCount = 0;
+            if (!ToileMain.Instance.gestureIsStarted)
+                ToileMain.Instance.timerCo = StartCoroutine(ToileMain.Instance.ToileTimer());
         }
 
         if (callbackContext.canceled)
         {
+            if (points.Count > 10)
+            {
+                isDrawing = false;
+
+                List<Point> drawReady = Vec3ToPoints(RecenterAndRotate());
+
+                GetSpellTargetPointFromCentroid(points);
+                GetSpellTargetPointFromCenter(points);
+
+                Gesture candidate = new Gesture(drawReady.ToArray());
+                Result gestureResult = PointCloudRecognizer.Classify(candidate, trainingSet.ToArray());
+
+                TryMakeAdaptativeCollider(GetDrawCenter(points), gestureResult);
+
+                _drawData = new DrawData(points, GetDrawDim(points), gestureResult, GetSpellTargetPointFromCenter(points));
+
+                Debug.Log(gestureResult.GestureClass + " " + gestureResult.Score);
+            }
+
             touchingScreen = false;
         }
     }
@@ -124,7 +117,24 @@ public class CastSpriteShape : MonoBehaviour
 
     private void AddPoint()
     {
-        Ray Ray = Cam.ScreenPointToRay(Input.mousePosition);
+        Ray Ray;
+
+        if (Mouse.current != null)
+        {
+            Debug.Log("souris");
+            Ray = Cam.ScreenPointToRay(Mouse.current.position.ReadValue());
+        }
+        else if (Touchscreen.current != null)
+        {
+            Debug.Log("écran");
+            Ray = Cam.ScreenPointToRay(Touchscreen.current.position.ReadValue());
+        }
+        else
+        {
+            Debug.Log("Dommage");
+            Ray = new Ray();
+        }
+
         RaycastHit hit;
 
         if (Physics.Raycast(Ray, out hit))
