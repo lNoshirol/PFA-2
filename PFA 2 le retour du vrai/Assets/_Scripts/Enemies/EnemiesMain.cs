@@ -4,9 +4,6 @@ using UnityEngine.AI;
 
 public class EnemiesMain : MonoBehaviour
 {
-    [Header("Scriptable")]
-    public EnemyDATA enemyData;
-
     [Header("Enemy State")]
     public EIdle EIdleState;
     public EPatrolState EPatrolState;
@@ -20,6 +17,8 @@ public class EnemiesMain : MonoBehaviour
     public GameObject enemyMesh;
     public EnemyHealth Health { get; private set; }
     public EnemyUI UI { get; private set; }
+
+    public EnemyStats Stats { get; private set; }
 
     public Rigidbody rb { get; private set; }
     public Transform player { get; private set; }
@@ -61,6 +60,8 @@ public class EnemiesMain : MonoBehaviour
 
         Health = GetComponent<EnemyHealth>();
         UI = GetComponent<EnemyUI>();
+        Stats = GetComponent<EnemyStats>();
+
     }
 
     private void Update()

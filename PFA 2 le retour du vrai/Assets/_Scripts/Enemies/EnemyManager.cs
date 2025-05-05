@@ -7,28 +7,42 @@ public class EnemyManager : MonoBehaviour
     public List<GameObject> CurrentEnemyList = new();
     public Dictionary<GameObject, bool> WorldEnemyDic = new();
 
-    private void Start()
+    public static EnemyManager Instance { get; private set; }
+    private void Awake()
     {
-        
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
     }
 
-    public void AddEnemiesToListAndDic()
+    public void AddEnemiesToListAndDic(GameObject enemy)
     {
-        foreach(Transform child  in transform)
-        {
-            AddEnemiesToWorldDic(child.gameObject);
-            AddCurrentEnemiesInRoom(child.gameObject);
-        }
+        AddEnemiesToWorldDic(enemy);
+        AddCurrentEnemiesInRoom(enemy);
     }
 
     public void AddEnemiesToWorldDic(GameObject enemy)
     {
-        WorldEnemyDic.Add(enemy, true);
+        foreach(var enemyDic in WorldEnemyDic)
+        {
+            if(!enemyDic.Key == enemy)
+            {
+                WorldEnemyDic.Add(enemy, true);
+            }
+        }
     }
 
     public void AddCurrentEnemiesInRoom(GameObject currentEnemies)
     {
-        CurrentEnemyList.Clear();
         CurrentEnemyList.Add(currentEnemies);
+    }
+
+    public void UpdateEnemyWorldDic()
+    {
+
     }
 }
