@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class FireBall : SkillParentClass
 {
-    public override void Activate()
+    public override void Activate(SkillContext context)
     {
         // PROTO
         GameObject fireBall = GetProjectile("FireBall");

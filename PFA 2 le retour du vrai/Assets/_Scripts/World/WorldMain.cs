@@ -7,7 +7,6 @@ using UnityEngine.InputSystem;
 
 public class WorldMain : MonoBehaviour
 {
-
     public static WorldMain Instance { get; private set; }
 
     public List<GameObject> RoomSwitchList = new List<GameObject>();
@@ -15,7 +14,6 @@ public class WorldMain : MonoBehaviour
     public GameObject currentRoomSwitcher;
 
     public string CurrentRoomName;
-
 
     private void Awake()
     {
@@ -60,6 +58,7 @@ public class WorldMain : MonoBehaviour
         PlayerMain.Instance.transform.position = FindCorrectSpawn(switcherName).transform.GetChild(0).transform.position;
         CameraMain.Instance.CenterCameraAtPosition(CameraMain.Instance.transform.position);
         PlayerMain.Instance.UI.SwitchRoomUI();
+        await Task.Delay(500);
         PlayerMain.Instance.playerInput.ActivateInput();
     }
 }

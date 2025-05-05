@@ -3,6 +3,9 @@ using UnityEngine.U2D;
 using System.Collections.Generic;
 using PDollarGestureRecognizer;
 using System.IO;
+using System;
+using UnityEditor.ShaderGraph.Internal;
+using UnityEngine.InputSystem;
 
 public class CastSpriteShape : MonoBehaviour
 {
@@ -11,20 +14,23 @@ public class CastSpriteShape : MonoBehaviour
     [SerializeField] private float distanceBetweenPoint;
     private float currentDistance;
     [SerializeField] private List<Vector3> points = new();
+    [SerializeField] float _drawOffset;
+    private DrawData _drawData;
+
+    public bool touchingScreen = false;
 
     public List<Gesture> trainingSet = new List<Gesture>();
 
     bool isDrawing;
 
-    [Header("Jsp")]
+    [Header("Jsp (on va dire debug tkt)")]
     public Camera Cam;
-    public GameObject UnCaca;
-    public GameObject UnCaca2;
+    public GameObject CubeCentroid;
+    public GameObject CubeCentre;
+    public GameObject CubeTest;
     public LayerMask IgnoreMeUwU;
     public Vector3 vecTest;
-
-
-    
+    public Vector3 vecTest2;
 
     void Start()
     {
@@ -40,42 +46,51 @@ public class CastSpriteShape : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0) && ToileMain.Instance.TriggerToile._isActive)
-        {
-            isDrawing = true;
-            points.Clear();
-            lineRenderer.positionCount = 0;
-            if(!ToileMain.Instance.gestureIsStarted)
-            ToileMain.Instance.timerCo = StartCoroutine(ToileMain.Instance.ToileTimer());
-        }
-
-        if (Input.GetMouseButton(0))
+        if (touchingScreen)
         {
             AddPoint();
         }
 
-        if (Input.GetMouseButtonUp(0) && lineRenderer.positionCount > 10)
-        {
-            isDrawing = false;
-
-            List<Point> drawReady = Vec3ToPoints(RecenterAndRotate());
-
-            GetSpellTargetPointFromCentroid(points);
-            GetSpellTargetPointFromCenter(points);
-
-            Gesture candidate = new Gesture(drawReady.ToArray());
-            Result gestureResult = PointCloudRecognizer.Classify(candidate, trainingSet.ToArray());
-
-            Debug.Log(gestureResult.GestureClass + " " + gestureResult.Score);
-
-        }
-
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            Resetpoint();
-        }
-
         DebugRay();
+    }
+
+    public void OnTouchScreen(InputAction.CallbackContext callbackContext)
+    {
+        Debug.Log("CastSpriteShape L92/ AAAAAAAAAAAAH");
+
+        if (callbackContext.started)
+        {
+            touchingScreen = true;
+            isDrawing = true;
+            points.Clear();
+            lineRenderer.positionCount = 0;
+            if (!ToileMain.Instance.gestureIsStarted)
+                ToileMain.Instance.timerCo = StartCoroutine(ToileMain.Instance.ToileTimer());
+        }
+
+        if (callbackContext.canceled)
+        {
+            if (points.Count > 10)
+            {
+                isDrawing = false;
+
+                List<Point> drawReady = Vec3ToPoints(RecenterAndRotate());
+
+                GetSpellTargetPointFromCentroid(points);
+                GetSpellTargetPointFromCenter(points);
+
+                Gesture candidate = new Gesture(drawReady.ToArray());
+                Result gestureResult = PointCloudRecognizer.Classify(candidate, trainingSet.ToArray());
+
+                TryMakeAdaptativeCollider(GetDrawCenter(points), gestureResult);
+
+                _drawData = new DrawData(points, GetDrawDim(points), gestureResult, GetSpellTargetPointFromCenter(points));
+
+                Debug.Log(gestureResult.GestureClass + " " + gestureResult.Score);
+            }
+
+            touchingScreen = false;
+        }
     }
 
     public List<Point> Vec3ToPoints(List<Vector3> list)
@@ -102,7 +117,24 @@ public class CastSpriteShape : MonoBehaviour
 
     private void AddPoint()
     {
-        Ray Ray = Cam.ScreenPointToRay(Input.mousePosition);
+        Ray Ray;
+
+        if (Mouse.current != null)
+        {
+            Debug.Log("souris");
+            Ray = Cam.ScreenPointToRay(Mouse.current.position.ReadValue());
+        }
+        else if (Touchscreen.current != null)
+        {
+            Debug.Log("écran");
+            Ray = Cam.ScreenPointToRay(Touchscreen.current.position.ReadValue());
+        }
+        else
+        {
+            Debug.Log("Dommage");
+            Ray = new Ray();
+        }
+
         RaycastHit hit;
 
         if (Physics.Raycast(Ray, out hit))
@@ -111,7 +143,7 @@ public class CastSpriteShape : MonoBehaviour
             {
                 if (points.Count == 0)
                 {
-                    points.Add(hit.point + new Vector3(0, 0.5f, -0.5f));
+                    points.Add(hit.point + new Vector3(0, _drawOffset, -_drawOffset));
 
                     UpdateLinePoints();
                     return;
@@ -122,7 +154,7 @@ public class CastSpriteShape : MonoBehaviour
 
                     if (currentDistance >= distanceBetweenPoint)
                     {
-                        points.Add(hit.point + new Vector3(0, 0.5f, -0.5f));
+                        points.Add(hit.point + new Vector3(0, _drawOffset, -_drawOffset));
 
                         UpdateLinePoints();
                         return;
@@ -135,6 +167,26 @@ public class CastSpriteShape : MonoBehaviour
     public void Resetpoint()
     {
         lineRenderer.positionCount = 0;
+    }
+
+    public List<Vector3> RecenterAndRotate()
+    {
+        Vector3 centroid = GetDrawCentroid(points);
+
+        List<Vector3> recenterDraw = new List<Vector3>();
+
+        foreach (Vector3 point in points)
+        {
+            Vector3 newPoint = point - centroid;
+
+            newPoint = Quaternion.Euler(-45, 0, 0) * newPoint;
+
+            newPoint = Quaternion.Euler(0, 0, 180) * newPoint;
+
+            recenterDraw.Add(newPoint);
+        }
+
+        return recenterDraw;
     }
 
     public Vector3 GetDrawCentroid(List<Vector3> points)
@@ -181,24 +233,35 @@ public class CastSpriteShape : MonoBehaviour
         return new Vector3(x, y, z);
     }
 
-    public List<Vector3> RecenterAndRotate()
+    public Vector2 GetDrawDim(List<Vector3> points)
     {
-        Vector3 centroid = GetDrawCentroid(points);
+        float minX = points[0].x;
+        float maxX = points[0].x;
 
-        List<Vector3> recenterDraw = new List<Vector3>();
+        float minY = points[0].y;
+        float maxY = points[0].y;
+
+        float minZ = points[0].z;
+        float maxZ = points[0].z;
 
         foreach (Vector3 point in points)
         {
-            Vector3 newPoint = point - centroid;
+            minX = point.x < minX ? point.x : minX;
+            maxX = point.x > maxX ? point.x : maxX;
 
-            newPoint = Quaternion.Euler(-45, 0, 0) * newPoint;
+            minY = point.y < minY ? point.y : minY;
+            maxY = point.y > maxY ? point.y : maxY;
 
-            newPoint = Quaternion.Euler(0, 0, 180) * newPoint;
-
-            recenterDraw.Add(newPoint);
+            minZ = point.z < minZ ? point.z : minZ;
+            maxZ = point.z > maxZ ? point.z : maxZ;
         }
 
-        return recenterDraw;
+        Debug.Log($"MinX : {minX}, MaxX : {maxX}, minY : {minY}, maxY : {maxY}");
+        Debug.Log($"distance X : {maxX - minX}, distance Y : {maxY - minY}");
+
+        float X = minX >= 0 & maxX >= 0 ? minX : maxX;
+
+        return new(maxX - minX, maxY - minY);
     }
 
     public void GetSpellTargetPointFromCentroid(List<Vector3> points)
@@ -215,28 +278,82 @@ public class CastSpriteShape : MonoBehaviour
             if (hit.collider.CompareTag("Ground"))
             {
                 Debug.Log($"Spell cast location from centroid : {hit.point}");
-                UnCaca.transform.position = hit.point;
+                CubeCentroid.transform.position = hit.point;
             }
         }
     }
 
-    public void GetSpellTargetPointFromCenter(List<Vector3> points)
+    public Vector3 GetSpellTargetPointFromCenter(List<Vector3> points)
     {
         Vector3 center = GetDrawCenter(points);
 
         Ray Ray = Cam.ScreenPointToRay(Cam.WorldToScreenPoint(center));
         RaycastHit hit;
 
-        if (Physics.Raycast(Ray, out hit, 20000f, ~IgnoreMeUwU))
+        if (Physics.Raycast(Ray, out hit, 200f, ~IgnoreMeUwU))
         {
             Debug.Log(hit.collider.gameObject.name);
 
             if (hit.collider.CompareTag("Ground"))
             {
                 Debug.Log($"Spell cast location from center : {hit.point}");
-                UnCaca2.transform.position = hit.point;
+                CubeCentre.transform.position = hit.point;
+                return hit.point;
             }
+
+            Debug.LogError("No Ground Hit");
+            return Vector3.zero;
         }
+
+        Debug.LogError("No Object Hit");
+        return Vector3.zero;
+    }
+
+    public void TryMakeAdaptativeCollider(Vector3 center, Result result)
+    {
+        GameObject collider = new();
+        collider.transform.position = GetSpellTargetPointFromCenter(points);
+
+        switch (result.GestureClass)
+        {
+            case "Circle":
+                collider.AddComponent<SphereCollider>();
+                SphereCollider sphereColliderComponent;
+                collider.TryGetComponent(out sphereColliderComponent);
+                sphereColliderComponent.isTrigger = true;
+
+                Vector2 drawDim = GetDrawDim(points);
+
+                sphereColliderComponent.radius = (drawDim.x >= drawDim.y ? drawDim.x : drawDim.y)*1.5f;
+                break;
+            case "Square":
+                collider.AddComponent<BoxCollider>();
+                BoxCollider boxColliderComponent;
+                collider.TryGetComponent(out boxColliderComponent);
+
+                Vector3 cameraForward = Cam.transform.forward;
+                Vector3 toTarget = (collider.transform.position - Cam.transform.position).normalized;
+                float signedAngle = Vector3.SignedAngle(cameraForward, toTarget, Vector3.up);
+                collider.transform.rotation = Quaternion.Euler(new Vector3(-45, 0, signedAngle));
+
+                boxColliderComponent.isTrigger = true;
+
+                Vector2 dim = GetDrawDim(points);
+
+                Vector3 size = new(dim.x, Mathf.Abs(center.y), dim.y);
+
+                Debug.Log($"Centre : {center}, Size : {size}");
+
+                boxColliderComponent.size = size;
+
+
+                break;
+        }
+    }
+
+    public DrawData GetDrawData()
+    {
+        return _drawData;
     }
 
     public void DebugRay()
@@ -248,5 +365,7 @@ public class CastSpriteShape : MonoBehaviour
             Ray ray = Cam.ScreenPointToRay(Cam.WorldToScreenPoint(centroid));
             Debug.DrawRay(centroid, vecTest, Color.red);
         }
+
+        Debug.DrawRay(Cam.ScreenToWorldPoint(Vector3.zero), vecTest, Color.red);
     }
 }

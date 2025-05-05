@@ -2,18 +2,10 @@ using UnityEngine;
 
 public class PROTOPlayerSkills : MonoBehaviour
 {
-    private SimpleDash _testSkill = new();
-    
-    private void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.Space))
-        {
-            _testSkill.Activate();
-        }
-    }
-
     public void UseSkill()
     {
-        _testSkill.Activate();
+        SimpleDash power = (SimpleDash)SpellManager.Instance.GetSpell("SimpleDash");
+        SkillContext context = new(PlayerMain.Instance.Rigidbody, this.gameObject, PlayerMain.Instance.PlayerMesh.transform.forward, 50);
+        if (power != null) power.Activate(context);
     }
 }
