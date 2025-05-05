@@ -56,7 +56,7 @@ public class CastSpriteShape : MonoBehaviour
 
     public void OnTouchScreen(InputAction.CallbackContext callbackContext)
     {
-        Debug.Log("CastSpriteShape L92/ AAAAAAAAAAAAH");
+        Debug.Log($"CastSpriteShape L92/ AAAAAAAAAAAAH {gameObject.transform.parent.gameObject.activeSelf}");
 
         if (callbackContext.started)
         {
@@ -64,7 +64,7 @@ public class CastSpriteShape : MonoBehaviour
             isDrawing = true;
             points.Clear();
             lineRenderer.positionCount = 0;
-            if (!ToileMain.Instance.gestureIsStarted)
+            if (!ToileMain.Instance.gestureIsStarted && gameObject.transform.parent.gameObject.activeSelf)
                 ToileMain.Instance.timerCo = StartCoroutine(ToileMain.Instance.ToileTimer());
         }
 
@@ -332,9 +332,15 @@ public class CastSpriteShape : MonoBehaviour
                 collider.TryGetComponent(out boxColliderComponent);
 
                 Vector3 cameraForward = Cam.transform.forward;
+                Vector3 cameraUp = Cam.transform.up;
+
                 Vector3 toTarget = (collider.transform.position - Cam.transform.position).normalized;
+                Vector3 toTargetUp = (collider.transform.position - Cam.transform.position).normalized;
+                
                 float signedAngle = Vector3.SignedAngle(cameraForward, toTarget, Vector3.up);
-                collider.transform.rotation = Quaternion.Euler(new Vector3(-45, 0, signedAngle));
+                float signedAngleUp = Vector3.SignedAngle(cameraUp, toTargetUp, Vector3.up);
+                
+                collider.transform.rotation = Quaternion.Euler(new Vector3(signedAngleUp, 0, signedAngleUp));
 
                 boxColliderComponent.isTrigger = true;
 
