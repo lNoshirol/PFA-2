@@ -1,4 +1,4 @@
-using UnityEngine;
+/*using UnityEngine;
 
 public class PROTOPlayerSkills : MonoBehaviour
 {
@@ -23,3 +23,4 @@ public class PROTOPlayerSkills : MonoBehaviour
         _testSkill.Activate(context);
     }
 }
+*/
