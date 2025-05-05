@@ -5,6 +5,7 @@ using PDollarGestureRecognizer;
 using System.IO;
 using System;
 using UnityEditor.ShaderGraph.Internal;
+using UnityEngine.InputSystem;
 
 public class CastSpriteShape : MonoBehaviour
 {
@@ -15,6 +16,8 @@ public class CastSpriteShape : MonoBehaviour
     [SerializeField] private List<Vector3> points = new();
     [SerializeField] float _drawOffset;
     private DrawData _drawData;
+
+    public bool touchingScreen = false;
 
     public List<Gesture> trainingSet = new List<Gesture>();
 
@@ -42,7 +45,7 @@ public class CastSpriteShape : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0) && ToileMain.Instance.TriggerToile._isActive)
+        if (touchingScreen && ToileMain.Instance.TriggerToile._isActive)
         {
             isDrawing = true;
             points.Clear();
@@ -51,12 +54,12 @@ public class CastSpriteShape : MonoBehaviour
             ToileMain.Instance.timerCo = StartCoroutine(ToileMain.Instance.ToileTimer());
         }
 
-        if (Input.GetMouseButton(0))
+        if (touchingScreen)
         {
             AddPoint();
         }
 
-        if (Input.GetMouseButtonUp(0) && lineRenderer.positionCount > 10)
+        if (touchingScreen && lineRenderer.positionCount > 10)
         {
             isDrawing = false;
 
@@ -82,6 +85,19 @@ public class CastSpriteShape : MonoBehaviour
         }
 
         DebugRay();
+    }
+
+    public void OnTouchScreen(InputAction.CallbackContext callbackContext)
+    {
+        if (callbackContext.started)
+        {
+            touchingScreen = true;
+        }
+
+        if (callbackContext.canceled)
+        {
+            touchingScreen = false;
+        }
     }
 
     public List<Point> Vec3ToPoints(List<Vector3> list)
@@ -314,7 +330,7 @@ public class CastSpriteShape : MonoBehaviour
 
                 Vector2 dim = GetDrawDim(points);
 
-                Vector3 size = new(dim.x/**2.2f*/, Mathf.Abs(center.y), dim.y);
+                Vector3 size = new(dim.x, Mathf.Abs(center.y), dim.y);
 
                 Debug.Log($"Centre : {center}, Size : {size}");
 
