@@ -262,7 +262,7 @@ GameObject:
   - component: {fileID: 73375716}
   - component: {fileID: 73375715}
   m_Layer: 0
-  m_Name: lecaca
+  m_Name: CubeCentroid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2639,7 +2639,7 @@ GameObject:
   - component: {fileID: 1997012269}
   - component: {fileID: 1997012268}
   m_Layer: 0
-  m_Name: lecaca 2
+  m_Name: CubeCentre
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2960,12 +2960,20 @@ PrefabInstance:
       value: 45
       objectReference: {fileID: 0}
     - target: {fileID: 6089315289693503353, guid: e9227956101fc854cb3caeb4e085306f, type: 3}
+      propertyPath: CubeCentre
+      value: 
+      objectReference: {fileID: 1997012267}
+    - target: {fileID: 6089315289693503353, guid: e9227956101fc854cb3caeb4e085306f, type: 3}
       propertyPath: _drawOffset
       value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 6089315289693503353, guid: e9227956101fc854cb3caeb4e085306f, type: 3}
+      propertyPath: CubeCentroid
+      value: 
+      objectReference: {fileID: 73375714}
+    - target: {fileID: 6089315289693503353, guid: e9227956101fc854cb3caeb4e085306f, type: 3}
       propertyPath: IgnoreMeUwU.m_Bits
-      value: 8
+      value: 191
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

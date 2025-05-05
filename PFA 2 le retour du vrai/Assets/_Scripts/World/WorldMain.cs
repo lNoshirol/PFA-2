@@ -60,6 +60,7 @@ public class WorldMain : MonoBehaviour
         PlayerMain.Instance.transform.position = FindCorrectSpawn(switcherName).transform.GetChild(0).transform.position;
         CameraMain.Instance.CenterCameraAtPosition(CameraMain.Instance.transform.position);
         PlayerMain.Instance.UI.SwitchRoomUI();
+        await Task.Delay(500);
         PlayerMain.Instance.playerInput.ActivateInput();
     }
 }
