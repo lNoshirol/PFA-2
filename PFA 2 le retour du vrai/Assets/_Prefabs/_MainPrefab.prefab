@@ -1221,7 +1221,23 @@ PrefabInstance:
       value: FireBall
       objectReference: {fileID: 0}
     - target: {fileID: 7577823411821127699, guid: 978470b0a638bee4884f779494b64f09, type: 3}
+      propertyPath: m_ActionEvents.Array.size
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 7577823411821127699, guid: 978470b0a638bee4884f779494b64f09, type: 3}
+      propertyPath: m_ActionEvents.Array.data[19].m_ActionId
+      value: bd1a9dd0-d260-4279-abba-1d35924d5627
+      objectReference: {fileID: 0}
+    - target: {fileID: 7577823411821127699, guid: 978470b0a638bee4884f779494b64f09, type: 3}
+      propertyPath: m_ActionEvents.Array.data[19].m_ActionName
+      value: 'Player/ClickForDraw[/Mouse/leftButton]'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7577823411821127699, guid: 978470b0a638bee4884f779494b64f09, type: 3}
       propertyPath: m_ActionEvents.Array.data[5].m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7577823411821127699, guid: 978470b0a638bee4884f779494b64f09, type: 3}
+      propertyPath: m_ActionEvents.Array.data[19].m_PersistentCalls.m_Calls.Array.size
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7577823411821127699, guid: 978470b0a638bee4884f779494b64f09, type: 3}
@@ -1233,7 +1249,15 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2702217903002590612}
     - target: {fileID: 7577823411821127699, guid: 978470b0a638bee4884f779494b64f09, type: 3}
+      propertyPath: m_ActionEvents.Array.data[19].m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 6089315289693503353}
+    - target: {fileID: 7577823411821127699, guid: 978470b0a638bee4884f779494b64f09, type: 3}
       propertyPath: m_ActionEvents.Array.data[5].m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7577823411821127699, guid: 978470b0a638bee4884f779494b64f09, type: 3}
+      propertyPath: m_ActionEvents.Array.data[19].m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7577823411821127699, guid: 978470b0a638bee4884f779494b64f09, type: 3}
@@ -1241,11 +1265,23 @@ PrefabInstance:
       value: UseSkill
       objectReference: {fileID: 0}
     - target: {fileID: 7577823411821127699, guid: 978470b0a638bee4884f779494b64f09, type: 3}
+      propertyPath: m_ActionEvents.Array.data[19].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnTouchScreen
+      objectReference: {fileID: 0}
+    - target: {fileID: 7577823411821127699, guid: 978470b0a638bee4884f779494b64f09, type: 3}
       propertyPath: m_ActionEvents.Array.data[5].m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: PROTOPlayerSkills, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 7577823411821127699, guid: 978470b0a638bee4884f779494b64f09, type: 3}
+      propertyPath: m_ActionEvents.Array.data[19].m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: CastSpriteShape, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 7577823411821127699, guid: 978470b0a638bee4884f779494b64f09, type: 3}
       propertyPath: m_ActionEvents.Array.data[5].m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 7577823411821127699, guid: 978470b0a638bee4884f779494b64f09, type: 3}
+      propertyPath: m_ActionEvents.Array.data[19].m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 7656349746086013700, guid: 978470b0a638bee4884f779494b64f09, type: 3}
