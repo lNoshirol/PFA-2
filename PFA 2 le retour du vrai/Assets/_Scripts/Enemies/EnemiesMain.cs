@@ -4,6 +4,9 @@ using UnityEngine.AI;
 
 public class EnemiesMain : MonoBehaviour
 {
+    [Header("Scriptable")]
+    public EnemyDATA enemyData;
+
     [Header("Enemy State")]
     public EIdle EIdleState;
     public EPatrolState EPatrolState;

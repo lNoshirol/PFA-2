@@ -19,7 +19,6 @@ public class EAttackState : EnemiesState
             ///TEMP 
             Rigidbody rb = Instantiate(EnemiesMain.projectile, transform.position, Quaternion.identity).GetComponent<Rigidbody>();
             rb.AddForce(transform.forward * 32f, ForceMode.Impulse);
-            rb.AddForce(transform.up * 4f, ForceMode.Impulse);
             alreadyAttack = true;
             Invoke(nameof(ResetAttack), attackCooldown);
         }
