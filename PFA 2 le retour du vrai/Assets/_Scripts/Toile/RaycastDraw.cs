@@ -1,78 +1,83 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections.Generic;
-using NaughtyAttributes.Test;
 
 public class RaycastDraw : MonoBehaviour
 {
+    [Header("Settings")]
     public Camera mainCamera;
-    public LayerMask raycastLayerMask;  
-    public List<Vector3> points2D = new List<Vector3>();  
-    public List<Vector3> points3D = new List<Vector3>();  
+    public LayerMask raycastLayerMask;
 
-
-
-    private Vector3[] vertices = new Vector3[4];
-    //private int triangles = new int[6];
+    [Header("Draw Data")]
+    public List<Vector2> points2D = new();
+    public List<Vector3> points3D = new();
 
     private GameObject meshObject;
     private Mesh mesh;
 
     private void Start()
     {
-        mesh = new Mesh();
-        mesh.name = "Custom mesh";
+        if (mainCamera == null)
+            mainCamera = Camera.main;
 
-        meshObject = new GameObject("Mesh object", typeof(MeshRenderer), typeof(MeshFilter));
+        mesh = new Mesh { name = "Custom Mesh" };
 
-        meshObject.GetComponent<MeshFilter>().mesh = mesh;    
+        meshObject = new GameObject("MeshObject", typeof(MeshRenderer), typeof(MeshFilter));
+        meshObject.GetComponent<MeshFilter>().mesh = mesh;
+    }
 
-        mesh.vertices = vertices;
-        //mesh.triangles = triangles;
-    } 
-        
-    void Update()
+    public void DrawRayCastInRealTime()
     {
-        if (Mouse.current.leftButton.isPressed)  
+        Vector2 screenPoint;
+
+        if (Touchscreen.current != null && Touchscreen.current.primaryTouch.press.isPressed)
         {
-            Vector3 point2D = Mouse.current.position.ReadValue();  
-            points2D.Add(point2D);
-
-
-            Vector3 point3D = ConvertToWorldSpaceWithRaycast(point2D);
-            points3D.Add(point3D);
+            screenPoint = Touchscreen.current.primaryTouch.position.ReadValue();
         }
+        else if (Mouse.current != null && Mouse.current.leftButton.isPressed)
+        {
+            screenPoint = Mouse.current.position.ReadValue();
+        }
+        else
+        {
+            return;
+        }
+
+        points2D.Add(screenPoint);
+
+        Vector3 worldPoint = ConvertToWorldSpaceWithRaycast(screenPoint);
+        if (worldPoint != Vector3.zero)
+        {
+            points3D.Add(worldPoint);
+        }
+
         DebugRaycastLines();
     }
 
-    Vector3 ConvertToWorldSpaceWithRaycast(Vector3 screenPoint)
+    private Vector3 ConvertToWorldSpaceWithRaycast(Vector2 screenPoint)
     {
         Ray ray = mainCamera.ScreenPointToRay(screenPoint);
-        RaycastHit hit;
-
-        if (Physics.Raycast(ray, out hit, Mathf.Infinity, raycastLayerMask))
+        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, raycastLayerMask))
         {
             return hit.point;
         }
 
-        return ray.GetPoint(10f);  
+        return Vector3.zero;
     }
 
-    void DebugRaycastLines()
+    public void DebugRaycastLines()
     {
-        if (points3D.Count > 0)
-        {
-            for (int i = 0; i < points3D.Count - 1; i++)
-            {
-                Debug.DrawLine(points3D[i], points3D[i + 1], Color.red);  
-            }
+        if (points3D.Count < 2) return;
 
-            Debug.DrawLine(points3D[points3D.Count - 1], points3D[0], Color.red);
+        for (int i = 0; i < points3D.Count - 1; i++)
+        {
+            Debug.DrawLine(points3D[i], points3D[i + 1], Color.red);
         }
     }
 
     public void ClearRaycastLines()
     {
-        points3D.Clear();  
+        points2D.Clear();
+        points3D.Clear();
     }
 }

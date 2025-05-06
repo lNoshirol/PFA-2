@@ -5,6 +5,7 @@ using PDollarGestureRecognizer;
 using System.IO;
 using System;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.EnhancedTouch;
 
 public class CastSpriteShape : MonoBehaviour
 {
@@ -62,10 +63,12 @@ public class CastSpriteShape : MonoBehaviour
     {
         if (touchingScreen)
         {
+            ToileMain.Instance.RaycastDraw.DrawRayCastInRealTime();
             AddPoint();
         }
 
         DebugRay();
+        ToileMain.Instance.RaycastDraw.DebugRaycastLines();
     }
 
     [Obsolete]
@@ -75,39 +78,51 @@ public class CastSpriteShape : MonoBehaviour
 
         if (callbackContext.started)
         {
-            ToileMain.Instance.RaycastDraw.ClearRaycastLines();
-            touchingScreen = true;
-            isDrawing = true;
-            points.Clear();
-            lineRenderer.positionCount = 0;
-            if (!ToileMain.Instance.gestureIsStarted && gameObject.transform.parent.gameObject.activeSelf)
-                ToileMain.Instance.timerCo = StartCoroutine(ToileMain.Instance.ToileTimer());
-            lineRenderer.SetColors(_currentColor, _currentColor);
+            OnTouchStart();
         }
 
         if (callbackContext.canceled)
         {
-            if (points.Count > 10)
-            {
-                isDrawing = false;
-
-                List<Point> drawReady = Vec3ToPoints(RecenterAndRotate());
-                
-                GetSpellTargetPointFromCentroid(points);
-                GetSpellTargetPointFromCenter(points);
-
-                Gesture candidate = new Gesture(drawReady.ToArray());
-                Result gestureResult = PointCloudRecognizer.Classify(candidate, trainingSet.ToArray());
-
-                TryMakeAdaptativeCollider(GetDrawCenter(points), gestureResult);
-
-                _drawData = new DrawData(points, GetDrawDim(points), gestureResult, GetSpellTargetPointFromCenter(points), ColorUtility.ToHtmlStringRGB(_currentColor));
-
-                Debug.Log(gestureResult.GestureClass + " " + gestureResult.Score);
-            }
-
-            touchingScreen = false;
+            OnTouchEnd();
         }
+    }
+
+    public void OnTouchStart()
+    {
+        ToileMain.Instance.RaycastDraw.ClearRaycastLines();
+        touchingScreen = true;
+        isDrawing = true;
+        points.Clear();
+        lineRenderer.positionCount = 0;
+
+        if (!ToileMain.Instance.gestureIsStarted && gameObject.transform.parent.gameObject.activeSelf)
+            ToileMain.Instance.timerCo = StartCoroutine(ToileMain.Instance.ToileTimer());
+
+        lineRenderer.SetColors(_currentColor, _currentColor);
+    }
+
+    public void OnTouchEnd()
+    {
+        if (points.Count > 10)
+        {
+            isDrawing = false;
+
+            List<Point> drawReady = Vec3ToPoints(RecenterAndRotate());
+
+            GetSpellTargetPointFromCentroid(points);
+            GetSpellTargetPointFromCenter(points);
+
+            Gesture candidate = new Gesture(drawReady.ToArray());
+            Result gestureResult = PointCloudRecognizer.Classify(candidate, trainingSet.ToArray());
+
+            TryMakeAdaptativeCollider(GetDrawCenter(points), gestureResult);
+
+            _drawData = new DrawData(points, GetDrawDim(points), gestureResult, GetSpellTargetPointFromCenter(points), ColorUtility.ToHtmlStringRGB(_currentColor));
+
+            Debug.Log(gestureResult.GestureClass + " " + gestureResult.Score);
+        }
+
+        touchingScreen = false;
     }
 
     public List<Point> Vec3ToPoints(List<Vector3> list)
@@ -136,14 +151,18 @@ public class CastSpriteShape : MonoBehaviour
     {
         Ray Ray;
 
-        if (Mouse.current != null)
-        {
-            Ray = Cam.ScreenPointToRay(Mouse.current.position.ReadValue());
-        }
-        else if (Touchscreen.current != null)
+        if (Touchscreen.current != null)
         {
             Ray = Cam.ScreenPointToRay(Touchscreen.current.position.ReadValue());
+            Debug.Log("Screen");
         }
+
+       else if (Mouse.current != null)
+        {
+            Ray = Cam.ScreenPointToRay(Mouse.current.position.ReadValue());
+            Debug.Log("Mouse");
+        }
+
         else
         {
             Debug.Log("Dommage");
@@ -183,6 +202,7 @@ public class CastSpriteShape : MonoBehaviour
     {
         lineRenderer.positionCount = 0;
     }
+
 
     public List<Vector3> RecenterAndRotate()
     {
@@ -394,5 +414,23 @@ public class CastSpriteShape : MonoBehaviour
         }
 
         Debug.DrawRay(Cam.ScreenToWorldPoint(Vector3.zero), vecTest, Color.red);
+    }
+
+    private void OnEnable()
+    {
+        TouchSimulation.Enable();
+        UnityEngine.InputSystem.EnhancedTouch.Touch.onFingerDown += FingerDown;
+    }
+
+    private void OnDisable()
+    {
+        TouchSimulation.Disable();
+        UnityEngine.InputSystem.EnhancedTouch.Touch.onFingerDown -= FingerDown;
+    }
+
+
+    private void FingerDown(Finger finger)
+    {
+      
     }
 }
