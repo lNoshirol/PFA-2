@@ -52,4 +52,18 @@ public class PlayerUI : MonoBehaviour
         }
     }
 
+    public void HidePlayerControls()
+    {
+        if(playerControl.alpha == 1){
+            playerControl.alpha = 0;
+            playerControl.interactable = false;
+        }
+        else {
+            playerControl.alpha = 1;
+            playerControl.interactable = true;
+
+        }
+
+    }
+
 }

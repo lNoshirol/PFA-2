@@ -10,7 +10,7 @@ public class TriggerToile : MonoBehaviour
     private void Start()
     {
         _isActive = toile.activeSelf;
-        toileButton.gameObject.SetActive(false);
+        toileButton.interactable = false;
     }
 
     public void OpenAndCloseToileMagique()
@@ -21,6 +21,7 @@ public class TriggerToile : MonoBehaviour
             ToileMain.Instance.ToileUI.UpdateToileUI(ToileMain.Instance.toileTime);
             _isActive = true;
             toile.SetActive(_isActive);
+            PlayerMain.Instance.UI.HidePlayerControls();
             //PlayerMain.Instance.playerInput.DeactivateInput();
             //StopCoroutine(ToileMain.Instance.timerCo);
 
@@ -29,6 +30,7 @@ public class TriggerToile : MonoBehaviour
         {
             _isActive = false;
             toile.SetActive(_isActive);
+            PlayerMain.Instance.UI.HidePlayerControls();
             PlayerMain.Instance.playerInput.ActivateInput();
             ToileMain.Instance.gestureIsStarted = false;
             //StopCoroutine(ToileMain.Instance.timerCo);
@@ -37,6 +39,6 @@ public class TriggerToile : MonoBehaviour
 
     public void EnableToileButton()
     {
-        toileButton.gameObject.SetActive(true);
+        toileButton.interactable = true;
     }
 }
