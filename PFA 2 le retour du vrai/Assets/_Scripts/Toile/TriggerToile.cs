@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
-using static UnityEditor.PlayerSettings.SplashScreen;
+
 
 public class TriggerToile : MonoBehaviour
 {
