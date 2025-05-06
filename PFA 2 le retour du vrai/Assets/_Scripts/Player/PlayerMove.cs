@@ -8,10 +8,16 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] private float _deceleration;
     [SerializeField] private float _velocityPower;
     [SerializeField] private float _friction;
+    public bool canMove;
 
     private Vector3 _moveInput;
     private Vector3 _movementForce;
 
+
+    private void Start()
+    {
+        canMove = true;
+    }
     void Update()
     {
         float targetSpeedX = _moveInput.x * _topSpeed;
@@ -47,11 +53,15 @@ public class PlayerMove : MonoBehaviour
 
     public void Move(InputAction.CallbackContext context)
     {
-        _moveInput = new Vector3(context.ReadValue<Vector2>().x, 0f, context.ReadValue<Vector2>().y);
-
-        if (_moveInput != Vector3.zero)
+        if (canMove)
         {
-            PlayerMain.Instance.PlayerMesh.transform.rotation = Quaternion.LookRotation(_moveInput);
+            _moveInput = new Vector3(context.ReadValue<Vector2>().x, 0f, context.ReadValue<Vector2>().y);
+
+            if (_moveInput != Vector3.zero)
+            {
+                PlayerMain.Instance.PlayerMesh.transform.rotation = Quaternion.LookRotation(_moveInput);
+            }
         }
+
     }
 }

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class TriggerToile : MonoBehaviour
@@ -22,7 +23,8 @@ public class TriggerToile : MonoBehaviour
             _isActive = true;
             toile.SetActive(_isActive);
             PlayerMain.Instance.UI.HidePlayerControls();
-            //PlayerMain.Instance.playerInput.DeactivateInput();
+            PlayerMain.Instance.Move.canMove = false;
+            PlayerMain.Instance.playerInput.SwitchCurrentControlScheme("Keyboard&Mouse", Keyboard.current, Mouse.current);
             //StopCoroutine(ToileMain.Instance.timerCo);
             Debug.Log("Open");
 
@@ -33,6 +35,7 @@ public class TriggerToile : MonoBehaviour
             toile.SetActive(_isActive);
             PlayerMain.Instance.UI.HidePlayerControls();
             PlayerMain.Instance.playerInput.ActivateInput();
+            PlayerMain.Instance.Move.canMove = true;
             ToileMain.Instance.gestureIsStarted = false;
             //StopCoroutine(ToileMain.Instance.timerCo);
             Debug.Log("Close");
