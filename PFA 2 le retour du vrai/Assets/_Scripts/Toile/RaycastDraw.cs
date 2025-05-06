@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections.Generic;
+using NaughtyAttributes.Test;
 
 public class RaycastDraw : MonoBehaviour
 {
@@ -9,6 +10,27 @@ public class RaycastDraw : MonoBehaviour
     public List<Vector3> points2D = new List<Vector3>();  
     public List<Vector3> points3D = new List<Vector3>();  
 
+
+
+    private Vector3[] vertices = new Vector3[4];
+    private int triangles = new int[6];
+
+    private GameObject meshObject;
+    private Mesh mesh;
+
+    private void Start()
+    {
+        mesh = new Mesh();
+        mesh.name = "Custom mesh";
+
+        meshObject = new GameObject("Mesh object", typeof(MeshRenderer), typeof(MeshFilter));
+
+        meshObject.GetComponent<MeshFilter>().mesh = mesh;    
+
+        mesh.vertices = vertices;
+        mesh.triangles = triangles;
+    } 
+        
     void Update()
     {
         if (Mouse.current.leftButton.isPressed)  
