@@ -74,7 +74,5 @@ public class PlayerAttack : MonoBehaviour
 
             NbOfClicks = 0;
         }
-
-        canAttack = true;
     }
 }

@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using PDollarGestureRecognizer;
 using System.IO;
 using System;
-using UnityEditor.ShaderGraph.Internal;
 using UnityEngine.InputSystem;
 
 public class CastSpriteShape : MonoBehaviour
@@ -76,6 +75,7 @@ public class CastSpriteShape : MonoBehaviour
 
         if (callbackContext.started)
         {
+            ToileMain.Instance.RaycastDraw.ClearRaycastLines();
             touchingScreen = true;
             isDrawing = true;
             points.Clear();
@@ -92,7 +92,7 @@ public class CastSpriteShape : MonoBehaviour
                 isDrawing = false;
 
                 List<Point> drawReady = Vec3ToPoints(RecenterAndRotate());
-
+                
                 GetSpellTargetPointFromCentroid(points);
                 GetSpellTargetPointFromCenter(points);
 
