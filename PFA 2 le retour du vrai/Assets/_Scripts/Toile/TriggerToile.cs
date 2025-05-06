@@ -10,7 +10,7 @@ public class TriggerToile : MonoBehaviour
     private void Start()
     {
         _isActive = toile.activeSelf;
-        toileButton.gameObject.SetActive(false);
+        toileButton.interactable = false;
     }
 
     public void OpenAndCloseToileMagique()
@@ -39,6 +39,6 @@ public class TriggerToile : MonoBehaviour
 
     public void EnableToileButton()
     {
-        toileButton.gameObject.SetActive(true);
+        toileButton.interactable = true;
     }
 }
