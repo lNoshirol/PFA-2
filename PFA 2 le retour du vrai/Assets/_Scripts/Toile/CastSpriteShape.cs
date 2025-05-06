@@ -9,6 +9,8 @@ using UnityEngine.InputSystem;
 
 public class CastSpriteShape : MonoBehaviour
 {
+    public static CastSpriteShape instance;
+
     [Header("Line")]
     [SerializeField] LineRenderer lineRenderer;
     [SerializeField] private float distanceBetweenPoint;
@@ -16,6 +18,7 @@ public class CastSpriteShape : MonoBehaviour
     [SerializeField] private List<Vector3> points = new();
     [SerializeField] float _drawOffset;
     private DrawData _drawData;
+    [SerializeField] private Color _currentColor;
 
     public bool touchingScreen = false;
 
@@ -32,6 +35,18 @@ public class CastSpriteShape : MonoBehaviour
     public Vector3 vecTest;
     public Vector3 vecTest2;
 
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
     void Start()
     {
         //Load pre-made gestures
@@ -41,7 +56,7 @@ public class CastSpriteShape : MonoBehaviour
 
         Cam = Camera.main;
 
-        Debug.Log("CastSpriteShape.cs l45/ " + trainingSet.Count);
+        Debug.Log("CastSpriteShape.cs l59/ " + _currentColor.ToString());
     }
 
     void Update()
@@ -54,9 +69,10 @@ public class CastSpriteShape : MonoBehaviour
         DebugRay();
     }
 
+    [Obsolete]
     public void OnTouchScreen(InputAction.CallbackContext callbackContext)
     {
-        Debug.Log($"CastSpriteShape L92/ AAAAAAAAAAAAH {gameObject.transform.parent.gameObject.activeSelf}");
+        Debug.Log($"CastSpriteShape L74/ AAAAAAAAAAAAH {gameObject.transform.parent.gameObject.activeSelf}");
 
         if (callbackContext.started)
         {
@@ -66,6 +82,7 @@ public class CastSpriteShape : MonoBehaviour
             lineRenderer.positionCount = 0;
             if (!ToileMain.Instance.gestureIsStarted && gameObject.transform.parent.gameObject.activeSelf)
                 ToileMain.Instance.timerCo = StartCoroutine(ToileMain.Instance.ToileTimer());
+            lineRenderer.SetColors(_currentColor, _currentColor);
         }
 
         if (callbackContext.canceled)
@@ -84,7 +101,7 @@ public class CastSpriteShape : MonoBehaviour
 
                 TryMakeAdaptativeCollider(GetDrawCenter(points), gestureResult);
 
-                _drawData = new DrawData(points, GetDrawDim(points), gestureResult, GetSpellTargetPointFromCenter(points));
+                _drawData = new DrawData(points, GetDrawDim(points), gestureResult, GetSpellTargetPointFromCenter(points), ColorUtility.ToHtmlStringRGB(_currentColor));
 
                 Debug.Log(gestureResult.GestureClass + " " + gestureResult.Score);
             }
@@ -359,6 +376,11 @@ public class CastSpriteShape : MonoBehaviour
     public DrawData GetDrawData()
     {
         return _drawData;
+    }
+
+    public void ChangeColor(Color _color)
+    {
+        _currentColor = _color;
     }
 
     public void DebugRay()
