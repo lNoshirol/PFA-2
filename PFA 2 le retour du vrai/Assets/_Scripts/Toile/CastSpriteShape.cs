@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using PDollarGestureRecognizer;
 using System.IO;
 using System;
-using UnityEditor.ShaderGraph.Internal;
 using UnityEngine.InputSystem;
 
 public class CastSpriteShape : MonoBehaviour
