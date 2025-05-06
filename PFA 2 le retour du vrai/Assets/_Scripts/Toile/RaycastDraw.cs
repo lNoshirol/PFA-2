@@ -13,7 +13,7 @@ public class RaycastDraw : MonoBehaviour
 
 
     private Vector3[] vertices = new Vector3[4];
-    private int triangles = new int[6];
+    //private int triangles = new int[6];
 
     private GameObject meshObject;
     private Mesh mesh;
@@ -28,7 +28,7 @@ public class RaycastDraw : MonoBehaviour
         meshObject.GetComponent<MeshFilter>().mesh = mesh;    
 
         mesh.vertices = vertices;
-        mesh.triangles = triangles;
+        //mesh.triangles = triangles;
     } 
         
     void Update()
