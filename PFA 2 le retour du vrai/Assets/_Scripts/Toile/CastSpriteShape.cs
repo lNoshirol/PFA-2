@@ -4,18 +4,20 @@ using System.Collections.Generic;
 using PDollarGestureRecognizer;
 using System.IO;
 using System;
-using UnityEditor.ShaderGraph.Internal;
 using UnityEngine.InputSystem;
 
 public class CastSpriteShape : MonoBehaviour
 {
+    public static CastSpriteShape instance;
+
     [Header("Line")]
     [SerializeField] LineRenderer lineRenderer;
     [SerializeField] private float distanceBetweenPoint;
     private float currentDistance;
-    [SerializeField] public List<Vector3> points = new();
+    [SerializeField] private List<Vector3> points = new();
     [SerializeField] float _drawOffset;
     private DrawData _drawData;
+    [SerializeField] private Color _currentColor;
 
     public bool touchingScreen = false;
 
@@ -32,6 +34,18 @@ public class CastSpriteShape : MonoBehaviour
     public Vector3 vecTest;
     public Vector3 vecTest2;
 
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
     void Start()
     {
         //Load pre-made gestures
@@ -41,7 +55,7 @@ public class CastSpriteShape : MonoBehaviour
 
         Cam = Camera.main;
 
-        Debug.Log("CastSpriteShape.cs l45/ " + trainingSet.Count);
+        Debug.Log("CastSpriteShape.cs l59/ " + _currentColor.ToString());
     }
 
     void Update()
@@ -54,19 +68,21 @@ public class CastSpriteShape : MonoBehaviour
         DebugRay();
     }
 
+    [Obsolete]
     public void OnTouchScreen(InputAction.CallbackContext callbackContext)
     {
-        Debug.Log($"CastSpriteShape L92/ AAAAAAAAAAAAH {gameObject.transform.parent.gameObject.activeSelf}");
+        Debug.Log($"CastSpriteShape L74/ AAAAAAAAAAAAH {gameObject.transform.parent.gameObject.activeSelf}");
 
         if (callbackContext.started)
         {
+            ToileMain.Instance.RaycastDraw.ClearRaycastLines();
             touchingScreen = true;
             isDrawing = true;
             points.Clear();
-            ToileMain.Instance.RaycastDraw.ClearRaycastLines();
             lineRenderer.positionCount = 0;
             if (!ToileMain.Instance.gestureIsStarted && gameObject.transform.parent.gameObject.activeSelf)
                 ToileMain.Instance.timerCo = StartCoroutine(ToileMain.Instance.ToileTimer());
+            lineRenderer.SetColors(_currentColor, _currentColor);
         }
 
         if (callbackContext.canceled)
@@ -76,7 +92,7 @@ public class CastSpriteShape : MonoBehaviour
                 isDrawing = false;
 
                 List<Point> drawReady = Vec3ToPoints(RecenterAndRotate());
-
+                
                 GetSpellTargetPointFromCentroid(points);
                 GetSpellTargetPointFromCenter(points);
 
@@ -85,7 +101,7 @@ public class CastSpriteShape : MonoBehaviour
 
                 TryMakeAdaptativeCollider(GetDrawCenter(points), gestureResult);
 
-                _drawData = new DrawData(points, GetDrawDim(points), gestureResult, GetSpellTargetPointFromCenter(points));
+                _drawData = new DrawData(points, GetDrawDim(points), gestureResult, GetSpellTargetPointFromCenter(points), ColorUtility.ToHtmlStringRGB(_currentColor));
 
                 Debug.Log(gestureResult.GestureClass + " " + gestureResult.Score);
             }
@@ -122,12 +138,10 @@ public class CastSpriteShape : MonoBehaviour
 
         if (Mouse.current != null)
         {
-            Debug.Log("souris");
             Ray = Cam.ScreenPointToRay(Mouse.current.position.ReadValue());
         }
         else if (Touchscreen.current != null)
         {
-            Debug.Log("écran");
             Ray = Cam.ScreenPointToRay(Touchscreen.current.position.ReadValue());
         }
         else
@@ -333,15 +347,16 @@ public class CastSpriteShape : MonoBehaviour
                 collider.TryGetComponent(out boxColliderComponent);
 
                 Vector3 cameraForward = Cam.transform.forward;
-                Vector3 cameraUp = Cam.transform.up;
+                Vector3 cameraRight = Cam.transform.right;
 
                 Vector3 toTarget = (collider.transform.position - Cam.transform.position).normalized;
-                Vector3 toTargetUp = (collider.transform.position - Cam.transform.position).normalized;
                 
                 float signedAngle = Vector3.SignedAngle(cameraForward, toTarget, Vector3.up);
-                float signedAngleUp = Vector3.SignedAngle(cameraUp, toTargetUp, Vector3.left);
-                
-                collider.transform.rotation = Quaternion.Euler(new Vector3(signedAngleUp, 0, signedAngle));
+                float signedAngleUp = Vector3.SignedAngle(cameraRight, toTarget, Vector3.forward);
+
+                Debug.Log($"Angle : {signedAngle}, AngleUp {signedAngleUp}");
+
+                collider.transform.rotation = Quaternion.Euler(new Vector3(signedAngleUp+90, 0, signedAngle));
 
                 boxColliderComponent.isTrigger = true;
 
@@ -363,6 +378,11 @@ public class CastSpriteShape : MonoBehaviour
         return _drawData;
     }
 
+    public void ChangeColor(Color _color)
+    {
+        _currentColor = _color;
+    }
+
     public void DebugRay()
     {
         if (points.Count > 0)
@@ -375,17 +395,4 @@ public class CastSpriteShape : MonoBehaviour
 
         Debug.DrawRay(Cam.ScreenToWorldPoint(Vector3.zero), vecTest, Color.red);
     }
-
-    public Vector3 GetLast2DPoint()
-    {
-        if (points.Count > 0)
-        {
-            return points[points.Count - 1];
-        }
-        else
-        {
-            return Vector3.zero;
-        }
-    }
-
 }
