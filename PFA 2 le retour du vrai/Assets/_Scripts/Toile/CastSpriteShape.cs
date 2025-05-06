@@ -13,7 +13,7 @@ public class CastSpriteShape : MonoBehaviour
     [SerializeField] LineRenderer lineRenderer;
     [SerializeField] private float distanceBetweenPoint;
     private float currentDistance;
-    [SerializeField] private List<Vector3> points = new();
+    [SerializeField] public List<Vector3> points = new();
     [SerializeField] float _drawOffset;
     private DrawData _drawData;
 
@@ -63,6 +63,7 @@ public class CastSpriteShape : MonoBehaviour
             touchingScreen = true;
             isDrawing = true;
             points.Clear();
+            ToileMain.Instance.RaycastDraw.ClearRaycastLines();
             lineRenderer.positionCount = 0;
             if (!ToileMain.Instance.gestureIsStarted && gameObject.transform.parent.gameObject.activeSelf)
                 ToileMain.Instance.timerCo = StartCoroutine(ToileMain.Instance.ToileTimer());
@@ -374,4 +375,17 @@ public class CastSpriteShape : MonoBehaviour
 
         Debug.DrawRay(Cam.ScreenToWorldPoint(Vector3.zero), vecTest, Color.red);
     }
+
+    public Vector3 GetLast2DPoint()
+    {
+        if (points.Count > 0)
+        {
+            return points[points.Count - 1];
+        }
+        else
+        {
+            return Vector3.zero;
+        }
+    }
+
 }
