@@ -335,9 +335,11 @@ public class CastSpriteShape : MonoBehaviour
                 Vector3 toTarget = (collider.transform.position - Cam.transform.position).normalized;
                 
                 float signedAngle = Vector3.SignedAngle(cameraForward, toTarget, Vector3.up);
-                float signedAngleUp = Vector3.SignedAngle(cameraForward, toTarget, -Vector3.right);
-                
-                collider.transform.rotation = Quaternion.Euler(new Vector3(signedAngleUp, 0, signedAngle));
+                float signedAngleUp = Vector3.SignedAngle(cameraRight, toTarget, Vector3.forward);
+
+                Debug.Log($"Angle : {signedAngle}, AngleUp {signedAngleUp}");
+
+                collider.transform.rotation = Quaternion.Euler(new Vector3(signedAngleUp+90, 0, signedAngle));
 
                 boxColliderComponent.isTrigger = true;
 

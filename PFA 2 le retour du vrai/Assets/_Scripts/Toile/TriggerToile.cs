@@ -24,6 +24,7 @@ public class TriggerToile : MonoBehaviour
             PlayerMain.Instance.UI.HidePlayerControls();
             //PlayerMain.Instance.playerInput.DeactivateInput();
             //StopCoroutine(ToileMain.Instance.timerCo);
+            Debug.Log("Open");
 
         }
         else
@@ -34,6 +35,7 @@ public class TriggerToile : MonoBehaviour
             PlayerMain.Instance.playerInput.ActivateInput();
             ToileMain.Instance.gestureIsStarted = false;
             //StopCoroutine(ToileMain.Instance.timerCo);
+            Debug.Log("Close");
         }
     }
 
