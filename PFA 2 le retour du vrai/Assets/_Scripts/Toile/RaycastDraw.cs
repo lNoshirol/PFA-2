@@ -9,8 +9,6 @@ public class RaycastDraw : MonoBehaviour
     [Header("Settings")]
     public Camera mainCamera;
     public LayerMask raycastLayerMask;
-    public List<Vector3> points2D = new List<Vector3>();
-    public List<Vector3> points3D = new List<Vector3>();
 
     private Vector3[] vertices = new Vector3[4];
     //private int triangles = new int[6];
@@ -48,13 +46,18 @@ public class RaycastDraw : MonoBehaviour
         if (Touchscreen.current != null && Touchscreen.current.primaryTouch.press.isPressed)
         {
             screenPoint = Touchscreen.current.primaryTouch.position.ReadValue();
+        }
+        else if (Mouse.current != null && Mouse.current.leftButton.isPressed)
+        {
+            screenPoint = Mouse.current.position.ReadValue();
+        }
         meshObject.GetComponent<MeshFilter>().mesh = mesh;
 
         mesh.vertices = vertices;
         //mesh.triangles = triangles;
     }
 
-    void Update()
+    private void Update()
     {
         if (Mouse.current.leftButton.isPressed)
         {
@@ -67,20 +70,20 @@ public class RaycastDraw : MonoBehaviour
         }
         else if (Mouse.current != null && Mouse.current.leftButton.isPressed)
         {
-            screenPoint = Mouse.current.position.ReadValue();
+            //screenPoint = Mouse.current.position.ReadValue();
         }
         else
         {
             return;
         }
 
-        points2D.Add(screenPoint);
+        //points2D.Add(screenPoint);
 
-        Vector3 worldPoint = ConvertToWorldSpaceWithRaycast(screenPoint);
-        if (worldPoint != Vector3.zero)
-        {
-            points3D.Add(worldPoint);
-        }
+        //Vector3 worldPoint = ConvertToWorldSpaceWithRaycast(screenPoint);
+        //if (worldPoint != Vector3.zero)
+        //{
+        //    points3D.Add(worldPoint);
+        //}
 
         DebugRaycastLines();
     }
@@ -103,7 +106,8 @@ public class RaycastDraw : MonoBehaviour
 
         for (int i = 0; i < points3D.Count - 1; i++)
         {
-            Debug.DrawLine(points3D[i], points3D[i + 1], Color.red);
+            //Debug.DrawLine(points3D[i], points3D[i + 1], Color.red);
+        }
         if (points3D.Count > 0)
         {
             for (int i = 0; i < points3D.Count - 1; i++)
