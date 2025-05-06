@@ -56,7 +56,7 @@ public class CastSpriteShape : MonoBehaviour
 
     public void OnTouchScreen(InputAction.CallbackContext callbackContext)
     {
-        Debug.Log("CastSpriteShape L92/ AAAAAAAAAAAAH");
+        Debug.Log($"CastSpriteShape L92/ AAAAAAAAAAAAH {gameObject.transform.parent.gameObject.activeSelf}");
 
         if (callbackContext.started)
         {
@@ -64,7 +64,7 @@ public class CastSpriteShape : MonoBehaviour
             isDrawing = true;
             points.Clear();
             lineRenderer.positionCount = 0;
-            if (!ToileMain.Instance.gestureIsStarted)
+            if (!ToileMain.Instance.gestureIsStarted && gameObject.transform.parent.gameObject.activeSelf)
                 ToileMain.Instance.timerCo = StartCoroutine(ToileMain.Instance.ToileTimer());
         }
 
@@ -121,12 +121,10 @@ public class CastSpriteShape : MonoBehaviour
 
         if (Mouse.current != null)
         {
-            Debug.Log("souris");
             Ray = Cam.ScreenPointToRay(Mouse.current.position.ReadValue());
         }
         else if (Touchscreen.current != null)
         {
-            Debug.Log("écran");
             Ray = Cam.ScreenPointToRay(Touchscreen.current.position.ReadValue());
         }
         else
@@ -332,9 +330,14 @@ public class CastSpriteShape : MonoBehaviour
                 collider.TryGetComponent(out boxColliderComponent);
 
                 Vector3 cameraForward = Cam.transform.forward;
+                Vector3 cameraRight = Cam.transform.right;
+
                 Vector3 toTarget = (collider.transform.position - Cam.transform.position).normalized;
+                
                 float signedAngle = Vector3.SignedAngle(cameraForward, toTarget, Vector3.up);
-                collider.transform.rotation = Quaternion.Euler(new Vector3(-45, 0, signedAngle));
+                float signedAngleUp = Vector3.SignedAngle(cameraForward, toTarget, -Vector3.right);
+                
+                collider.transform.rotation = Quaternion.Euler(new Vector3(signedAngleUp, 0, signedAngle));
 
                 boxColliderComponent.isTrigger = true;
 

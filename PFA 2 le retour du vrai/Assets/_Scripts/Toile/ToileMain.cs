@@ -12,6 +12,8 @@ public class ToileMain : MonoBehaviour
     public ToileUI ToileUI { get; private set; }
     public TriggerToile TriggerToile { get; private set; }
 
+    public RaycastDraw RaycastDraw { get; private set; }
+
     public bool gestureIsStarted = false;
 
     public Coroutine timerCo;
@@ -28,6 +30,7 @@ public class ToileMain : MonoBehaviour
 
         ToileUI = GetComponent<ToileUI>();
         TriggerToile = GetComponent<TriggerToile>();
+        RaycastDraw = GetComponent<RaycastDraw>();
 
         ToileUI.UpdateToileUI(timeAmount);
     }
@@ -43,7 +46,7 @@ public class ToileMain : MonoBehaviour
             ToileUI.UpdateToileUI(timeAmount);
         }
         gestureIsStarted = false;
-        ToileMain.Instance.TriggerToile.OpenAndCloseToileMagique();
+        TriggerToile.OpenAndCloseToileMagique();
         yield break;
         
         
