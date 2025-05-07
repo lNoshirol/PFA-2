@@ -503,6 +503,28 @@
                     "action": "ClickForDraw",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a3121754-bffb-4494-b78d-6d35c173ed5a",
+                    "path": "<Touchscreen>/primaryTouch/tap",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ClickForDraw",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d3517858-4c23-4fba-abbb-68e69723bbf9",
+                    "path": "<Touchscreen>/primaryTouch/press",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ClickForDraw",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },

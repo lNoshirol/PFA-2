@@ -327,6 +327,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1987757490811873758, guid: 907e5930677920041aa159c399458059, type: 3}
+      propertyPath: pathSvg
+      value: Assets\_Algo\PDollar\Resources\Illustrator\SVG\LineVertical.svg
+      objectReference: {fileID: 0}
+    - target: {fileID: 1987757490811873758, guid: 907e5930677920041aa159c399458059, type: 3}
+      propertyPath: ShapeName
+      value: LineV
+      objectReference: {fileID: 0}
+    - target: {fileID: 1987757490811873758, guid: 907e5930677920041aa159c399458059, type: 3}
+      propertyPath: GeneratedXmlLocationPath
+      value: Assets\_Algo\PDollar\Resources\GestureSet\LostColors\LineVertic.xml
+      objectReference: {fileID: 0}
     - target: {fileID: 7265681856501409787, guid: 907e5930677920041aa159c399458059, type: 3}
       propertyPath: m_Name
       value: SvgToXml

@@ -11,6 +11,7 @@ public class PlayerHealth : MonoBehaviour
         PlayerMain.Instance.UI.UpdatePlayerHealthUI();
     }
 
+
     public void PlayerHealthChange(int healthChangeAmount)
     {
         playerActualHealth -= healthChangeAmount;
@@ -24,6 +25,14 @@ public class PlayerHealth : MonoBehaviour
         else if(playerActualHealth >= 100)
         {
             playerActualHealth = 100;
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.layer != 8)
+        {
+
         }
     }
 

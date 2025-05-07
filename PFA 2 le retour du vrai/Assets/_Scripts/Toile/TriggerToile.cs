@@ -1,5 +1,8 @@
+using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
+
 
 public class TriggerToile : MonoBehaviour
 {
@@ -9,10 +12,17 @@ public class TriggerToile : MonoBehaviour
     
     private void Start()
     {
-        _isActive = toile.activeSelf;
+        _isActive = false;
         toileButton.interactable = false;
     }
 
+    private void Update()
+    {
+        if (Keyboard.current.tKey.wasPressedThisFrame)
+        {
+            OpenAndCloseToileMagique();
+        }
+    }
     public void OpenAndCloseToileMagique()
     {
         ToileMain.Instance.CastSpriteShape.Resetpoint();
@@ -22,23 +32,32 @@ public class TriggerToile : MonoBehaviour
             _isActive = true;
             toile.SetActive(_isActive);
             PlayerMain.Instance.UI.HidePlayerControls();
-            //PlayerMain.Instance.playerInput.DeactivateInput();
+            PlayerMain.Instance.Move.canMove = false;
+            //PlayerMain.Instance.playerInput.SwitchCurrentControlScheme("Keyboard&Mouse", Keyboard.current, Mouse.current);
             //StopCoroutine(ToileMain.Instance.timerCo);
+            Time.timeScale = 0;
 
         }
         else
         {
-            _isActive = false;
-            toile.SetActive(_isActive);
-            PlayerMain.Instance.UI.HidePlayerControls();
-            PlayerMain.Instance.playerInput.ActivateInput();
-            ToileMain.Instance.gestureIsStarted = false;
-            //StopCoroutine(ToileMain.Instance.timerCo);
+            StartCoroutine(DeactivateAfterFrame());
         }
     }
 
     public void EnableToileButton()
     {
         toileButton.interactable = true;
+    }
+
+    IEnumerator DeactivateAfterFrame()
+    {
+        yield return null;
+        _isActive = false;
+        toile.SetActive(_isActive);
+        PlayerMain.Instance.UI.HidePlayerControls();
+        PlayerMain.Instance.Move.canMove = true;
+        ToileMain.Instance.gestureIsStarted = false;
+        //StopCoroutine(ToileMain.Instance.timerCo);
+        Time.timeScale = 1;
     }
 }

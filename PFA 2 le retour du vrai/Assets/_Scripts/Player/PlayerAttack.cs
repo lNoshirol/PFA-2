@@ -1,26 +1,36 @@
-using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine;
 using System.Collections;
+using System.Drawing;
 
 public class PlayerAttack : MonoBehaviour
 {
-
     public float baseDamageAmount = 20;
-    [SerializeField] private float animationDuration = 1;
+    [SerializeField] private float animationDuration = 2;
 
     [SerializeField] private bool canAttack = true;
 
     [SerializeField] private GameObject attackArea;
 
+    [SerializeField] private Animator animator;
+
+    private Coroutine couroutineuh;
+
+    public float comboDelay = 0.75f;
+    private bool isAttacking = false;
+
+    public static int NbOfClicks = 0;
 
     private void Start()
     {
         attackArea.SetActive(false);
     }
+
     public void BaseAttack(InputAction.CallbackContext context)
     {
-        if(canAttack && PlayerMain.Instance.Inventory.ItemDatabase[ItemTypeEnum.Paintbrush]) {
-            StartCoroutine(AttackDuration());
+        if (canAttack && PlayerMain.Instance.Inventory.ItemDatabase[ItemTypeEnum.Paintbrush])
+        {
+            OnAttack();
         }
     }
 
@@ -28,16 +38,62 @@ public class PlayerAttack : MonoBehaviour
     {
         if (canAttack && PlayerMain.Instance.Inventory.ItemDatabase[ItemTypeEnum.Paintbrush])
         {
-            StartCoroutine(AttackDuration());
+            OnAttack();
         }
     }
 
-    IEnumerator AttackDuration()
+    public void OnAttack()
     {
+        if (isAttacking) return;
+
+        NbOfClicks++;
+        StartCoroutine(ComboAttack());
+    }
+
+    private IEnumerator ComboAttack()
+    {
+        isAttacking = true;
         canAttack = false;
+
+        if (NbOfClicks == 1)
+        {
+            Debug.Log("PlayerAttack.cs : Je fais le Combo 1");
+            animator.SetBool("A1", true);
+            couroutineuh = StartCoroutine(DelayCombo());
+        }
+        else if (NbOfClicks == 2)
+        {
+            StopCoroutine(couroutineuh);
+            Debug.Log("PlayerAttack.cs : Je fais le Combo 2");
+            animator.SetBool("A2", true);
+            couroutineuh = StartCoroutine(DelayCombo());
+
+        }
+        else if (NbOfClicks == 3)
+        {
+            StopCoroutine(couroutineuh);
+            Debug.Log("PlayerAttack.cs : Je fais le Combo 3");
+            animator.SetBool("A3", true);
+            StartCoroutine(DelayCombo());
+
+        }
+
         attackArea.SetActive(true);
         yield return new WaitForSeconds(animationDuration);
         attackArea.SetActive(false);
+
+        yield return new WaitForSeconds(comboDelay);
+
         canAttack = true;
+        isAttacking = false;
+    }
+
+    private IEnumerator DelayCombo()
+    {
+        yield return new WaitForSeconds(comboDelay*3);
+        animator.SetBool("A1", false);
+        animator.SetBool("A2", false);
+        animator.SetBool("A3", false);
+        NbOfClicks = 0;
     }
 }
