@@ -7,7 +7,7 @@ public class PlayerAttack : MonoBehaviour
 {
     public float baseDamageAmount = 20;
     public float attackDamageAmount;
-    [SerializeField] private float animationDuration = 2;
+    [SerializeField] private float animationDuration = 1.25f;
 
     [SerializeField] private bool canAttack = true;
 
@@ -17,7 +17,7 @@ public class PlayerAttack : MonoBehaviour
 
     private Coroutine couroutineuh;
 
-    public float comboDelay = 0.75f;
+    public float comboDelay = 0.5f;
     private bool isAttacking = false;
 
     public static int NbOfClicks = 0;
@@ -78,11 +78,7 @@ public class PlayerAttack : MonoBehaviour
             StartCoroutine(DelayCombo());
 
         }
-
-        attackArea.SetActive(true);
         yield return new WaitForSeconds(animationDuration);
-        attackArea.SetActive(false);
-
         yield return new WaitForSeconds(comboDelay);
 
         canAttack = true;
@@ -91,7 +87,7 @@ public class PlayerAttack : MonoBehaviour
 
     private IEnumerator DelayCombo()
     {
-        yield return new WaitForSeconds(comboDelay*3);
+        yield return new WaitForSeconds(comboDelay*2);
         animator.SetBool("A1", false);
         animator.SetBool("A2", false);
         animator.SetBool("A3", false);
