@@ -153,18 +153,15 @@ public class CastSpriteShape : MonoBehaviour
         if (Touchscreen.current != null)
         {
             Ray = Cam.ScreenPointToRay(Touchscreen.current.position.ReadValue());
-            Debug.Log("Screen");
         }
 
        else if (Mouse.current != null)
         {
             Ray = Cam.ScreenPointToRay(Mouse.current.position.ReadValue());
-            Debug.Log("Mouse");
         }
 
         else
         {
-            Debug.Log("Dommage");
             Ray = new Ray();
         }
 
@@ -366,6 +363,9 @@ public class CastSpriteShape : MonoBehaviour
                 Vector2 drawDim = GetDrawDim(points);
 
                 sphereColliderComponent.radius = (drawDim.x >= drawDim.y ? drawDim.x : drawDim.y)*1.5f;
+
+                SpellManager.Instance.Spells["FireBall;Circle;E50037"].Activate(new(PlayerMain.Instance.Rigidbody, PlayerMain.Instance.gameObject, PlayerMain.Instance.transform.forward, 4));
+
                 break;
             case "Square":
                 collider.AddComponent<BoxCollider>();
