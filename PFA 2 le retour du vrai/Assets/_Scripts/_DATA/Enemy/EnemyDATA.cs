@@ -21,5 +21,6 @@ public class EnemyDATA : ScriptableObject
     public float enemySightRange;
     public float enemyAttackRange;
 
+    public List<SkillParentClass> skillParentClasses;
 
 }
