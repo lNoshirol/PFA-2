@@ -11,7 +11,7 @@ public class PlayerInventory : MonoBehaviour
     [SerializeField]
     DictItem itemType;
     [SerializeField] private DictSpell LootableSpells;
-
+    
     public Dictionary<ItemTypeEnum, bool> ItemDatabase;
     public Dictionary<string, bool> SpellDataBase;
 

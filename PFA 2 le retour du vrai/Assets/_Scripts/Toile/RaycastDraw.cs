@@ -3,6 +3,8 @@ using UnityEngine.InputSystem;
 using System.Collections.Generic;
 using NaughtyAttributes.Test;
 using System.Drawing;
+using Unity.VisualScripting;
+using System.Linq;
 
 public class RaycastDraw : MonoBehaviour
 {
@@ -10,7 +12,7 @@ public class RaycastDraw : MonoBehaviour
     public Camera mainCamera;
     public LayerMask raycastLayerMask;
 
-    private Vector3[] vertices = new Vector3[4];
+    //private Vector3[] vertices = new Vector3[4];
     //private int triangles = new int[6];
 
     [Header("Draw Data")]
@@ -24,19 +26,17 @@ public class RaycastDraw : MonoBehaviour
     [SerializeField] private MeshFilter _filter;
 
     //test
-    Vector3[] pointsDebug;
+    Vector3[] pointsDebug; 
 
     private void Start()
     {
-        if (mainCamera == null)
-            mainCamera = Camera.main;
-        mesh = new Mesh();
-        mesh.name = "Procedural Shape";
+        if (mainCamera == null) mainCamera = Camera.main;
 
-        mesh = new Mesh { name = "Custom Mesh" };
+        mesh = new Mesh { name = "Procedural Shape" };
 
-        meshObject = new GameObject("MeshObject", typeof(MeshRenderer), typeof(MeshFilter));
+        meshObject = new GameObject("ProceduralShape", typeof(MeshRenderer), typeof(MeshFilter), typeof(MeshCollider));
         meshObject.GetComponent<MeshFilter>().mesh = mesh;
+        meshObject.GetComponent<MeshCollider>().sharedMesh = mesh;
     }
 
     public void DrawRayCastInRealTime()
@@ -51,39 +51,18 @@ public class RaycastDraw : MonoBehaviour
         {
             screenPoint = Mouse.current.position.ReadValue();
         }
-        meshObject.GetComponent<MeshFilter>().mesh = mesh;
-
-        mesh.vertices = vertices;
-        //mesh.triangles = triangles;
-    }
-
-    private void Update()
-    {
-        if (Mouse.current.leftButton.isPressed)
-        {
-            Vector3 point2D = Mouse.current.position.ReadValue();
-            points2D.Add(point2D);
-
-
-            Vector3 point3D = ConvertToWorldSpaceWithRaycast(point2D);
-            points3D.Add(point3D);
-        }
-        else if (Mouse.current != null && Mouse.current.leftButton.isPressed)
-        {
-            //screenPoint = Mouse.current.position.ReadValue();
-        }
         else
         {
             return;
         }
 
-        //points2D.Add(screenPoint);
+        points2D.Add(screenPoint);
 
-        //Vector3 worldPoint = ConvertToWorldSpaceWithRaycast(screenPoint);
-        //if (worldPoint != Vector3.zero)
-        //{
-        //    points3D.Add(worldPoint);
-        //}
+        Vector3 worldPoint = ConvertToWorldSpaceWithRaycast(screenPoint);
+        if (worldPoint != Vector3.zero)
+        {
+            points3D.Add(worldPoint);
+        }
 
         DebugRaycastLines();
     }
@@ -96,7 +75,6 @@ public class RaycastDraw : MonoBehaviour
             return hit.point;
         }
 
-        return Vector3.zero;
         return ray.GetPoint(10f);
     }
 
@@ -106,7 +84,7 @@ public class RaycastDraw : MonoBehaviour
 
         for (int i = 0; i < points3D.Count - 1; i++)
         {
-            //Debug.DrawLine(points3D[i], points3D[i + 1], Color.red);
+            Debug.DrawLine(points3D[i], points3D[i + 1], UnityEngine.Color.red);
         }
         if (points3D.Count > 0)
         {
@@ -122,45 +100,46 @@ public class RaycastDraw : MonoBehaviour
     public void GenerateSpellShapeMesh()
     {
         mesh.Clear();
-        _filter.mesh = mesh;
+        
+        points3D = points3D.Distinct().ToList();
 
-        // number of vertices
-        Vector3[] vertices = new Vector3[points3D.Count+ 1];
+        // list of vertices
+        List<Vector3> vertices = new();
 
         // Set vertices
         // The first is the center of the shape, the rest is all its other points
-        vertices[0] = _pen.GetDrawData().worldCenter; 
-        for (int i = 1; i < vertices.Length; i+=2)
+        vertices.Add(_pen.GetDrawData().worldCenter);
+        vertices.AddRange(points3D);
+
+        //for (int i = 1; i < points3D.Count; i += 1)
+        //{
+        //    vertices[i] = points3D[i - 1];
+        //}
+
+        pointsDebug = vertices.ToArray();
+
+        List<Vector2> uvs = new();
+        List<Vector4> tangents = new();
+        List<int> triangless = new List<int>();
+
+        for (int i = 1; i < vertices.Count - 1; i += 1)
         {
-            vertices[i] = points3D[i - 1];
+            triangless.Add(0);
+            triangless.Add(i);
+            triangless.Add(i + 1);
         }
 
-        pointsDebug = vertices;
-        mesh.vertices = vertices;
-        mesh.RecalculateBounds();
+        triangless.Add(0);
+        triangless.Add(vertices.Count - 1);
+        triangless.Add(1);
 
-        Vector2[] uvs = new Vector2[vertices.Length];
-        Vector4[] tangents = new Vector4[vertices.Length];
-        int[] triangles = new int[vertices.Length * 3];
-
-        for (int i = 0; i < triangles.Length; i += 3)
-        {
-            // AKA le centre
-            triangles[i] = 0;
-            triangles[(i + 1) % triangles.Length] = (i + 1) % vertices.Length;
-            triangles[(i + 2) % triangles.Length] = (i + 2) % vertices.Length;
-
-            //print($"tri : {triangles[i]}, {triangles[(i + 1) % triangles.Length]}, {triangles[(i + 2) % triangles.Length]}");
-        }
-
-        print(triangles.Length);
-        mesh.triangles = triangles;
-
-        mesh.RecalculateBounds();
+        mesh.Clear();
+        mesh.vertices = vertices.ToArray();
+        mesh.triangles = triangless.ToArray();
         mesh.RecalculateNormals();
-        mesh.RecalculateTangents();
+        mesh.RecalculateBounds();
 
-        //_filter.gameObject.GetComponent<MeshCollider>().sharedMesh = mesh;
+        mesh.GetComponent<MeshCollider>().sharedMesh = mesh;
     }
 
     private void OnDrawGizmos()
@@ -174,13 +153,11 @@ public class RaycastDraw : MonoBehaviour
 
         if (pointsDebug != null)
         {
-            //print(_pen.GetDrawData().worldCenter);
-            //Gizmos.color = UnityEngine.Color.red;
-            //foreach(var point in pointsDebug)
-            //{
-            //    print("YO");
-            //    Gizmos.DrawSphere(point, 0.2f);
-            //}
+            Gizmos.color = UnityEngine.Color.red;
+            foreach (var point in pointsDebug)
+            {
+                Gizmos.DrawSphere(point, 0.2f);
+            }
         }
     }
 
