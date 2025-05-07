@@ -2154,7 +2154,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5915774029437464484, guid: ec3eeb524fa36ff4989d46150b7c1fc8, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6693260852749974115, guid: ec3eeb524fa36ff4989d46150b7c1fc8, type: 3}
       propertyPath: enemyMesh

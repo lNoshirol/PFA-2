@@ -35,6 +35,7 @@ public class TriggerToile : MonoBehaviour
             PlayerMain.Instance.Move.canMove = false;
             //PlayerMain.Instance.playerInput.SwitchCurrentControlScheme("Keyboard&Mouse", Keyboard.current, Mouse.current);
             //StopCoroutine(ToileMain.Instance.timerCo);
+            Time.timeScale = 0;
 
         }
         else
@@ -57,5 +58,6 @@ public class TriggerToile : MonoBehaviour
         PlayerMain.Instance.Move.canMove = true;
         ToileMain.Instance.gestureIsStarted = false;
         //StopCoroutine(ToileMain.Instance.timerCo);
+        Time.timeScale = 1;
     }
 }
