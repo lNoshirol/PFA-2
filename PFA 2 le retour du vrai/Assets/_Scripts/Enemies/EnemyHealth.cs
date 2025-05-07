@@ -14,7 +14,7 @@ public class EnemyHealth : MonoBehaviour
     {
         if (other.CompareTag("PlayerAttackArea"))
         {
-            EnemyHealthChange(PlayerMain.Instance.Attack.baseDamageAmount);
+            EnemyHealthChange(PlayerMain.Instance.Attack.attackDamageAmount);
             EnemyMain.UI.UpdateEnemyHealthUI();
         }
     }
