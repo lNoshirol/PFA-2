@@ -12,7 +12,7 @@ public class TriggerToile : MonoBehaviour
     
     private void Start()
     {
-        _isActive = toile.activeSelf;
+        _isActive = false;
         toileButton.interactable = false;
     }
 
