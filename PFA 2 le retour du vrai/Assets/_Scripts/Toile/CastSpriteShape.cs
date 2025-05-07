@@ -366,6 +366,9 @@ public class CastSpriteShape : MonoBehaviour
                 Vector2 drawDim = GetDrawDim(points);
 
                 sphereColliderComponent.radius = (drawDim.x >= drawDim.y ? drawDim.x : drawDim.y)*1.5f;
+
+                SpellManager.Instance.Spells["FireBall;Circle;E50037"].Activate(new(PlayerMain.Instance.Rigidbody, PlayerMain.Instance.gameObject, PlayerMain.Instance.transform.forward, 4));
+
                 break;
             case "Square":
                 collider.AddComponent<BoxCollider>();
