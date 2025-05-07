@@ -9,6 +9,7 @@ public class EnemyDATA : ScriptableObject
     public string enemyName;         // 
 
     public float enemyAttack;
+    public float enemyAttackCooldown;
 
     public float enemyMaxHP;
     public float enemyHP;
@@ -21,5 +22,6 @@ public class EnemyDATA : ScriptableObject
     public float enemySightRange;
     public float enemyAttackRange;
 
+    public List<string> skillName;
 
 }

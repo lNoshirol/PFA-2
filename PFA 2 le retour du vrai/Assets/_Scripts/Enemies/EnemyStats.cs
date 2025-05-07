@@ -7,8 +7,12 @@ public class EnemyStats : MonoBehaviour
     [Header("Globale Stats")]
     public bool isAlive;
 
+    [SerializeField] 
+
     void Start()
     {
         EnemyManager.Instance.AddEnemiesToListAndDic(gameObject);
     }
+
+
 }

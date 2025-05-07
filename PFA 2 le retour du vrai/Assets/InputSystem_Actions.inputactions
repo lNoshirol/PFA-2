@@ -514,6 +514,17 @@
                     "action": "ClickForDraw",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d3517858-4c23-4fba-abbb-68e69723bbf9",
+                    "path": "<Touchscreen>/primaryTouch/press",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ClickForDraw",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },

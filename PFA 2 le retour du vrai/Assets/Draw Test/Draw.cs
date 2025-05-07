@@ -19,7 +19,6 @@ public class Draw : MonoBehaviour
     public LineRenderer lineRenderer;
     public TextMeshProUGUI inputFieldText;
 
-    private bool isDrawing = false;
 
     #region Base SHape
 
@@ -231,7 +230,6 @@ public class Draw : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            isDrawing = true;
             points.Clear();
             lineRenderer.positionCount = 0;
         }
@@ -243,7 +241,6 @@ public class Draw : MonoBehaviour
 
         if (Input.GetMouseButtonUp(0))
         {
-            isDrawing = false;
             string rocognizedShape = Recognize(points);
             resultText.text = "Reconnu : " + rocognizedShape;
         }

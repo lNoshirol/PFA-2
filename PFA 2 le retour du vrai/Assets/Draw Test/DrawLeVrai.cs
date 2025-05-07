@@ -24,7 +24,6 @@ public class DrawLeVrai : MonoBehaviour
     public LineRenderer lineRenderer;
     public TextMeshProUGUI inputFieldText;
 
-    private bool isDrawing = false;
 
     readonly float phi = 1 / 2 * (-1 + Mathf.Sqrt(5));
 
@@ -273,7 +272,6 @@ public class DrawLeVrai : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            isDrawing = true;
             points.Clear();
             lineRenderer.positionCount = 0;
         }
@@ -285,7 +283,6 @@ public class DrawLeVrai : MonoBehaviour
 
         if (Input.GetMouseButtonUp(0))
         {
-            isDrawing = false;
             
             points2 = Resemple(ConvertVec3ToVec2(points), 32);
 

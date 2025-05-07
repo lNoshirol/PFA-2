@@ -5,6 +5,7 @@ using PDollarGestureRecognizer;
 using System.IO;
 using System;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.EnhancedTouch;
 
 public class CastSpriteShape : MonoBehaviour
 {
@@ -19,11 +20,11 @@ public class CastSpriteShape : MonoBehaviour
     private DrawData _drawData;
     [SerializeField] private Color _currentColor;
 
+    private List<GameObject> _ennemyObjectOnDraw = new();
+
     public bool touchingScreen = false;
 
     public List<Gesture> trainingSet = new List<Gesture>();
-
-    bool isDrawing;
 
     [Header("Jsp (on va dire debug tkt)")]
     public Camera Cam;
@@ -55,59 +56,72 @@ public class CastSpriteShape : MonoBehaviour
 
         Cam = Camera.main;
 
-        Debug.Log("CastSpriteShape.cs l59/ " + _currentColor.ToString());
+        //Debug.Log("CastSpriteShape.cs l59/ " + _currentColor.ToString());
     }
 
     void Update()
     {
         if (touchingScreen)
         {
+            ToileMain.Instance.RaycastDraw.DrawRayCastInRealTime();
             AddPoint();
         }
 
         DebugRay();
+        ToileMain.Instance.RaycastDraw.DebugRaycastLines();
     }
 
     [Obsolete]
     public void OnTouchScreen(InputAction.CallbackContext callbackContext)
     {
-        Debug.Log($"CastSpriteShape L74/ AAAAAAAAAAAAH {gameObject.transform.parent.gameObject.activeSelf}");
+        //Debug.Log($"CastSpriteShape L74/ AAAAAAAAAAAAH {gameObject.transform.parent.gameObject.activeSelf}");
 
         if (callbackContext.started)
         {
-            ToileMain.Instance.RaycastDraw.ClearRaycastLines();
-            touchingScreen = true;
-            isDrawing = true;
-            points.Clear();
-            lineRenderer.positionCount = 0;
-            if (!ToileMain.Instance.gestureIsStarted && gameObject.transform.parent.gameObject.activeSelf)
-                ToileMain.Instance.timerCo = StartCoroutine(ToileMain.Instance.ToileTimer());
-            lineRenderer.SetColors(_currentColor, _currentColor);
+            OnTouchStart();
         }
 
         if (callbackContext.canceled)
         {
-            if (points.Count > 10)
-            {
-                isDrawing = false;
-
-                List<Point> drawReady = Vec3ToPoints(RecenterAndRotate());
-                
-                GetSpellTargetPointFromCentroid(points);
-                GetSpellTargetPointFromCenter(points);
-
-                Gesture candidate = new Gesture(drawReady.ToArray());
-                Result gestureResult = PointCloudRecognizer.Classify(candidate, trainingSet.ToArray());
-
-                TryMakeAdaptativeCollider(GetDrawCenter(points), gestureResult);
-
-                _drawData = new DrawData(points, GetDrawDim(points), gestureResult, GetSpellTargetPointFromCenter(points), ColorUtility.ToHtmlStringRGB(_currentColor));
-
-                Debug.Log(gestureResult.GestureClass + " " + gestureResult.Score);
-            }
-
-            touchingScreen = false;
+            OnTouchEnd();
         }
+    }
+
+    [Obsolete]
+    public void OnTouchStart()
+    {
+        ToileMain.Instance.RaycastDraw.ClearRaycastLines();
+        touchingScreen = true;
+        points.Clear();
+        lineRenderer.positionCount = 0;
+
+        if (!ToileMain.Instance.gestureIsStarted && gameObject.transform.parent.gameObject.activeSelf)
+            ToileMain.Instance.timerCo = StartCoroutine(ToileMain.Instance.ToileTimer());
+
+        lineRenderer.SetColors(_currentColor, _currentColor);
+    }
+
+    public void OnTouchEnd()
+    {
+        if (points.Count > 10)
+        {
+
+            List<Point> drawReady = Vec3ToPoints(RecenterAndRotate());
+
+            GetSpellTargetPointFromCentroid(points);
+            GetSpellTargetPointFromCenter(points);
+
+            Gesture candidate = new Gesture(drawReady.ToArray());
+            Result gestureResult = PointCloudRecognizer.Classify(candidate, trainingSet.ToArray());
+
+            TryMakeAdaptativeCollider(GetDrawCenter(points), gestureResult);
+
+            _drawData = new DrawData(points, GetDrawDim(points), gestureResult, GetSpellTargetPointFromCenter(points), ColorUtility.ToHtmlStringRGB(_currentColor));
+
+            Debug.Log(gestureResult.GestureClass + " " + gestureResult.Score);
+        }
+
+        touchingScreen = false;
     }
 
     public List<Point> Vec3ToPoints(List<Vector3> list)
@@ -136,14 +150,18 @@ public class CastSpriteShape : MonoBehaviour
     {
         Ray Ray;
 
-        if (Mouse.current != null)
-        {
-            Ray = Cam.ScreenPointToRay(Mouse.current.position.ReadValue());
-        }
-        else if (Touchscreen.current != null)
+        if (Touchscreen.current != null)
         {
             Ray = Cam.ScreenPointToRay(Touchscreen.current.position.ReadValue());
+            Debug.Log("Screen");
         }
+
+       else if (Mouse.current != null)
+        {
+            Ray = Cam.ScreenPointToRay(Mouse.current.position.ReadValue());
+            Debug.Log("Mouse");
+        }
+
         else
         {
             Debug.Log("Dommage");
@@ -152,7 +170,7 @@ public class CastSpriteShape : MonoBehaviour
 
         RaycastHit hit;
 
-        if (Physics.Raycast(Ray, out hit))
+        if (Physics.Raycast(Ray, out hit) && hit.collider != null)
         {
             if (hit.collider.CompareTag("Writeable"))
             {
@@ -182,6 +200,14 @@ public class CastSpriteShape : MonoBehaviour
     public void Resetpoint()
     {
         lineRenderer.positionCount = 0;
+    }
+
+    public void EnnemyOnPath(RaycastHit hit)
+    {
+        if (hit.collider.gameObject.layer == 0)
+        {
+            _ennemyObjectOnDraw.Add(hit.collider.gameObject);
+        }
     }
 
     public List<Vector3> RecenterAndRotate()
@@ -271,8 +297,8 @@ public class CastSpriteShape : MonoBehaviour
             maxZ = point.z > maxZ ? point.z : maxZ;
         }
 
-        Debug.Log($"MinX : {minX}, MaxX : {maxX}, minY : {minY}, maxY : {maxY}");
-        Debug.Log($"distance X : {maxX - minX}, distance Y : {maxY - minY}");
+        /*Debug.Log($"MinX : {minX}, MaxX : {maxX}, minY : {minY}, maxY : {maxY}");
+        Debug.Log($"distance X : {maxX - minX}, distance Y : {maxY - minY}");*/
 
         float X = minX >= 0 & maxX >= 0 ? minX : maxX;
 
@@ -288,11 +314,11 @@ public class CastSpriteShape : MonoBehaviour
 
         if (Physics.Raycast(Ray, out hit, 20000f, ~IgnoreMeUwU) )
         {
-            Debug.Log(hit.collider.gameObject.name);
+            //Debug.Log(hit.collider.gameObject.name);
 
             if (hit.collider.CompareTag("Ground"))
             {
-                Debug.Log($"Spell cast location from centroid : {hit.point}");
+                //Debug.Log($"Spell cast location from centroid : {hit.point}");
                 CubeCentroid.transform.position = hit.point;
             }
         }
@@ -307,11 +333,11 @@ public class CastSpriteShape : MonoBehaviour
 
         if (Physics.Raycast(Ray, out hit, 200f, ~IgnoreMeUwU))
         {
-            Debug.Log(hit.collider.gameObject.name);
+            //Debug.Log(hit.collider.gameObject.name);
 
             if (hit.collider.CompareTag("Ground"))
             {
-                Debug.Log($"Spell cast location from center : {hit.point}");
+                //Debug.Log($"Spell cast location from center : {hit.point}");
                 CubeCentre.transform.position = hit.point;
                 return hit.point;
             }
@@ -340,6 +366,9 @@ public class CastSpriteShape : MonoBehaviour
                 Vector2 drawDim = GetDrawDim(points);
 
                 sphereColliderComponent.radius = (drawDim.x >= drawDim.y ? drawDim.x : drawDim.y)*1.5f;
+
+                SpellManager.Instance.Spells["FireBall;Circle;E50037"].Activate(new(PlayerMain.Instance.Rigidbody, PlayerMain.Instance.gameObject, PlayerMain.Instance.transform.forward, 4));
+
                 break;
             case "Square":
                 collider.AddComponent<BoxCollider>();
@@ -354,7 +383,7 @@ public class CastSpriteShape : MonoBehaviour
                 float signedAngle = Vector3.SignedAngle(cameraForward, toTarget, Vector3.up);
                 float signedAngleUp = Vector3.SignedAngle(cameraRight, toTarget, Vector3.forward);
 
-                Debug.Log($"Angle : {signedAngle}, AngleUp {signedAngleUp}");
+                //Debug.Log($"Angle : {signedAngle}, AngleUp {signedAngleUp}");
 
                 collider.transform.rotation = Quaternion.Euler(new Vector3(signedAngleUp+90, 0, signedAngle));
 
@@ -364,11 +393,21 @@ public class CastSpriteShape : MonoBehaviour
 
                 Vector3 size = new(dim.x, Mathf.Abs(center.y), dim.y);
 
-                Debug.Log($"Centre : {center}, Size : {size}");
+                //Debug.Log($"Centre : {center}, Size : {size}");
 
                 boxColliderComponent.size = size;
 
 
+                break;
+            case "DiagoU" or "DiagoD" or "LineH" or "LineV":
+                Debug.Log("LE DESSIN C'EST UNE LIGNE, ATTAQUE NOOPY ATTAQUE");
+                if (_ennemyObjectOnDraw.Count > 0)
+                {
+                    foreach (GameObject ennemy in _ennemyObjectOnDraw)
+                    {
+
+                    }
+                }
                 break;
         }
     }
@@ -394,5 +433,23 @@ public class CastSpriteShape : MonoBehaviour
         }
 
         Debug.DrawRay(Cam.ScreenToWorldPoint(Vector3.zero), vecTest, Color.red);
+    }
+
+    private void OnEnable()
+    {
+        TouchSimulation.Enable();
+        UnityEngine.InputSystem.EnhancedTouch.Touch.onFingerDown += FingerDown;
+    }
+
+    private void OnDisable()
+    {
+        TouchSimulation.Disable();
+        UnityEngine.InputSystem.EnhancedTouch.Touch.onFingerDown -= FingerDown;
+    }
+
+
+    private void FingerDown(Finger finger)
+    {
+      
     }
 }

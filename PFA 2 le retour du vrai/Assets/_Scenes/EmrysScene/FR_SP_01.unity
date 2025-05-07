@@ -2108,6 +2108,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1337536444}
     m_Modifications:
+    - target: {fileID: 1018663143191236035, guid: ec3eeb524fa36ff4989d46150b7c1fc8, type: 3}
+      propertyPath: enemyData
+      value: 
+      objectReference: {fileID: 11400000, guid: ab8874fe3acc6224e88af5f137d7a96d, type: 2}
     - target: {fileID: 1630184127461010472, guid: ec3eeb524fa36ff4989d46150b7c1fc8, type: 3}
       propertyPath: m_LocalPosition.x
       value: -4.68
@@ -2154,7 +2158,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5915774029437464484, guid: ec3eeb524fa36ff4989d46150b7c1fc8, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6693260852749974115, guid: ec3eeb524fa36ff4989d46150b7c1fc8, type: 3}
       propertyPath: enemyMesh
@@ -3219,10 +3223,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1411321647744033791, guid: fc5c0231baa4d44448d72b80ab8e1517, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 26.23
-      objectReference: {fileID: 0}
     - target: {fileID: 6222895479523418837, guid: fc5c0231baa4d44448d72b80ab8e1517, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1.3999996
