@@ -103,12 +103,16 @@ public class RaycastDraw : MonoBehaviour
         
         points3D = points3D.Distinct().ToList();
 
+
         // list of vertices
         List<Vector3> vertices = new();
 
         // Set vertices
         // The first is the center of the shape, the rest is all its other points
-        vertices.Add(_pen.GetDrawData().worldCenter);
+        
+        //vertices.Add(_pen.GetDrawData().worldCenter);
+        Vector3 center = _pen.GetDrawData().worldCenter;
+        vertices.Add(center);
         vertices.AddRange(points3D);
 
         //for (int i = 1; i < points3D.Count; i += 1)
@@ -133,13 +137,13 @@ public class RaycastDraw : MonoBehaviour
         triangless.Add(vertices.Count - 1);
         triangless.Add(1);
 
-        mesh.Clear();
+        mesh.Clear(); 
         mesh.vertices = vertices.ToArray();
         mesh.triangles = triangless.ToArray();
         mesh.RecalculateNormals();
         mesh.RecalculateBounds();
 
-        mesh.GetComponent<MeshCollider>().sharedMesh = mesh;
+        //mesh.GetComponent<MeshCollider>().sharedMesh = mesh;
     }
 
     private void OnDrawGizmos()
