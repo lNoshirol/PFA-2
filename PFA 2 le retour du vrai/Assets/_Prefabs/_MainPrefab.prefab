@@ -1598,7 +1598,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca6955f8517260c49b82e4276b0fdb5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jsaisPasGros: {fileID: 6089315289693503353}
+  _renderer: {fileID: 0}
+  _castSpriteShape: {fileID: 0}
 --- !u!224 &6013129574364995038 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6157841827343362467, guid: 978470b0a638bee4884f779494b64f09, type: 3}
@@ -1675,6 +1676,10 @@ PrefabInstance:
       propertyPath: Target.TrackingTarget
       value: 
       objectReference: {fileID: 978946475921128860}
+    - target: {fileID: 5406479847406076294, guid: ef2c73a8270ee1949bb09a83d6f45ae1, type: 3}
+      propertyPath: _currentColor.a
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6903887336284850279, guid: ef2c73a8270ee1949bb09a83d6f45ae1, type: 3}
       propertyPath: m_Name
       value: DrawZone
@@ -1729,13 +1734,34 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 3481604387970102704, guid: ef2c73a8270ee1949bb09a83d6f45ae1, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7864112359104889460}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 637968337113576926, guid: ef2c73a8270ee1949bb09a83d6f45ae1, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4848061229826241961}
   m_SourcePrefab: {fileID: 100100000, guid: ef2c73a8270ee1949bb09a83d6f45ae1, type: 3}
 --- !u!20 &273476093525717709 stripped
 Camera:
   m_CorrespondingSourceObject: {fileID: 2039477755020758066, guid: ef2c73a8270ee1949bb09a83d6f45ae1, type: 3}
   m_PrefabInstance: {fileID: 2271568176082566911}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1683431372571691809 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 637968337113576926, guid: ef2c73a8270ee1949bb09a83d6f45ae1, type: 3}
+  m_PrefabInstance: {fileID: 2271568176082566911}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4848061229826241961
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1683431372571691809}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec7af77ecd4c67d4592303895eccd68d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  castSpriteShape: {fileID: 6089315289693503353}
 --- !u!4 &3447258700482186063 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3481604387970102704, guid: ef2c73a8270ee1949bb09a83d6f45ae1, type: 3}
@@ -1751,7 +1777,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5406479847406076294, guid: ef2c73a8270ee1949bb09a83d6f45ae1, type: 3}
   m_PrefabInstance: {fileID: 2271568176082566911}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1683431372571691809}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2d4549808b6daa444880ff25c73ba298, type: 3}
