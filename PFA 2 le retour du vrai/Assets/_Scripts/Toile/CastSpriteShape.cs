@@ -154,18 +154,15 @@ public class CastSpriteShape : MonoBehaviour
         if (Touchscreen.current != null)
         {
             Ray = Cam.ScreenPointToRay(Touchscreen.current.position.ReadValue());
-            Debug.Log("Screen");
         }
 
        else if (Mouse.current != null)
         {
             Ray = Cam.ScreenPointToRay(Mouse.current.position.ReadValue());
-            Debug.Log("Mouse");
         }
 
         else
         {
-            Debug.Log("Dommage");
             Ray = new Ray();
         }
 
