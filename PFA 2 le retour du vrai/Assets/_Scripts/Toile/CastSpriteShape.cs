@@ -114,11 +114,12 @@ public class CastSpriteShape : MonoBehaviour
             Gesture candidate = new Gesture(drawReady.ToArray());
             Result gestureResult = PointCloudRecognizer.Classify(candidate, trainingSet.ToArray());
 
+            Debug.Log(gestureResult.GestureClass + " " + gestureResult.Score);
+            
             TryMakeAdaptativeCollider(GetDrawCenter(points), gestureResult);
 
             _drawData = new DrawData(points, GetDrawDim(points), gestureResult, GetSpellTargetPointFromCenter(points), ColorUtility.ToHtmlStringRGB(_currentColor));
 
-            Debug.Log(gestureResult.GestureClass + " " + gestureResult.Score);
         }
 
         touchingScreen = false;
@@ -367,7 +368,10 @@ public class CastSpriteShape : MonoBehaviour
 
                 sphereColliderComponent.radius = (drawDim.x >= drawDim.y ? drawDim.x : drawDim.y)*1.5f;
 
-                SpellManager.Instance.Spells["FireBall;Circle;E50037"].Activate(new(PlayerMain.Instance.Rigidbody, PlayerMain.Instance.gameObject, PlayerMain.Instance.transform.forward, 4));
+                SimpleDash fireBall = (SimpleDash)SpellManager.Instance.GetSpell("SimpleDash");
+                SkillContext context = new(PlayerMain.Instance.Rigidbody, PlayerMain.Instance.gameObject, PlayerMain.Instance.transform.forward, 4);
+                fireBall.Activate(context);
+                //SpellManager.Instance.Spells["FireBall;Circle;E50037"].Activate(new(PlayerMain.Instance.Rigidbody, PlayerMain.Instance.gameObject, PlayerMain.Instance.transform.forward, 4));
 
                 break;
             case "Square":
@@ -401,6 +405,11 @@ public class CastSpriteShape : MonoBehaviour
                 break;
             case "DiagoU" or "DiagoD" or "LineH" or "LineV":
                 Debug.Log("LE DESSIN C'EST UNE LIGNE, ATTAQUE NOOPY ATTAQUE");
+
+                fireBall = (SimpleDash)SpellManager.Instance.GetSpell("SimpleDash");
+                context = new(PlayerMain.Instance.Rigidbody, PlayerMain.Instance.gameObject, PlayerMain.Instance.transform.forward, 4);
+                fireBall.Activate(context);
+
                 if (_ennemyObjectOnDraw.Count > 0)
                 {
                     foreach (GameObject ennemy in _ennemyObjectOnDraw)
