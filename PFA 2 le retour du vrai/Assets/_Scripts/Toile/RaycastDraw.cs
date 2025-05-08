@@ -26,8 +26,8 @@ public class RaycastDraw : MonoBehaviour
     [SerializeField] private MeshFilter _filter;
 
     //test
-    Vector3[] pointsDebug; 
-
+    Vector3[] pointsDebug;
+    Vector3 _pointCenter;
     private void Start()
     {
         if (mainCamera == null) mainCamera = Camera.main;
@@ -103,22 +103,19 @@ public class RaycastDraw : MonoBehaviour
         
         points3D = points3D.Distinct().ToList();
 
+        _pointCenter = Vector3.zero;
+        foreach(Vector3 point in points3D)
+        {
+            _pointCenter += point;
+        }
+        _pointCenter /= points3D.Count;
 
-        // list of vertices
         List<Vector3> vertices = new();
 
         // Set vertices
         // The first is the center of the shape, the rest is all its other points
-        
-        //vertices.Add(_pen.GetDrawData().worldCenter);
-        Vector3 center = _pen.GetDrawData().worldCenter;
-        vertices.Add(center);
+        vertices.Add(_pointCenter);
         vertices.AddRange(points3D);
-
-        //for (int i = 1; i < points3D.Count; i += 1)
-        //{
-        //    vertices[i] = points3D[i - 1];
-        //}
 
         pointsDebug = vertices.ToArray();
 
@@ -143,11 +140,20 @@ public class RaycastDraw : MonoBehaviour
         mesh.RecalculateNormals();
         mesh.RecalculateBounds();
 
-        //mesh.GetComponent<MeshCollider>().sharedMesh = mesh;
+        // Mesh collider update
+        MeshCollider mc = meshObject.gameObject.GetComponent<MeshCollider>();
+        if (mc != null)
+        {
+            mc.sharedMesh = null;
+            mc.sharedMesh = mesh;
+        }
     }
 
     private void OnDrawGizmos()
     {
+        Gizmos.color = UnityEngine.Color.cyan;
+        Gizmos.DrawSphere(_pointCenter, 0.3f);
+
         foreach (var point in points3D)
         {
             Gizmos.color = UnityEngine.Color.black;
