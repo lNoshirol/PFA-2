@@ -38,5 +38,6 @@ public class EnemyHealth : MonoBehaviour
     {
         Debug.Log("Enemy dead");
         gameObject.SetActive(false);
+        PlayerMain.Instance.Health.PlayerHealthChange(-50);
     }
 }

@@ -862,6 +862,8 @@ MonoBehaviour:
     m_Bits: 64
   points2D: []
   points3D: []
+  _pen: {fileID: 0}
+  _filter: {fileID: 0}
 --- !u!1 &7839816913737559858
 GameObject:
   m_ObjectHideFlags: 0
@@ -1359,6 +1361,10 @@ PrefabInstance:
       value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 4606256769081987195, guid: 978470b0a638bee4884f779494b64f09, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4606256769081987195, guid: 978470b0a638bee4884f779494b64f09, type: 3}
       propertyPath: m_TagString
       value: PlayerAttackArea
       objectReference: {fileID: 0}
@@ -1727,6 +1733,10 @@ PrefabInstance:
     - target: {fileID: 7127903120514736174, guid: ef2c73a8270ee1949bb09a83d6f45ae1, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8054237964650567559, guid: ef2c73a8270ee1949bb09a83d6f45ae1, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 15.450012
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
