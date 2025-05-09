@@ -6,7 +6,8 @@ using System.Drawing;
 public class PlayerAttack : MonoBehaviour
 {
     public float baseDamageAmount = 20;
-    [SerializeField] private float animationDuration = 2;
+    public float attackDamageAmount;
+    [SerializeField] private float animationDuration = 1.25f;
 
     [SerializeField] private bool canAttack = true;
 
@@ -16,7 +17,7 @@ public class PlayerAttack : MonoBehaviour
 
     private Coroutine couroutineuh;
 
-    public float comboDelay = 0.75f;
+    public float comboDelay = 0.5f;
     private bool isAttacking = false;
 
     public static int NbOfClicks = 0;
@@ -57,31 +58,27 @@ public class PlayerAttack : MonoBehaviour
 
         if (NbOfClicks == 1)
         {
-            Debug.Log("PlayerAttack.cs : Je fais le Combo 1");
+            attackDamageAmount = baseDamageAmount;
             animator.SetBool("A1", true);
             couroutineuh = StartCoroutine(DelayCombo());
         }
         else if (NbOfClicks == 2)
         {
+            attackDamageAmount = baseDamageAmount * 1.1f;
             StopCoroutine(couroutineuh);
-            Debug.Log("PlayerAttack.cs : Je fais le Combo 2");
             animator.SetBool("A2", true);
             couroutineuh = StartCoroutine(DelayCombo());
 
         }
         else if (NbOfClicks == 3)
         {
+            attackDamageAmount = baseDamageAmount * 1.3f;
             StopCoroutine(couroutineuh);
-            Debug.Log("PlayerAttack.cs : Je fais le Combo 3");
             animator.SetBool("A3", true);
             StartCoroutine(DelayCombo());
 
         }
-
-        attackArea.SetActive(true);
         yield return new WaitForSeconds(animationDuration);
-        attackArea.SetActive(false);
-
         yield return new WaitForSeconds(comboDelay);
 
         canAttack = true;
@@ -90,7 +87,7 @@ public class PlayerAttack : MonoBehaviour
 
     private IEnumerator DelayCombo()
     {
-        yield return new WaitForSeconds(comboDelay*3);
+        yield return new WaitForSeconds(comboDelay*2);
         animator.SetBool("A1", false);
         animator.SetBool("A2", false);
         animator.SetBool("A3", false);

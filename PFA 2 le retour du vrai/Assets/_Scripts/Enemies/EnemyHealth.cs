@@ -14,7 +14,7 @@ public class EnemyHealth : MonoBehaviour
     {
         if (other.CompareTag("PlayerAttackArea"))
         {
-            EnemyHealthChange(PlayerMain.Instance.Attack.baseDamageAmount);
+            EnemyHealthChange(PlayerMain.Instance.Attack.attackDamageAmount);
             EnemyMain.UI.UpdateEnemyHealthUI();
         }
     }
@@ -38,5 +38,6 @@ public class EnemyHealth : MonoBehaviour
     {
         Debug.Log("Enemy dead");
         gameObject.SetActive(false);
+        PlayerMain.Instance.Health.PlayerHealthChange(-50);
     }
 }
