@@ -47,6 +47,20 @@ public class EnemyHealth : MonoBehaviour
 
     public void ArmorLost()
     {
-        enemyArmorAmount--;
+        if (enemyArmorAmount == 0)
+        {
+            enemyArmorAmount = 0;
+            Debug.Log("JE PERD PAS DE LARMURE");
+        }
+        else
+        {
+            Debug.Log("JE PERD DE L'ARMURE");
+            enemyArmorAmount--;
+            if(enemyArmorAmount == 0)
+            {
+                EnemyMain.UI.SwitchGlyphToHealth();
+            }
+        }
+
     }
 }
