@@ -28,6 +28,7 @@ public class RaycastDraw : MonoBehaviour
     //test
     Vector3[] pointsDebug;
     Vector3 _pointCenter;
+
     private void Start()
     {
         if (mainCamera == null) mainCamera = Camera.main;

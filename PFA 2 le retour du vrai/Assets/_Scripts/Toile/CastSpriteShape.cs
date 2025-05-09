@@ -105,7 +105,6 @@ public class CastSpriteShape : MonoBehaviour
     {
         if (points.Count > 10)
         {
-
             List<Point> drawReady = Vec3ToPoints(RecenterAndRotate());
 
             GetSpellTargetPointFromCentroid(points);
@@ -119,7 +118,6 @@ public class CastSpriteShape : MonoBehaviour
             TryMakeAdaptativeCollider(GetDrawCenter(points), gestureResult);
 
             _drawData = new DrawData(points, GetDrawDim(points), gestureResult, GetSpellTargetPointFromCenter(points), ColorUtility.ToHtmlStringRGB(_currentColor));
-            print("drawData updated");
         }
 
         touchingScreen = false;
