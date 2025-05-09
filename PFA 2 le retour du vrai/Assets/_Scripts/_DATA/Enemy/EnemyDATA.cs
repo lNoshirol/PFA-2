@@ -14,6 +14,7 @@ public class EnemyDATA : ScriptableObject
     public float enemyMaxHP;
     public float enemyHP;
 
+    public string enemyArmorId;
     public float enemyArmor;
 
     public float enemySpeed;
@@ -23,5 +24,4 @@ public class EnemyDATA : ScriptableObject
     public float enemyAttackRange;
 
     public List<string> skillName;
-
 }

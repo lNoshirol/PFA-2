@@ -15,7 +15,7 @@ public class FingerTouchHandler : MonoBehaviour
         UnityEngine.InputSystem.EnhancedTouch.Touch.onFingerUp += OnFingerUp;
     }
 
-    private async void OnDisable()
+    private void OnDisable()
     {
         UnityEngine.InputSystem.EnhancedTouch.Touch.onFingerDown -= OnFingerDown;
         UnityEngine.InputSystem.EnhancedTouch.Touch.onFingerUp -= OnFingerUp;
