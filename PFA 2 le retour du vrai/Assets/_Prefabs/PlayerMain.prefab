@@ -462,6 +462,7 @@ GameObject:
   - component: {fileID: 3887301271871418476}
   - component: {fileID: 4782185025472144470}
   - component: {fileID: 3107139793599271089}
+  - component: {fileID: 3758699427079314177}
   m_Layer: 0
   m_Name: PlayerMain
   m_TagString: Player
@@ -612,6 +613,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 9caa3d8a-6b2f-4e8e-8bad-6ede561bd9be
     m_ActionName: UI/TrackedDeviceOrientation
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: bd1a9dd0-d260-4279-abba-1d35924d5627
+    m_ActionName: 'Player/ClickForDraw[/Mouse/leftButton]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -634,6 +639,7 @@ MonoBehaviour:
   _deceleration: 24
   _velocityPower: 0.87
   _friction: 0.25
+  canMove: 0
 --- !u!114 &181145290674455261
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -649,6 +655,7 @@ MonoBehaviour:
   <ProjectileSocket>k__BackingField: {fileID: 0}
   PlayerMesh: {fileID: 4565140861363283908}
   playerInput: {fileID: 0}
+  paintBrushSocket: {fileID: 0}
 --- !u!114 &2560249266590689769
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -661,7 +668,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff7ae095c61b4284ab81cbad64686acf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefab: {fileID: 0}
 --- !u!114 &105560751731582578
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -691,6 +697,8 @@ MonoBehaviour:
   paintAmount: 100
   itemType:
     thisDictItems: []
+  LootableSpells:
+    spells: []
 --- !u!114 &7765251600769286284
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -720,9 +728,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseDamageAmount: 5
+  attackDamageAmount: 0
   animationDuration: 0.1
   canAttack: 1
   attackArea: {fileID: 4606256769081987195}
+  animator: {fileID: 3758699427079314177}
+  comboDelay: 0.5
 --- !u!54 &4782185025472144470
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -773,6 +784,28 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!95 &3758699427079314177
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5208124166552653695}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 1b30e9aa4132b744eb7cd959d8f212e8, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &6833071982534025217
 GameObject:
   m_ObjectHideFlags: 0
@@ -821,6 +854,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timeAmount: 0
   toileTime: 120
+  CastSpriteShape: {fileID: 0}
   gestureIsStarted: 0
 --- !u!114 &5247401350194875609
 MonoBehaviour:
@@ -848,7 +882,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bcdefdd9f6517f4d821f77bf42a6a3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _isActive: 0
   toile: {fileID: 0}
+  toileButton: {fileID: 0}
 --- !u!1 &7656349746086013700
 GameObject:
   m_ObjectHideFlags: 0
@@ -1159,7 +1195,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bcdefdd9f6517f4d821f77bf42a6a3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _isActive: 0
   toile: {fileID: 0}
+  toileButton: {fileID: 0}
 --- !u!1 &8531477028957883346
 GameObject:
   m_ObjectHideFlags: 0
