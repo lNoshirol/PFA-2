@@ -2580,6 +2580,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 127183982}
+  - component: {fileID: 127183983}
   m_Layer: 0
   m_Name: BotLucas
   m_TagString: Untagged
@@ -2602,6 +2603,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 33390489}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &127183983
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 127183981}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 157ff1ee3e784c343a5ef35935d2be0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  corruptedPlanePrefab: {fileID: 2010408159}
+  numberOfPatches: 100
+  floorSize: {x: 150, y: 150}
 --- !u!1 &152477038
 GameObject:
   m_ObjectHideFlags: 0
@@ -22121,7 +22137,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 64b105bddc56bee438b7bb71e1f8bc01, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: f4ee04af7b6c2bc4d9e2431a93e88e76, type: 2}
+      objectReference: {fileID: 2100000, guid: 533ae103412c769499ce450bb77f6d0a, type: 2}
     - target: {fileID: 919132149155446097, guid: 64b105bddc56bee438b7bb71e1f8bc01, type: 3}
       propertyPath: m_Name
       value: sol
@@ -29883,6 +29899,11 @@ Transform:
   - {fileID: 2139779419}
   m_Father: {fileID: 450000851}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2010408159 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 64b105bddc56bee438b7bb71e1f8bc01, type: 3}
+  m_PrefabInstance: {fileID: 1435365086}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2011995582
 GameObject:
   m_ObjectHideFlags: 0
