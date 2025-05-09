@@ -20,7 +20,7 @@ public class CastSpriteShape : MonoBehaviour
     private DrawData _drawData;
     [SerializeField] private Color _currentColor;
 
-    private List<GameObject> _ennemyObjectOnDraw = new();
+    [SerializeField] private List<GameObject> _ennemyObjectOnDraw = new();
 
     public bool touchingScreen = false;
 
@@ -32,6 +32,7 @@ public class CastSpriteShape : MonoBehaviour
     public GameObject CubeCentre;
     public GameObject CubeTest;
     public LayerMask IgnoreMeUwU;
+    public LayerMask IgnoreMeUwU2;
     public Vector3 vecTest;
     public Vector3 vecTest2;
 
@@ -168,6 +169,8 @@ public class CastSpriteShape : MonoBehaviour
 
         RaycastHit hit;
 
+        EnnemyOnPath(Ray);
+
         if (Physics.Raycast(Ray, out hit) && hit.collider != null)
         {
             if (hit.collider.CompareTag("Writeable"))
@@ -200,11 +203,18 @@ public class CastSpriteShape : MonoBehaviour
         lineRenderer.positionCount = 0;
     }
 
-    public void EnnemyOnPath(RaycastHit hit)
+    public void EnnemyOnPath(Ray ray)
     {
-        if (hit.collider.gameObject.layer == 0)
+        RaycastHit hit;
+
+
+        if (Physics.Raycast(ray, out hit, 200f, ~IgnoreMeUwU2))
         {
-            _ennemyObjectOnDraw.Add(hit.collider.gameObject);
+
+            if (hit.collider.gameObject.layer == 8 && _ennemyObjectOnDraw.Contains(hit.collider.gameObject))
+            {
+                _ennemyObjectOnDraw.Add(hit.collider.gameObject);
+            }
         }
     }
 
@@ -310,7 +320,7 @@ public class CastSpriteShape : MonoBehaviour
         Ray Ray = Cam.ScreenPointToRay(Cam.WorldToScreenPoint(centroid));
         RaycastHit hit;
 
-        if (Physics.Raycast(Ray, out hit, 20000f, ~IgnoreMeUwU) )
+        if (Physics.Raycast(Ray, out hit, 200f, ~IgnoreMeUwU) )
         {
             //Debug.Log(hit.collider.gameObject.name);
 
@@ -411,9 +421,11 @@ public class CastSpriteShape : MonoBehaviour
                 {
                     foreach (GameObject ennemy in _ennemyObjectOnDraw)
                     {
-
+                        Debug.Log(ennemy.transform.position);
                     }
                 }
+
+                _ennemyObjectOnDraw.Clear();
                 break;
         }
     }
