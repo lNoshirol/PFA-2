@@ -22,6 +22,8 @@ public class CastSpriteShape : MonoBehaviour
 
     [SerializeField] private List<GameObject> _ennemyObjectOnDraw = new();
 
+    [SerializeField] private DetectEnemyInShape _detectEnemyInShape;
+
     public bool touchingScreen = false;
 
     public List<Gesture> trainingSet = new List<Gesture>();
@@ -120,9 +122,15 @@ public class CastSpriteShape : MonoBehaviour
 
             //_drawData = new DrawData(points, GetDrawDim(points), gestureResult, GetSpellTargetPointFromCenter(points), ColorUtility.ToHtmlStringRGB(_currentColor));
             if (gestureResult.Score < 0.7) { 
-                touchingScreen = false; return; 
-            
-            
+                touchingScreen = false; 
+
+                foreach(GameObject enemy in _detectEnemyInShape.GetTargetsInShape()){
+                    enemy.GetComponent<EnemyHealth>().EnemyHealthChange(100);
+
+                }
+                
+                return; 
+                
             }
 
             switch (gestureResult.GestureClass) {
@@ -134,6 +142,12 @@ public class CastSpriteShape : MonoBehaviour
                         {
                             health.ArmorLost();
                         }
+                    }
+                    foreach (GameObject enemy in _detectEnemyInShape.GetTargetsInShape())
+                    {
+                        Debug.Log(enemy);
+                        enemy.GetComponent<EnemyHealth>().EnemyHealthChange(100);
+
                     }
                     break;
             

@@ -20,6 +20,7 @@ public class DetectEnemyInShape : MonoBehaviour
     public List<GameObject> GetTargetsInShape()
     {
         Init();
+        Debug.Log(_shapePoints.Count);
 
         List<GameObject> result = new();
 
