@@ -68,7 +68,7 @@ public class CastSpriteShape : MonoBehaviour
             AddPoint();
         }
 
-        DebugRay();
+        //DebugRay();
         ToileMain.Instance.RaycastDraw.DebugRaycastLines();
     }
 
@@ -108,17 +108,32 @@ public class CastSpriteShape : MonoBehaviour
         {
             List<Point> drawReady = Vec3ToPoints(RecenterAndRotate());
 
-            GetSpellTargetPointFromCentroid(points);
-            GetSpellTargetPointFromCenter(points);
+            //GetSpellTargetPointFromCentroid(points);
+            //GetSpellTargetPointFromCenter(points);
 
             Gesture candidate = new Gesture(drawReady.ToArray());
             Result gestureResult = PointCloudRecognizer.Classify(candidate, trainingSet.ToArray());
 
             Debug.Log(gestureResult.GestureClass + " " + gestureResult.Score);
-            
-            TryMakeAdaptativeCollider(GetDrawCenter(points), gestureResult);
 
-            _drawData = new DrawData(points, GetDrawDim(points), gestureResult, GetSpellTargetPointFromCenter(points), ColorUtility.ToHtmlStringRGB(_currentColor));
+            //TryMakeAdaptativeCollider(GetDrawCenter(points), gestureResult);
+
+            //_drawData = new DrawData(points, GetDrawDim(points), gestureResult, GetSpellTargetPointFromCenter(points), ColorUtility.ToHtmlStringRGB(_currentColor));
+            if (gestureResult.Score < 0.7) { touchingScreen = false; return; }
+
+            switch (gestureResult.GestureClass) {
+                case "Circle":
+                    foreach(GameObject enemy in EnemyManager.Instance.CurrentEnemyList)
+                    {
+                        EnemyHealth health = enemy.GetComponent<EnemyHealth>();
+                        if (health.enemyArmorId == "raccoon_armor")
+                        {
+                            health.ArmorLost();
+                        }
+                    }
+                    break;
+            
+            }
         }
 
         touchingScreen = false;
@@ -250,206 +265,206 @@ public class CastSpriteShape : MonoBehaviour
         return centroid;
     }
 
-    public Vector3 GetDrawCenter(List<Vector3> points)
-    {
-        float minX = points[0].x;
-        float maxX = points[0].x;
+    //public Vector3 GetDrawCenter(List<Vector3> points)
+    //{
+    //    float minX = points[0].x;
+    //    float maxX = points[0].x;
 
-        float minY = points[0].y;
-        float maxY = points[0].y;
+    //    float minY = points[0].y;
+    //    float maxY = points[0].y;
 
-        float minZ = points[0].z;
-        float maxZ = points[0].z;
+    //    float minZ = points[0].z;
+    //    float maxZ = points[0].z;
 
-        foreach (Vector3 point in points)
-        {
-            minX = point.x < minX ? point.x : minX;
-            maxX = point.x > maxX ? point.x : maxX;
+    //    foreach (Vector3 point in points)
+    //    {
+    //        minX = point.x < minX ? point.x : minX;
+    //        maxX = point.x > maxX ? point.x : maxX;
 
-            minY = point.y < minY ? point.y : minY;
-            maxY = point.y > maxY ? point.y : maxY;
+    //        minY = point.y < minY ? point.y : minY;
+    //        maxY = point.y > maxY ? point.y : maxY;
 
-            minZ = point.z < minZ ? point.z : minZ;
-            maxZ = point.z > maxZ ? point.z : maxZ;
-        }
+    //        minZ = point.z < minZ ? point.z : minZ;
+    //        maxZ = point.z > maxZ ? point.z : maxZ;
+    //    }
 
-        float x = (maxX + minX)/2;
-        float y = (maxY + minY)/2;
-        float z = (maxZ + minZ)/2;
+    //    float x = (maxX + minX)/2;
+    //    float y = (maxY + minY)/2;
+    //    float z = (maxZ + minZ)/2;
 
-        return new Vector3(x, y, z);
-    }
+    //    return new Vector3(x, y, z);
+    //}
 
-    public Vector2 GetDrawDim(List<Vector3> points)
-    {
-        float minX = points[0].x;
-        float maxX = points[0].x;
+    //public Vector2 GetDrawDim(List<Vector3> points)
+    //{
+    //    float minX = points[0].x;
+    //    float maxX = points[0].x;
 
-        float minY = points[0].y;
-        float maxY = points[0].y;
+    //    float minY = points[0].y;
+    //    float maxY = points[0].y;
 
-        float minZ = points[0].z;
-        float maxZ = points[0].z;
+    //    float minZ = points[0].z;
+    //    float maxZ = points[0].z;
 
-        foreach (Vector3 point in points)
-        {
-            minX = point.x < minX ? point.x : minX;
-            maxX = point.x > maxX ? point.x : maxX;
+    //    foreach (Vector3 point in points)
+    //    {
+    //        minX = point.x < minX ? point.x : minX;
+    //        maxX = point.x > maxX ? point.x : maxX;
 
-            minY = point.y < minY ? point.y : minY;
-            maxY = point.y > maxY ? point.y : maxY;
+    //        minY = point.y < minY ? point.y : minY;
+    //        maxY = point.y > maxY ? point.y : maxY;
 
-            minZ = point.z < minZ ? point.z : minZ;
-            maxZ = point.z > maxZ ? point.z : maxZ;
-        }
+    //        minZ = point.z < minZ ? point.z : minZ;
+    //        maxZ = point.z > maxZ ? point.z : maxZ;
+    //    }
 
-        /*Debug.Log($"MinX : {minX}, MaxX : {maxX}, minY : {minY}, maxY : {maxY}");
-        Debug.Log($"distance X : {maxX - minX}, distance Y : {maxY - minY}");*/
+    //    /*Debug.Log($"MinX : {minX}, MaxX : {maxX}, minY : {minY}, maxY : {maxY}");
+    //    Debug.Log($"distance X : {maxX - minX}, distance Y : {maxY - minY}");*/
 
-        float X = minX >= 0 & maxX >= 0 ? minX : maxX;
+    //    float X = minX >= 0 & maxX >= 0 ? minX : maxX;
 
-        return new(maxX - minX, maxY - minY);
-    }
+    //    return new(maxX - minX, maxY - minY);
+    //}
 
-    public void GetSpellTargetPointFromCentroid(List<Vector3> points)
-    {
-        Vector3 centroid = GetDrawCentroid(points);
+    //public void GetSpellTargetPointFromCentroid(List<Vector3> points)
+    //{
+    //    Vector3 centroid = GetDrawCentroid(points);
 
-        Ray Ray = Cam.ScreenPointToRay(Cam.WorldToScreenPoint(centroid));
-        RaycastHit hit;
+    //    Ray Ray = Cam.ScreenPointToRay(Cam.WorldToScreenPoint(centroid));
+    //    RaycastHit hit;
 
-        if (Physics.Raycast(Ray, out hit, 200f, ~IgnoreMeUwU) )
-        {
-            //Debug.Log(hit.collider.gameObject.name);
+    //    if (Physics.Raycast(Ray, out hit, 200f, ~IgnoreMeUwU) )
+    //    {
+    //        //Debug.Log(hit.collider.gameObject.name);
 
-            if (hit.collider.CompareTag("Ground"))
-            {
-                //Debug.Log($"Spell cast location from centroid : {hit.point}");
-                CubeCentroid.transform.position = hit.point;
-            }
-        }
-    }
+    //        if (hit.collider.CompareTag("Ground"))
+    //        {
+    //            //Debug.Log($"Spell cast location from centroid : {hit.point}");
+    //            CubeCentroid.transform.position = hit.point;
+    //        }
+    //    }
+    //}
 
-    public Vector3 GetSpellTargetPointFromCenter(List<Vector3> points)
-    {
-        Vector3 center = GetDrawCenter(points);
+    //public Vector3 GetSpellTargetPointFromCenter(List<Vector3> points)
+    //{
+    //    Vector3 center = GetDrawCenter(points);
 
-        Ray Ray = Cam.ScreenPointToRay(Cam.WorldToScreenPoint(center));
-        RaycastHit hit;
+    //    Ray Ray = Cam.ScreenPointToRay(Cam.WorldToScreenPoint(center));
+    //    RaycastHit hit;
 
-        if (Physics.Raycast(Ray, out hit, 200f, ~IgnoreMeUwU))
-        {
-            //Debug.Log(hit.collider.gameObject.name);
+    //    if (Physics.Raycast(Ray, out hit, 200f, ~IgnoreMeUwU))
+    //    {
+    //        //Debug.Log(hit.collider.gameObject.name);
 
-            if (hit.collider.CompareTag("Ground"))
-            {
-                //Debug.Log($"Spell cast location from center : {hit.point}");
-                CubeCentre.transform.position = hit.point;
-                return hit.point;
-            }
+    //        if (hit.collider.CompareTag("Ground"))
+    //        {
+    //            //Debug.Log($"Spell cast location from center : {hit.point}");
+    //            CubeCentre.transform.position = hit.point;
+    //            return hit.point;
+    //        }
 
-            Debug.LogError("No Ground Hit");
-            return Vector3.zero;
-        }
+    //        Debug.LogError("No Ground Hit");
+    //        return Vector3.zero;
+    //    }
 
-        Debug.LogError("No Object Hit");
-        return Vector3.zero;
-    }
+    //    Debug.LogError("No Object Hit");
+    //    return Vector3.zero;
+    //}
 
-    public void TryMakeAdaptativeCollider(Vector3 center, Result result)
-    {
-        GameObject collider = new();
-        collider.transform.position = GetSpellTargetPointFromCenter(points);
+    //public void TryMakeAdaptativeCollider(Vector3 center, Result result)
+    //{
+    //    GameObject collider = new();
+    //    collider.transform.position = GetSpellTargetPointFromCenter(points);
 
-        switch (result.GestureClass)
-        {
-            case "Circle":
-                collider.AddComponent<SphereCollider>();
-                SphereCollider sphereColliderComponent;
-                collider.TryGetComponent(out sphereColliderComponent);
-                sphereColliderComponent.isTrigger = true;
+    //    switch (result.GestureClass)
+    //    {
+    //        case "Circle":
+    //            collider.AddComponent<SphereCollider>();
+    //            SphereCollider sphereColliderComponent;
+    //            collider.TryGetComponent(out sphereColliderComponent);
+    //            sphereColliderComponent.isTrigger = true;
 
-                Vector2 drawDim = GetDrawDim(points);
+    //            Vector2 drawDim = GetDrawDim(points);
 
-                sphereColliderComponent.radius = (drawDim.x >= drawDim.y ? drawDim.x : drawDim.y)*1.5f;
+    //            sphereColliderComponent.radius = (drawDim.x >= drawDim.y ? drawDim.x : drawDim.y)*1.5f;
 
-                SimpleDash fireBall = (SimpleDash)SpellManager.Instance.GetSpell("SimpleDash");
-                SkillContext context = new(PlayerMain.Instance.Rigidbody, PlayerMain.Instance.gameObject, PlayerMain.Instance.transform.forward, 4);
-                fireBall.Activate(context);
-                //SpellManager.Instance.Spells["FireBall;Circle;E50037"].Activate(new(PlayerMain.Instance.Rigidbody, PlayerMain.Instance.gameObject, PlayerMain.Instance.transform.forward, 4));
+    //            SimpleDash fireBall = (SimpleDash)SpellManager.Instance.GetSpell("SimpleDash");
+    //            SkillContext context = new(PlayerMain.Instance.Rigidbody, PlayerMain.Instance.gameObject, PlayerMain.Instance.transform.forward, 4);
+    //            fireBall.Activate(context);
+    //            //SpellManager.Instance.Spells["FireBall;Circle;E50037"].Activate(new(PlayerMain.Instance.Rigidbody, PlayerMain.Instance.gameObject, PlayerMain.Instance.transform.forward, 4));
 
-                break;
-            case "Square":
-                collider.AddComponent<BoxCollider>();
-                BoxCollider boxColliderComponent;
-                collider.TryGetComponent(out boxColliderComponent);
+    //            break;
+    //        case "Square":
+    //            collider.AddComponent<BoxCollider>();
+    //            BoxCollider boxColliderComponent;
+    //            collider.TryGetComponent(out boxColliderComponent);
 
-                Vector3 cameraForward = Cam.transform.forward;
-                Vector3 cameraRight = Cam.transform.right;
+    //            Vector3 cameraForward = Cam.transform.forward;
+    //            Vector3 cameraRight = Cam.transform.right;
 
-                Vector3 toTarget = (collider.transform.position - Cam.transform.position).normalized;
-                
-                float signedAngle = Vector3.SignedAngle(cameraForward, toTarget, Vector3.up);
-                float signedAngleUp = Vector3.SignedAngle(cameraRight, toTarget, Vector3.forward);
+    //            Vector3 toTarget = (collider.transform.position - Cam.transform.position).normalized;
 
-                //Debug.Log($"Angle : {signedAngle}, AngleUp {signedAngleUp}");
+    //            float signedAngle = Vector3.SignedAngle(cameraForward, toTarget, Vector3.up);
+    //            float signedAngleUp = Vector3.SignedAngle(cameraRight, toTarget, Vector3.forward);
 
-                collider.transform.rotation = Quaternion.Euler(new Vector3(signedAngleUp+90, 0, signedAngle));
+    //            //Debug.Log($"Angle : {signedAngle}, AngleUp {signedAngleUp}");
 
-                boxColliderComponent.isTrigger = true;
+    //            collider.transform.rotation = Quaternion.Euler(new Vector3(signedAngleUp+90, 0, signedAngle));
 
-                Vector2 dim = GetDrawDim(points);
+    //            boxColliderComponent.isTrigger = true;
 
-                Vector3 size = new(dim.x, Mathf.Abs(center.y), dim.y);
+    //            Vector2 dim = GetDrawDim(points);
 
-                //Debug.Log($"Centre : {center}, Size : {size}");
+    //            Vector3 size = new(dim.x, Mathf.Abs(center.y), dim.y);
 
-                boxColliderComponent.size = size;
+    //            //Debug.Log($"Centre : {center}, Size : {size}");
+
+    //            boxColliderComponent.size = size;
 
 
-                break;
-            case "DiagoU" or "DiagoD" or "LineH" or "LineV":
-                Debug.Log("LE DESSIN C'EST UNE LIGNE, ATTAQUE NOOPY ATTAQUE");
+    //            break;
+    //        case "DiagoU" or "DiagoD" or "LineH" or "LineV":
+    //            Debug.Log("LE DESSIN C'EST UNE LIGNE, ATTAQUE NOOPY ATTAQUE");
 
-                fireBall = (SimpleDash)SpellManager.Instance.GetSpell("SimpleDash");
-                context = new(PlayerMain.Instance.Rigidbody, PlayerMain.Instance.gameObject, PlayerMain.Instance.transform.forward, 4);
-                fireBall.Activate(context);
+    //            fireBall = (SimpleDash)SpellManager.Instance.GetSpell("SimpleDash");
+    //            context = new(PlayerMain.Instance.Rigidbody, PlayerMain.Instance.gameObject, PlayerMain.Instance.transform.forward, 4);
+    //            fireBall.Activate(context);
 
-                if (_ennemyObjectOnDraw.Count > 0)
-                {
-                    foreach (GameObject ennemy in _ennemyObjectOnDraw)
-                    {
-                        Debug.Log(ennemy.transform.position);
-                    }
-                }
+    //            if (_ennemyObjectOnDraw.Count > 0)
+    //            {
+    //                foreach (GameObject ennemy in _ennemyObjectOnDraw)
+    //                {
+    //                    Debug.Log(ennemy.transform.position);
+    //                }
+    //            }
 
-                _ennemyObjectOnDraw.Clear();
-                break;
-        }
-    }
+    //            _ennemyObjectOnDraw.Clear();
+    //            break;
+    //    }
+    //}
 
-    public DrawData GetDrawData()
-    {
-        return _drawData;
-    }
+    //public DrawData GetDrawData()
+    //{
+    //    return _drawData;
+    //}
 
-    public void ChangeColor(Color _color)
-    {
-        _currentColor = _color;
-    }
+    //public void ChangeColor(Color _color)
+    //{
+    //    _currentColor = _color;
+    //}
 
-    public void DebugRay()
-    {
-        if (points.Count > 0)
-        {
-            Vector3 centroid = GetDrawCentroid(points);
+    //public void DebugRay()
+    //{
+    //    if (points.Count > 0)
+    //    {
+    //        Vector3 centroid = GetDrawCentroid(points);
 
-            Ray ray = Cam.ScreenPointToRay(Cam.WorldToScreenPoint(centroid));
-            Debug.DrawRay(centroid, vecTest, Color.red);
-        }
+    //        Ray ray = Cam.ScreenPointToRay(Cam.WorldToScreenPoint(centroid));
+    //        Debug.DrawRay(centroid, vecTest, Color.red);
+    //    }
 
-        Debug.DrawRay(Cam.ScreenToWorldPoint(Vector3.zero), vecTest, Color.red);
-    }
+    //    Debug.DrawRay(Cam.ScreenToWorldPoint(Vector3.zero), vecTest, Color.red);
+    //}
 
     private void OnEnable()
     {

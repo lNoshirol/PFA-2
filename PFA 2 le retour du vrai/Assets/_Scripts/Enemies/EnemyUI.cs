@@ -34,4 +34,10 @@ public class EnemyUI : MonoBehaviour
     {
         healthbarSprite.fillAmount = (float)enemiesMain.Health.enemyCurrentHealth / enemiesMain.Health.enemyMaxHealth;
     }
+
+    public void SwitchGlyphToHealth()
+    {
+        healthbarSprite.transform.parent.gameObject.SetActive(true);
+        enemyGlyphe.gameObject.SetActive(false);
+    }
 }
