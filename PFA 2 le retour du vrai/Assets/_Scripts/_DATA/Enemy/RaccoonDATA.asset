@@ -18,7 +18,8 @@ MonoBehaviour:
   enemyAttackCooldown: 0
   enemyMaxHP: 100
   enemyHP: 100
-  enemyArmor: 0
+  enemyArmorId: armor_raccoon
+  enemyArmor: 1
   enemySpeed: 3
   enemyMaxSpeed: 5
   enemySightRange: 10

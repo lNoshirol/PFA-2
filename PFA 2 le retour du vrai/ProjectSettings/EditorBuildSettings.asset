@@ -8,16 +8,16 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/_Scenes/SampleScene.unity
     guid: c850ee8c3b14cc8459e7e186857cf567
-  - enabled: 0
+  - enabled: 1
     path: Assets/_Scenes/EmrysScene/FR_SP_01.unity
     guid: bcb6efb8bbdff794bad45bfb3885efb6
-  - enabled: 0
+  - enabled: 1
     path: Assets/_Scenes/EmrysScene/FR_SP_02.unity
     guid: a25bdb67980dd1749aea51b62a636923
   - enabled: 0
     path: Assets/_Scenes/main scene.unity
     guid: 79aad35fd5e0bcd4bba23d37684d831b
-  - enabled: 1
+  - enabled: 0
     path: Assets/_Scenes/Scene Lucas Off 2.unity
     guid: 80da1733b4364bf468c379008e1de804
   m_configObjects:
