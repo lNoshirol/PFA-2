@@ -11,7 +11,7 @@ public class EChaseState : EnemiesState
 
     public override void OnEnter()
     {
-        EnemiesMain.mat.color = Color.magenta;
+        //EnemiesMain.mat.color = Color.magenta;
     }
     public override void Do()
     {

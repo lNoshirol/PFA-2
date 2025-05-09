@@ -8,7 +8,7 @@ public class EAttackState : EnemiesState
     bool alreadyAttack;
     public override void OnEnter()
     {
-        EnemiesMain.mat.color = Color.red;
+        //EnemiesMain.mat.color = Color.red;
     }
 
     public override void Do()

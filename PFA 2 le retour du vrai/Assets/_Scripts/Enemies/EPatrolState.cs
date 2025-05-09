@@ -14,7 +14,7 @@ public class EPatrolState : EnemiesState
 
     public override void OnEnter()
     {
-        EnemiesMain.mat.color = Color.green;
+        //EnemiesMain.mat.color = Color.green;
         SearchWalkPoint();
     }
     public override void Do()
