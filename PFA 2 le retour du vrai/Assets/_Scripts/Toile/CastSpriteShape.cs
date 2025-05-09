@@ -121,7 +121,7 @@ public class CastSpriteShape : MonoBehaviour
             //TryMakeAdaptativeCollider(GetDrawCenter(points), gestureResult);
 
             //_drawData = new DrawData(points, GetDrawDim(points), gestureResult, GetSpellTargetPointFromCenter(points), ColorUtility.ToHtmlStringRGB(_currentColor));
-            if (gestureResult.Score < 0.7) { 
+            if (gestureResult.Score < 0.8) { 
                 touchingScreen = false; 
 
                 foreach(GameObject enemy in _detectEnemyInShape.GetTargetsInShape()){
@@ -134,7 +134,7 @@ public class CastSpriteShape : MonoBehaviour
             }
 
             switch (gestureResult.GestureClass) {
-                case "Circle":
+                case "thunder":
                     foreach(GameObject enemy in EnemyManager.Instance.CurrentEnemyList)
                     {
                         EnemyHealth health = enemy.GetComponent<EnemyHealth>();

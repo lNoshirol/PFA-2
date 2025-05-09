@@ -24,7 +24,7 @@ class SvgToGesture : MonoBehaviour
         var vectors = ParseSvgFile(svgPath);
 
         // === Ajout ici : resampling à 128 points ===
-        vectors = Resample(vectors, 128);
+        vectors = Resample(vectors, resampleSize);
 
         SaveVectorsAsGestureXml(vectors, xmlOutputPath);
 
