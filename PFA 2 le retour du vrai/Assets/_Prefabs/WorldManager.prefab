@@ -44,6 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 128a827013d1af646a7a3c7069edbb3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RoomSwitchList: []
+  RoomSwitchList:
+  - {fileID: 0}
   currentRoomSwitcher: {fileID: 0}
-  CurrentRoomName: 
+  CurrentRoomName: FR_SP_03
