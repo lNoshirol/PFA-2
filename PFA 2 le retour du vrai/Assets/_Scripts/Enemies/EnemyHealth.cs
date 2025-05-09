@@ -6,8 +6,10 @@ public class EnemyHealth : MonoBehaviour
 
     public float enemyCurrentHealth;
 
-    [SerializeField] EnemiesMain EnemyMain;
+    public string enemyArmorId;
 
+    public float enemyArmorAmount;
+    [SerializeField] EnemiesMain EnemyMain;
 
 
     private void OnTriggerEnter(Collider other)
@@ -20,9 +22,11 @@ public class EnemyHealth : MonoBehaviour
     }
     public void EnemyHealthChange(float healthChangeAmount)
     {
-        enemyCurrentHealth -= healthChangeAmount;
 
-
+        if (enemyArmorAmount == 0) {
+            enemyCurrentHealth -= healthChangeAmount;
+        }
+        
         if (enemyCurrentHealth <= 0)
         {
             enemyCurrentHealth = 0;
@@ -39,5 +43,24 @@ public class EnemyHealth : MonoBehaviour
         Debug.Log("Enemy dead");
         gameObject.SetActive(false);
         PlayerMain.Instance.Health.PlayerHealthChange(-50);
+    }
+
+    public void ArmorLost()
+    {
+        if (enemyArmorAmount == 0)
+        {
+            enemyArmorAmount = 0;
+            Debug.Log("JE PERD PAS DE LARMURE");
+        }
+        else
+        {
+            Debug.Log("JE PERD DE L'ARMURE");
+            enemyArmorAmount--;
+            if(enemyArmorAmount == 0)
+            {
+                EnemyMain.UI.SwitchGlyphToHealth();
+            }
+        }
+
     }
 }

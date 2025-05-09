@@ -15,7 +15,7 @@ public class ButtonChangeColor : MonoBehaviour
         TryGetComponent(out Image image);
 
 
-        _spriteShape.ChangeColor(image.color);
+        //_spriteShape.ChangeColor(image.color);
 
         Debug.Log(ColorUtility.ToHtmlStringRGB(image.color));
     }
