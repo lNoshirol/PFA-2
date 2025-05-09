@@ -257,7 +257,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: fire id
+  m_text: vertices?
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -284,7 +284,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 26.4
+  m_fontSize: 18.25
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -346,7 +346,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2946296871513822588
 RectTransform:
   m_ObjectHideFlags: 0
@@ -449,10 +449,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: UnityEngine.Component, UnityEngine
-        m_MethodName: SendMessage
-        m_Mode: 5
+      - m_Target: {fileID: 4018145890746751932}
+        m_TargetAssemblyTypeName: RaycastDraw, Assembly-CSharp
+        m_MethodName: GenerateSpellShapeMesh
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -862,7 +862,7 @@ MonoBehaviour:
     m_Bits: 64
   points2D: []
   points3D: []
-  _pen: {fileID: 0}
+  _pen: {fileID: 6089315289693503353}
   _filter: {fileID: 0}
 --- !u!1 &7839816913737559858
 GameObject:
@@ -999,7 +999,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1439651605458178013
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1433,6 +1433,10 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6613314532644909832, guid: 978470b0a638bee4884f779494b64f09, type: 3}
+      propertyPath: LootableSpells.spells.Array.data[0].isLooted
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6613314532644909832, guid: 978470b0a638bee4884f779494b64f09, type: 3}
       propertyPath: LootableSpells.spells.Array.data[0].spellName
       value: SimpleDash
       objectReference: {fileID: 0}
@@ -1453,6 +1457,10 @@ PrefabInstance:
       value: 'Player/ClickForDraw[/Mouse/leftButton]'
       objectReference: {fileID: 0}
     - target: {fileID: 7577823411821127699, guid: 978470b0a638bee4884f779494b64f09, type: 3}
+      propertyPath: m_ActionEvents.Array.data[4].m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7577823411821127699, guid: 978470b0a638bee4884f779494b64f09, type: 3}
       propertyPath: m_ActionEvents.Array.data[5].m_PersistentCalls.m_Calls.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -1461,9 +1469,17 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7577823411821127699, guid: 978470b0a638bee4884f779494b64f09, type: 3}
+      propertyPath: m_ActionEvents.Array.data[4].m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7577823411821127699, guid: 978470b0a638bee4884f779494b64f09, type: 3}
       propertyPath: m_ActionEvents.Array.data[5].m_PersistentCalls.m_Calls.Array.data[0].m_Mode
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7577823411821127699, guid: 978470b0a638bee4884f779494b64f09, type: 3}
+      propertyPath: m_ActionEvents.Array.data[4].m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 4018145890746751932}
     - target: {fileID: 7577823411821127699, guid: 978470b0a638bee4884f779494b64f09, type: 3}
       propertyPath: m_ActionEvents.Array.data[5].m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -1473,12 +1489,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 6089315289693503353}
     - target: {fileID: 7577823411821127699, guid: 978470b0a638bee4884f779494b64f09, type: 3}
+      propertyPath: m_ActionEvents.Array.data[4].m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7577823411821127699, guid: 978470b0a638bee4884f779494b64f09, type: 3}
       propertyPath: m_ActionEvents.Array.data[5].m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7577823411821127699, guid: 978470b0a638bee4884f779494b64f09, type: 3}
       propertyPath: m_ActionEvents.Array.data[19].m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7577823411821127699, guid: 978470b0a638bee4884f779494b64f09, type: 3}
+      propertyPath: m_ActionEvents.Array.data[4].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GenerateSpellShapeMesh
       objectReference: {fileID: 0}
     - target: {fileID: 7577823411821127699, guid: 978470b0a638bee4884f779494b64f09, type: 3}
       propertyPath: m_ActionEvents.Array.data[5].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
@@ -1489,12 +1513,20 @@ PrefabInstance:
       value: OnTouchScreen
       objectReference: {fileID: 0}
     - target: {fileID: 7577823411821127699, guid: 978470b0a638bee4884f779494b64f09, type: 3}
+      propertyPath: m_ActionEvents.Array.data[4].m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: RaycastDraw, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 7577823411821127699, guid: 978470b0a638bee4884f779494b64f09, type: 3}
       propertyPath: m_ActionEvents.Array.data[5].m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: PROTOPlayerSkills, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 7577823411821127699, guid: 978470b0a638bee4884f779494b64f09, type: 3}
       propertyPath: m_ActionEvents.Array.data[19].m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: CastSpriteShape, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 7577823411821127699, guid: 978470b0a638bee4884f779494b64f09, type: 3}
+      propertyPath: m_ActionEvents.Array.data[4].m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 7577823411821127699, guid: 978470b0a638bee4884f779494b64f09, type: 3}
       propertyPath: m_ActionEvents.Array.data[5].m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -1529,6 +1561,10 @@ PrefabInstance:
       value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 8793749673935496789, guid: 978470b0a638bee4884f779494b64f09, type: 3}
+      propertyPath: m_Name
+      value: DashButton
+      objectReference: {fileID: 0}
+    - target: {fileID: 8793749673935496789, guid: 978470b0a638bee4884f779494b64f09, type: 3}
       propertyPath: m_Layer
       value: 7
       objectReference: {fileID: 0}
@@ -1539,6 +1575,18 @@ PrefabInstance:
     - target: {fileID: 8794036134334125918, guid: 978470b0a638bee4884f779494b64f09, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: OpenAndCloseToileMagique
+      objectReference: {fileID: 0}
+    - target: {fileID: 8815628495117821219, guid: 978470b0a638bee4884f779494b64f09, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 3670259591986231599}
+    - target: {fileID: 8815628495117821219, guid: 978470b0a638bee4884f779494b64f09, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: DashOnClick
+      objectReference: {fileID: 0}
+    - target: {fileID: 8815628495117821219, guid: 978470b0a638bee4884f779494b64f09, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: PlayerDash, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 9095693458359972574, guid: 978470b0a638bee4884f779494b64f09, type: 3}
       propertyPath: m_Layer
@@ -1569,6 +1617,9 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 5208124166552653695, guid: 978470b0a638bee4884f779494b64f09, type: 3}
       insertIndex: 9
+      addedObject: {fileID: 3670259591986231599}
+    - targetCorrespondingSourceObject: {fileID: 5208124166552653695, guid: 978470b0a638bee4884f779494b64f09, type: 3}
+      insertIndex: 10
       addedObject: {fileID: 2362821624494487412}
     - targetCorrespondingSourceObject: {fileID: 4606256769081987195, guid: 978470b0a638bee4884f779494b64f09, type: 3}
       insertIndex: -1
@@ -1628,6 +1679,18 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 5208124166552653695, guid: 978470b0a638bee4884f779494b64f09, type: 3}
   m_PrefabInstance: {fileID: 434564348656759933}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &3670259591986231599
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5638815339430263554}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5299195ea2269b547a970ab862981fd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &2362821624494487412
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1721,8 +1784,24 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 978946475921128860}
     - target: {fileID: 5406479847406076294, guid: ef2c73a8270ee1949bb09a83d6f45ae1, type: 3}
+      propertyPath: vecTest.y
+      value: -45
+      objectReference: {fileID: 0}
+    - target: {fileID: 5406479847406076294, guid: ef2c73a8270ee1949bb09a83d6f45ae1, type: 3}
+      propertyPath: vecTest.z
+      value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 5406479847406076294, guid: ef2c73a8270ee1949bb09a83d6f45ae1, type: 3}
+      propertyPath: _drawOffset
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5406479847406076294, guid: ef2c73a8270ee1949bb09a83d6f45ae1, type: 3}
       propertyPath: _currentColor.a
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5406479847406076294, guid: ef2c73a8270ee1949bb09a83d6f45ae1, type: 3}
+      propertyPath: IgnoreMeUwU.m_Bits
+      value: 191
       objectReference: {fileID: 0}
     - target: {fileID: 5406479847406076294, guid: ef2c73a8270ee1949bb09a83d6f45ae1, type: 3}
       propertyPath: _detectEnemyInShape
@@ -1735,6 +1814,10 @@ PrefabInstance:
     - target: {fileID: 6903887336284850279, guid: ef2c73a8270ee1949bb09a83d6f45ae1, type: 3}
       propertyPath: m_Name
       value: DrawZone
+      objectReference: {fileID: 0}
+    - target: {fileID: 6903887336284850279, guid: ef2c73a8270ee1949bb09a83d6f45ae1, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6903887336284850279, guid: ef2c73a8270ee1949bb09a83d6f45ae1, type: 3}
       propertyPath: m_IsActive
