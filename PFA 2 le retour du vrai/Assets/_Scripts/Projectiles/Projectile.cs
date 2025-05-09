@@ -19,4 +19,14 @@ public class Projectile : MonoBehaviour
         _rb.AddForce(this.transform.forward * this._projectileDatas.Speed, ForceMode.Impulse);
         // Jouer SFX et VFX OnLaunch
     }
+
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.layer == 7)
+        {
+            PlayerMain player = other.gameObject.TryGetComponent(out PlayerMain playerD) ? playerD:null; 
+            player.Health.PlayerHealthChange(_projectileDatas.Damage);
+        }
+    }
 }
