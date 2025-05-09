@@ -3,14 +3,17 @@ using UnityEngine;
 
 public class DetectEnemyInShape : MonoBehaviour
 {
+    [SerializeField] private RaycastDraw _rayCastDraw;
     [SerializeField] private CastSpriteShape _pen;
     private List<Vector2> _shapePoints = new();
+    private List<Vector2> _target2DPos = new();
     private List<GameObject> _targets = new();
+    private Vector2 _enemyPoint;
 
     public void Init()
     {
         // à convertir en List<Vector2> + _pen.GetDrawData().points ne renvoit pas souvent de points
-        //_shapePoints = _pen.GetDrawData().points;
+        _shapePoints = _rayCastDraw.points2D;
         _targets = EnemyManager.Instance.CurrentEnemyList;
     }
 
@@ -20,12 +23,13 @@ public class DetectEnemyInShape : MonoBehaviour
 
         List<GameObject> result = new();
 
-        List<Vector2> target2DPos = TargetsPosToScreenPos(_targets);
+        _target2DPos = TargetsPosToScreenPos(_targets);
 
-        foreach (var target2D in target2DPos)
+        _shapePoints.Add(_shapePoints[0]);
+
+        foreach (var target2D in _target2DPos)
         {
-            //print("[DEIS] " + target2D);
-            IsInside(target2D);
+            print("[DEIS] Est-ce que tu m'entends EH OH " + IsInside(target2D));
         }
 
         return result;
@@ -38,7 +42,7 @@ public class DetectEnemyInShape : MonoBehaviour
         foreach (GameObject target in targets)
         {
             target2DPos.Add(Camera.main.WorldToScreenPoint(target.transform.position));
-            //print($"[D.E.I.S.] 3D : {target.transform.position}, 2D : {Camera.main.WorldToScreenPoint(target.transform.position)}");
+            print($"[D.E.I.S.] 3D : {target.transform.position}, 2D : {Camera.main.WorldToScreenPoint(target.transform.position)}");
         }
 
         return target2DPos;
@@ -107,6 +111,10 @@ public class DetectEnemyInShape : MonoBehaviour
         }
 
         return ((int)windingNumber % 2) != 0;
+    }
 
+    public void PROTOTrashDebug()
+    {
+        GetTargetsInShape();
     }
 }
