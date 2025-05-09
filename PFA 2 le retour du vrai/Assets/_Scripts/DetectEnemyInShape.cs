@@ -27,9 +27,12 @@ public class DetectEnemyInShape : MonoBehaviour
 
         _shapePoints.Add(_shapePoints[0]);
 
-        foreach (var target2D in _target2DPos)
+        for(int i = 0; i < _target2DPos.Count; i++)
         {
-            print("[DEIS] Est-ce que tu m'entends EH OH " + IsInside(target2D));
+            if (IsInside(_target2DPos[i]))
+            {
+                result.Add(_targets[i]);
+            }
         }
 
         return result;
