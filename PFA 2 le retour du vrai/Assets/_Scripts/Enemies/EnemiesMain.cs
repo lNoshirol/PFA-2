@@ -48,6 +48,10 @@ public class EnemiesMain : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player").transform;
         agent = gameObject.GetComponent<NavMeshAgent>();
         mat = enemyMesh.GetComponent <Renderer>().material;
+
+        Health = GetComponent<EnemyHealth>();
+        UI = GetComponent<EnemyUI>();
+        Stats = GetComponent<EnemyStats>();
     }
     private void Start()
     {
@@ -57,10 +61,6 @@ public class EnemiesMain : MonoBehaviour
         EIdleState.Setup(this);
         EnemiesCurrentState = EIdleState;
         EnemiesCurrentState?.OnEnter();
-
-        Health = GetComponent<EnemyHealth>();
-        UI = GetComponent<EnemyUI>();
-        Stats = GetComponent<EnemyStats>();
 
     }
 
