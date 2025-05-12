@@ -23,7 +23,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_Scenes/POC_SCENE/FR_SP_03.unity
     guid: cb7cddea0a21b31479705549bcc1d228
-  - enabled: 1
+  - enabled: 0
     path: Assets/_Scenes/POC_SCENE/FR_SP_04.unity
     guid: 2edf2616def1e5940a0c8c6bdc1335a6
   m_configObjects:

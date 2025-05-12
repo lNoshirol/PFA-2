@@ -2,7 +2,6 @@ using UnityEngine;
 using UnityEngine.U2D;
 using System.Collections.Generic;
 using PDollarGestureRecognizer;
-using System.IO;
 using System;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.EnhancedTouch;
